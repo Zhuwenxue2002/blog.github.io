@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Spring-SpringIoCIoC是inverse of control的简写，译为控制反转，是一种创建对象的思想 是控制反转就是将创建对象的权力交给Spring容器，其实就是让Spring容器帮你创建对象，而你不需要在java代码中new对象了 DI是Dependency Injection，译为依赖注入 当容器中对象与对象之间关系，是通过DI完成的 SpringIoC容器的配置方式有三种：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-SpringIoC">
+<meta property="og:url" content="http://blog.170827.xyz/2024/05/25/Spring-SpringIoC/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="Spring-SpringIoCIoC是inverse of control的简写，译为控制反转，是一种创建对象的思想 是控制反转就是将创建对象的权力交给Spring容器，其实就是让Spring容器帮你创建对象，而你不需要在java代码中new对象了 DI是Dependency Injection，译为依赖注入 当容器中对象与对象之间关系，是通过DI完成的 SpringIoC容器的配置方式有三种：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-25T21:20:43.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.402Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Spring-SpringIoC - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Spring-SpringIoC"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-25 21:20" pubdate>
+          2024年5月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Spring-SpringIoC</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Spring-SpringIoC"><a href="#Spring-SpringIoC" class="headerlink" title="Spring-SpringIoC"></a>Spring-SpringIoC</h1><p><strong>IoC</strong>是inverse of control的简写，译为控制反转，是一种创建对象的思想</p>
+<p>是控制反转就是将创建对象的权力交给Spring容器，其实就是让Spring容器帮你创建对象，而你不需要在java代码中new对象了</p>
+<p><strong>DI</strong>是Dependency Injection，译为依赖注入</p>
+<p>当容器中对象与对象之间关系，是通过DI完成的</p>
+<p>SpringIoC容器的配置方式有三种：</p>
+<ul>
+<li><p>XML配置方式</p>
+</li>
+<li><p>注解方式</p>
+</li>
+<li><p>Java配置类方式</p>
+</li>
+</ul>
+<hr>
+<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><p>我们在使用框架之前，完成业务逻辑的步骤是：</p>
+<p>controller层 -&gt; service层 -&gt; dao层</p>
+<p>这三层中的每一个有关于具体业务的类，都是可以看作为组件，组件就是可以复用的java对象</p>
+<p>就分为三层组件：controller层组件 -&gt; service层组件 -&gt; dao层组件</p>
+<p>而这些组件可以被Spring接管，缺省组件中相互调用</p>
+<p>Spring组件管理动作包含：</p>
+<ul>
+<li>组件对象实例化</li>
+<li>组件属性的赋值</li>
+<li>组件对象的引用</li>
+<li>组件对象存活周期管理</li>
+<li>……</li>
+</ul>
+<p>Spring提供了组件的容器，由他接手创建、管理、存储组件</p>
+<p>只有Spring接手管理的组件，才能使用Spring框架的其他功能</p>
+<hr>
+<h3 id="SpringIoC的接口和实现类"><a href="#SpringIoC的接口和实现类" class="headerlink" title="SpringIoC的接口和实现类"></a>SpringIoC的接口和实现类</h3><h5 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h5><ul>
+<li><p>BeanFactory：是SpringIoC的标准化接口</p>
+</li>
+<li><p>ApplicationContext：基于BeanFactory的子接口，拓展了功能，使用的实现类都是此接口的实现类</p>
+</li>
+</ul>
+<h5 id="实现类"><a href="#实现类" class="headerlink" title="实现类"></a>实现类</h5><p>常用的实现类有四个：</p>
+<table>
+<thead>
+<tr>
+<th>类名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ClassPathXmlApplicationContext</td>
+<td>通过读取类路径下的XML格式的配置文件创建IoC容器对象</td>
+</tr>
+<tr>
+<td>FileSystemXmlApplicationContext</td>
+<td>通过文件系统路径读取XML格式的配置文件创建IoC容器对象</td>
+</tr>
+<tr>
+<td>AnnotationCofigApplicationContext</td>
+<td>通过读取Java配置类创建IoC容器对象</td>
+</tr>
+<tr>
+<td>WebApplicationContext</td>
+<td>专门为Web应用准备，基于web环境创建IoC对象，并将对象引入存入ServletContext域中</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="SpringIoC的实践与应用"><a href="#SpringIoC的实践与应用" class="headerlink" title="SpringIoC的实践与应用"></a>SpringIoC的实践与应用</h3><ul>
+<li>写配置文件</li>
+<li>创建IoC容器</li>
+<li>通过容器获取组件对象</li>
+</ul>
+<p>在使用Spring之前，我们实例化对象的方式有：</p>
+<ul>
+<li>构造函数实例化<ul>
+<li>有参构造函数实例化</li>
+<li>无参构造函数实例化</li>
+</ul>
+</li>
+<li>工厂模式实例化<ul>
+<li>静态工厂实例化</li>
+<li>非静态工厂实例化</li>
+</ul>
+</li>
+</ul>
+<p>在Spring中，不同方式的实例化有不同方法的配置方式</p>
+<hr>
+<h3 id="xml文件配置SpringIoC"><a href="#xml文件配置SpringIoC" class="headerlink" title="xml文件配置SpringIoC"></a>xml文件配置SpringIoC</h3><p>在resources文件夹下新建xml文件作为IoC的配置文件</p>
+<blockquote>
+<p>当导入了Spring依赖之后，idea右键新建xml配置文件中，会出现Spring配置文件，创建即可</p>
+</blockquote>
+<hr>
+<h5 id="配置无参构造函数的组件类"><a href="#配置无参构造函数的组件类" class="headerlink" title="配置无参构造函数的组件类"></a>配置无参构造函数的组件类</h5><p>使用bean标签，即可根据组件类创建其对象，有两个标签属性：</p>
+<ul>
+<li>id：别名（全局唯一）</li>
+<li>class：类全限定符（类全名）</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span><br>    <br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;happyComponent&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_01.HappyComponent&quot;</span>/&gt;</span><br>    <br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>我们也可以根据组件类实例化多个组件对象</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;happyComponent1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_01.HappyComponent&quot;</span>/&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;happyComponent2&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_01.HappyComponent&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="配置静态工厂组件类"><a href="#配置静态工厂组件类" class="headerlink" title="配置静态工厂组件类"></a>配置静态工厂组件类</h5><p>静态工厂组件类其实就是使用了饿汉式的单例模式，私有化构造方法后，通过调用方法返回其类本身的静态对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClientService</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">ClientService</span> <span class="hljs-variable">clientService</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClientService</span>();<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">ClientService</span><span class="hljs-params">()</span> &#123;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ClientService <span class="hljs-title function_">createInstance</span><span class="hljs-params">()</span> &#123;<br><br>        <span class="hljs-keyword">return</span> clientService;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;clientService&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_01.ClientService&quot;</span> <span class="hljs-attr">factory-method</span>=<span class="hljs-string">&quot;createInstance&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>使用bean标签创建静态工厂组件类的对象时，有三个标签属性：</p>
+<ul>
+<li>id：别名</li>
+<li>class：<strong>工厂类</strong>的全限定符</li>
+<li>factory-method：<strong>静态</strong>工厂方法</li>
+</ul>
+<hr>
+<h5 id="配置非静态工厂组件类"><a href="#配置非静态工厂组件类" class="headerlink" title="配置非静态工厂组件类"></a>配置非静态工厂组件类</h5><p>非静态工厂组件类，是通过调用类中非静态方法返回非本身的静态对象</p>
+<p>区别是：调用方法是非静态方法，需要实例化才能调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FactoryClientService</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">ClientService</span> <span class="hljs-variable">clientService</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClientService</span>();<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">FactoryClientService</span><span class="hljs-params">()</span> &#123;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> ClientService <span class="hljs-title function_">createInstance</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> clientService;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;factoryClientService&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_01.FactoryClientService&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;clientService&quot;</span> <span class="hljs-attr">factory-bean</span>=<span class="hljs-string">&quot;factoryClientService&quot;</span> <span class="hljs-attr">factory-method</span>=<span class="hljs-string">&quot;createInstance&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>首先是使用bean标签创建了FactoryClientService的组件对象factoryClientService</p>
+<p>bean中标签有三个属性：</p>
+<ul>
+<li>id：别名</li>
+<li>factory-bean：工厂类的对象名（别名）</li>
+<li>factory-method：工厂方法（非静态）</li>
+</ul>
+<hr>
+<h3 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h3><p>在JavaWeb中，多层结构之间的调用是通过实例化对象后调用方法的方式实现的</p>
+<p>比如说，controller层调用service层，需要实例化一个对象，这个对象作为controller中的全局变量赋值给属性，再调用其方法</p>
+<p>而Spring直接通过依赖注入的方式，将service层的对象，通过<strong>构造方法或setter方法</strong>注入到controller的全局变量（属性）中</p>
+<p><em>注：引用与被引用的组件，都必须被IoC容器接管</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br><br>    <span class="hljs-keyword">private</span> UserDao userDao;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UserService</span><span class="hljs-params">(UserDao userDao)</span> &#123;<br>        <span class="hljs-built_in">this</span>.userDao = userDao;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userDao&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.UserDao&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userService&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.UserService&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;userDao&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>在bean标签内使用constructor-arg标签，完成构造中参数的注入（DI）</p>
+<ul>
+<li>value：直接属性值，比如基本类型属性值（String，int）</li>
+<li>ref：引用其他的对象，使用其他Bean的Id（别名）</li>
+</ul>
+<p><em>SpringIoC是一个高级容器，会先创建对象，再去进行属性赋值，所以先后顺序无所谓</em></p>
+<hr>
+<h5 id="多个构造参数注入（顺序赋值）"><a href="#多个构造参数注入（顺序赋值）" class="headerlink" title="多个构造参数注入（顺序赋值）"></a>多个构造参数注入（顺序赋值）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span> &#123;<br><br>    <span class="hljs-keyword">private</span> UserDao userDao;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> age;<br><br>    <span class="hljs-keyword">private</span> String name;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UserService</span><span class="hljs-params">(<span class="hljs-type">int</span> age, String name, UserDao userDao)</span> &#123;<br>        <span class="hljs-built_in">this</span>.userDao = userDao;<br>        <span class="hljs-built_in">this</span>.age = age;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userDao&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.UserDao&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userService&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.UserService&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;18&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;xiaobai&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;userDao&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>当构造方法有多个参数需要传值时，使用多个constructor-arg标签按照顺序赋值即可，不推荐使用这种方法</p>
+<hr>
+<h5 id="多个构造参数注入（按照属性名赋值）"><a href="#多个构造参数注入（按照属性名赋值）" class="headerlink" title="多个构造参数注入（按照属性名赋值）*"></a>多个构造参数注入（按照属性名赋值）*</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userService&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.UserService&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;age&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;18&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;xiaobai&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userDao&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;userDao&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>使用constructor-arg的name属性，给构造方法中的属性赋值，推荐使用这种方法</p>
+<hr>
+<h5 id="多个构造参数注入（按照下角标方式）"><a href="#多个构造参数注入（按照下角标方式）" class="headerlink" title="多个构造参数注入（按照下角标方式）"></a>多个构造参数注入（按照下角标方式）</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userDao&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.UserDao&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;userService&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.UserService&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">index</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;18&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">index</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;xiaobai&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">index</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;userDao&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>使用constructor-arg的index属性，给构造方法中的属性赋值，不推荐使用这种方法</p>
+<hr>
+<h5 id="以set方法的方式注入"><a href="#以set方法的方式注入" class="headerlink" title="以set方法的方式注入*"></a>以set方法的方式注入*</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SimpleMovieLister</span> &#123;<br><br>    <span class="hljs-keyword">private</span> MovieFinder movieFinder;<br><br>    <span class="hljs-keyword">private</span> String movieName;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setMovieFinder</span><span class="hljs-params">(MovieFinder movieFinder)</span> &#123;<br>        <span class="hljs-built_in">this</span>.movieFinder = movieFinder;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setMovieName</span><span class="hljs-params">(String movieName)</span> &#123;<br>        <span class="hljs-built_in">this</span>.movieName = movieName;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;movieFinder&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.MovieFinder&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;simpleMovieLister&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_02.SimpleMovieLister&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;movieName&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;三体&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;movieFinder&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;movieFinder&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>使用bean标签中的property标签，完成对set方法的依赖注入</p>
+<ul>
+<li>name：set方法去掉set并首字母小写的方法，以此名调用set方法</li>
+<li>value&#x2F;ref：参数</li>
+</ul>
+<p><em>注：name属性中的值并不是属性名，而是set方法名经过变化得来的，但一般情况下与属性名相同</em></p>
+<hr>
+<h3 id="SpringIoC容器的创建和读取"><a href="#SpringIoC容器的创建和读取" class="headerlink" title="SpringIoC容器的创建和读取"></a>SpringIoC容器的创建和读取</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>(<span class="hljs-string">&quot;Spring-03.xml&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>使用实现类的构造方法直接创建容器对象，一般情况下直接使用这种</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ClassPathXmlApplicationContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>();<br>context.setConfigLocations(<span class="hljs-string">&quot;spring-03.xml&quot;</span>);<br>context.refresh();<br></code></pre></td></tr></table></figure>
+
+<p>源码的配置过程：先指定配置文件之后，再刷新</p>
+<hr>
+<h5 id="Bean组件的读取"><a href="#Bean组件的读取" class="headerlink" title="Bean组件的读取"></a>Bean组件的读取</h5><p>使用容器调用getBean方法即可读取容器中组件（对象）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">getBeanFromIoC</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">ClassPathXmlApplicationContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>();<br>    context.setConfigLocations(<span class="hljs-string">&quot;spring-03.xml&quot;</span>);<br>    context.refresh();<br>    <span class="hljs-comment">//方案1：直接根据组件名称（beanID）获取即可，返回值是Object，需要强转</span><br>    <span class="hljs-type">HappyComponent</span> <span class="hljs-variable">happyComponent</span> <span class="hljs-operator">=</span> (HappyComponent) context.getBean(<span class="hljs-string">&quot;happyComponent&quot;</span>);<br><br>    <span class="hljs-comment">//方案2：根据beanID获取对象的同时，将类对象作为参数传入</span><br>    context.getBean(<span class="hljs-string">&quot;happyComponent&quot;</span>, HappyComponent.class);<br><br>    <span class="hljs-comment">//方案3：根据类型直接获取（单例模式的好处）</span><br>    context.getBean(HappyComponent.class);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>方案3在使用时，要保证容器中只有一个同类型的bean，如果存在多个，则会出现NoUniqueBeanDefinitionException（不唯一异常）</strong></p>
+<p><em>getBean方法只是将容器中的组件取出来，而不是生成一个对象</em></p>
+<hr>
+<h5 id="接口问题"><a href="#接口问题" class="headerlink" title="接口问题"></a>接口问题</h5><p>在IoC容器的创建中，是不可以对接口进行创建的</p>
+<p>但是在读取IoC容器时，是可以直接根据接口类型来获取到具体的对象的（getBean的参数可以为接口名）</p>
+<p>这是因为，getBean的底层实现是通过类对象（.class）和调用instanceof的反射机制</p>
+<p>instanceof在判断接口类型的类对象的结果依然为true，即为通过判断，就可以获取到具体的类对象啦 😊</p>
+<hr>
+<h3 id="组件的作用域和周期方法"><a href="#组件的作用域和周期方法" class="headerlink" title="组件的作用域和周期方法"></a>组件的作用域和周期方法</h3><h5 id="周期方法"><a href="#周期方法" class="headerlink" title="周期方法"></a>周期方法</h5><p>Spring组件的周期方法有初始化方法和销毁方法，配置好后，会在特定的时间节点自动回调方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JavaBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;JavaBean.init&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;JavaBean.destroy&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;javaBean&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_04.JavaBean&quot;</span> <span class="hljs-attr">init-method</span>=<span class="hljs-string">&quot;init&quot;</span> <span class="hljs-attr">destroy-method</span>=<span class="hljs-string">&quot;destroy&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>使用bean标签的属性配置指定的初始化方法和销毁方法</p>
+<ul>
+<li>init-method：初始化方法</li>
+<li>destroy-method：销毁方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test04</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-type">ClassPathXmlApplicationContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>(<span class="hljs-string">&quot;spring-04.xml&quot;</span>);<span class="hljs-comment">// JavaBean.init</span><br>    <span class="hljs-type">JavaBean</span> <span class="hljs-variable">bean</span> <span class="hljs-operator">=</span> context.getBean(JavaBean.class);<br>    context.close();<span class="hljs-comment">// JavaBean.destroy</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><em>注：如果不调用close方法，则容器非自然死亡，不会进入生命周期的destroy，也就不会执行销毁方法</em></p>
+<hr>
+<h5 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h5><p>组件被bean标签声明后，被SpringIoC容器接管，在IoC容器内，会产生一个BeanDefinition，这个类包裹了Bean标签的所有属性，例：</p>
+<ul>
+<li>id</li>
+<li>class</li>
+<li>init-method</li>
+<li>destory-method</li>
+<li>……</li>
+</ul>
+<p>SpringIoC容器会根据BeanDefinition对象反射创建多个Bean对象实例</p>
+<p>容器的作用域由Bean标签的scope属性决定，默认是单例模式，一个Bean标签对应一个组件对象</p>
+<ul>
+<li>ingleton：单例（默认值）</li>
+<li>protorype：多例</li>
+<li>request：每次请求时创建对象</li>
+<li>session：每次会话时创建对象</li>
+</ul>
+<p>可以设置为多例模式，一个Bean标签对应一个BeanDefinition对象，但对应多个组件对象</p>
+<p><em>一般情况下都是用单例模式</em></p>
+<hr>
+<h3 id="FactoryBean"><a href="#FactoryBean" class="headerlink" title="FactoryBean"></a>FactoryBean</h3><p>标准化工厂，重写getObject方法，编写自己的实例化逻辑</p>
+<ul>
+<li>T getObject()：返回此工厂创建对象的实例</li>
+<li>boolean isSingleton：判断是否为单例模式</li>
+<li>class&lt;?&gt; getObjectType：返回对象类型，如果不知道类型则返回null</li>
+</ul>
+<p>FactoryBean使用场景：</p>
+<ul>
+<li>代理类的创建</li>
+<li><strong>第三方框架整合</strong></li>
+<li>复杂对象实例化</li>
+<li>……</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;javaBean&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_04.JavaBeanFactoryBean&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><em>FactoryBean也会被放在BeanDefinition中，名字为&amp;Id</em></p>
+<hr>
+<h5 id="FactoryBean传参问题"><a href="#FactoryBean传参问题" class="headerlink" title="FactoryBean传参问题"></a>FactoryBean传参问题</h5><p>当我们直接使用property标签给工厂Bean传参时，传到的是&amp;Id对象中（也就是工厂Bean对象）</p>
+<p>如果想给工厂Bean中的JavaBean对象传参，则需要包裹一层set，给工厂Bean设置一个属性，再将这个属性传到里面的JavaBean中</p>
+<p><em>注：FactoryBean和BeanFactory不同！！！</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JavaBean</span> &#123;<br><br>    <span class="hljs-keyword">private</span> String name;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setName</span><span class="hljs-params">(String name)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JavaBeanFactoryBean</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">FactoryBean</span>&lt;JavaBean&gt; &#123;<br><br>    String name;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">JavaBeanFactoryBean</span><span class="hljs-params">(String name)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Class&lt;?&gt; getObjectType() &#123;<br>        <span class="hljs-keyword">return</span> JavaBean.class;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> JavaBean <span class="hljs-title function_">getObject</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">JavaBean</span> <span class="hljs-variable">javaBean</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JavaBean</span>();<br>        javaBean.setName(name);<br>        <span class="hljs-keyword">return</span> javaBean;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;javaBean&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.xiaobai.ioc_04.JavaBeanFactoryBean&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;xiaobai&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/JAVA/SSM/" class="category-chain-item">SSM</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Spring-SpringIoC</div>
+      <div>http://blog.170827.xyz/2024/05/25/Spring-SpringIoC/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/05/26/Spring-SpringIoC-JdbcTemplate/" title="Spring-SpringIoC-JdbcTemplate">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring-SpringIoC-JdbcTemplate</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/25/Spring/" title="Spring">
+                        <span class="hidden-mobile">Spring</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

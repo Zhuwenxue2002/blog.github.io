@@ -1,0 +1,703 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="WebAPI-Filter内置过滤器在ASP.NET Core中，过滤器（Filters）用于在执行控制器操作之前或之后执行特定的逻辑。它们是MVC管道的一部分，可以帮助开发者处理诸如验证请求、日志记录、异常处理等跨切面关注点。ASP.NET Core支持多种类型的过滤器，每种都有其特定的作用场景。以下是一些主要的过滤器类型及其用途：  授权过滤器（Authorization Filters）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebAPI-Filter">
+<meta property="og:url" content="http://blog.170827.xyz/2024/10/10/WebAPI-Filter/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="WebAPI-Filter内置过滤器在ASP.NET Core中，过滤器（Filters）用于在执行控制器操作之前或之后执行特定的逻辑。它们是MVC管道的一部分，可以帮助开发者处理诸如验证请求、日志记录、异常处理等跨切面关注点。ASP.NET Core支持多种类型的过滤器，每种都有其特定的作用场景。以下是一些主要的过滤器类型及其用途：  授权过滤器（Authorization Filters）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-10T12:51:50.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.392Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>WebAPI-Filter - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="WebAPI-Filter"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-10 12:51" pubdate>
+          2024年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">WebAPI-Filter</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="WebAPI-Filter"><a href="#WebAPI-Filter" class="headerlink" title="WebAPI-Filter"></a>WebAPI-Filter</h1><h3 id="内置过滤器"><a href="#内置过滤器" class="headerlink" title="内置过滤器"></a>内置过滤器</h3><p>在ASP.NET Core中，过滤器（Filters）用于在执行控制器操作之前或之后执行特定的逻辑。它们是MVC管道的一部分，可以帮助开发者处理诸如验证请求、日志记录、异常处理等跨切面关注点。ASP.NET Core支持多种类型的过滤器，每种都有其特定的作用场景。以下是一些主要的过滤器类型及其用途：</p>
+<ul>
+<li><p>授权过滤器（Authorization Filters）</p>
+<ul>
+<li><p><strong>作用</strong>：这类过滤器最早运行，主要用于检查用户是否有权限访问给定的操作。</p>
+</li>
+<li><p><strong>示例</strong>：使用<code>[Authorize]</code>属性来确保只有经过身份验证的用户才能访问某个控制器或动作方法。</p>
+</li>
+</ul>
+</li>
+<li><p>资源过滤器（Resource Filters）</p>
+<ul>
+<li><p><strong>作用</strong>：这些过滤器在模型绑定之前运行，并且可以取消操作的执行。如果资源过滤器决定阻止请求，则不会执行模型绑定、操作过滤器或结果过滤器。</p>
+</li>
+<li><p><strong>示例</strong>：可以用来实现缓存逻辑，例如检查缓存中是否存在请求的数据，如果存在则直接返回缓存数据，不再执行后续操作。</p>
+</li>
+</ul>
+</li>
+<li><p>操作过滤器（Action Filters）</p>
+</li>
+<li><p><strong>作用</strong>：这类过滤器允许你在操作方法执行前或执行后进行干预。它们可以用来修改输入或输出参数。</p>
+</li>
+<li><p><strong>示例</strong>：验证模型状态，如果模型状态无效，则返回错误信息而不调用操作方法。</p>
+</li>
+<li><p>异常过滤器（Exception Filters）</p>
+<ul>
+<li><p><strong>作用</strong>：用于捕获并处理在整个MVC管道中发生的未处理异常。</p>
+</li>
+<li><p><strong>示例</strong>：可以用来记录异常信息，并向客户端返回友好的错误响应。</p>
+</li>
+</ul>
+</li>
+<li><p>结果过滤器（Result Filters）</p>
+<ul>
+<li><p><strong>作用</strong>：在操作执行完毕后，但在结果执行前后运行。它们可以用来修改操作的结果，比如修改视图或格式化响应。</p>
+</li>
+<li><p><strong>示例</strong>：压缩响应内容，或者添加特定的HTTP头信息。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="自定义过滤器"><a href="#自定义过滤器" class="headerlink" title="自定义过滤器"></a>自定义过滤器</h3><p>自定义过滤器可以通过实现 <code>IFilterMetadata</code> 接口或继承预定义的过滤器类（如 <code>ActionFilterAttribute</code>、<code>ResultFilterAttribute</code>、<code>ExceptionFilterAttribute</code> 等）来创建</p>
+<hr>
+<h5 id="自定义操作过滤器"><a href="#自定义操作过滤器" class="headerlink" title="自定义操作过滤器"></a>自定义操作过滤器</h5><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">using</span> Microsoft.AspNetCore.Mvc.Filters;<br><span class="hljs-keyword">using</span> System;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SampleActionFilter</span> : <span class="hljs-title">ActionFilterAttribute</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnActionExecuting</span>(<span class="hljs-params">ActionExecutingContext context</span>)</span><br>    &#123;<br>        Console.WriteLine(<span class="hljs-string">&quot;SampleActionFilter: Action is about to execute.&quot;</span>);<br>        <span class="hljs-keyword">base</span>.OnActionExecuting(context);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnActionExecuted</span>(<span class="hljs-params">ActionExecutedContext context</span>)</span><br>    &#123;<br>        Console.WriteLine(<span class="hljs-string">&quot;SampleActionFilter: Action has executed.&quot;</span>);<br>        <span class="hljs-keyword">base</span>.OnActionExecuted(context);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>以上代码可以通过OnActionExecutionAsync方法实现</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">using</span> Microsoft.AspNetCore.Mvc.Filters;<br><span class="hljs-keyword">using</span> System.Threading.Tasks;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SampleActionFilter</span> : <span class="hljs-title">IAsyncActionFilter</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">OnActionExecutionAsync</span>(<span class="hljs-params">ActionExecutingContext context, ActionExecutionDelegate next</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// 在动作方法执行前执行的逻辑</span><br>        Console.WriteLine(<span class="hljs-string">&quot;SampleActionFilter: Action is about to execute.&quot;</span>);<br><br>        <span class="hljs-comment">// 调用下一个过滤器或动作方法</span><br>        <span class="hljs-keyword">var</span> resultContext = <span class="hljs-keyword">await</span> next();<br><br>        <span class="hljs-comment">// 在动作方法执行后执行的逻辑</span><br>        Console.WriteLine(<span class="hljs-string">&quot;SampleActionFilter: Action has executed.&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="自定义异常过滤器"><a href="#自定义异常过滤器" class="headerlink" title="自定义异常过滤器"></a>自定义异常过滤器</h5><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">using</span> Microsoft.AspNetCore.Mvc.Filters;<br><span class="hljs-keyword">using</span> Microsoft.AspNetCore.Mvc;<br><span class="hljs-keyword">using</span> System;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SampleExceptionFilter</span> : <span class="hljs-title">ExceptionFilterAttribute</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnException</span>(<span class="hljs-params">ExceptionContext context</span>)</span><br>    &#123;<br>        Console.WriteLine(<span class="hljs-string">$&quot;SampleExceptionFilter: Exception caught: <span class="hljs-subst">&#123;context.Exception.Message&#125;</span>&quot;</span>);<br><br>        context.Result = <span class="hljs-keyword">new</span> ObjectResult(<span class="hljs-keyword">new</span> &#123; error = <span class="hljs-string">&quot;An unexpected error occurred&quot;</span> &#125;)<br>        &#123;<br>            StatusCode = <span class="hljs-number">500</span><br>        &#125;;<br><br>        <span class="hljs-keyword">base</span>.OnException(context);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="注册过滤器"><a href="#注册过滤器" class="headerlink" title="注册过滤器"></a>注册过滤器</h3><p>无论是内置过滤器或自定义过滤器都可以通过 <code>services.AddMvc</code> 或 <code>services.AddControllersWithViews</code> 方法中的 <code>options.Filters</code> 属性进行注册</p>
+<ul>
+<li><p><strong>全局注册</strong>：在 <code>Startup.cs</code> 或 <code>Program.cs</code> 中全局注册过滤器。</p>
+</li>
+<li><p><strong>控制器级别注册</strong>：在控制器类上使用属性来注册过滤器。</p>
+</li>
+<li><p><strong>动作级别注册</strong>：在控制器的动作方法上使用属性来注册过滤器。</p>
+</li>
+</ul>
+<p>有三种添加全局过滤器的方式</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// AddMvc方式</span><br>builder.Services.AddMvc(options =&gt;<br>&#123;<br>    options.Filters.Add&lt;SampleActionFilter&gt;();<br>&#125;);<br><br><span class="hljs-comment">// AddControllersWithViews方式</span><br>builder.Services.AddControllersWithViews(options =&gt;<br>&#123;<br>    options.Filters.Add&lt;SampleActionFilter&gt;();<br>&#125;);<br><br><span class="hljs-comment">// Configure&lt;MvcOptions&gt;方式</span><br>builder.Services.Configure&lt;MvcOptions&gt;(options =&gt;<br>&#123;<br>    options.Filters.Add&lt;SampleActionFilter&gt;();<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>ASP.NET Core 和JavaWeb项目中的过滤器不同，这里的过滤器更像是一个跟生命周期钩子有关的AOP（面向切面编程）的一个增强类，通过不同的注册方式来服务于Controller层的日志记录、异常处理、权限验证等功能</p>
+<p>例如，我们可以通过操作过滤器（Action Filters）来实现SpringAOP的功能，在具体实现代码的前后做一些切面操作</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NET%E6%A1%86%E6%9E%B6%E7%9B%B8%E5%85%B3/" class="category-chain-item">NET框架相关</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/NET%E6%A1%86%E6%9E%B6%E7%9B%B8%E5%85%B3/net/" class="category-chain-item">net</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>WebAPI-Filter</div>
+      <div>http://blog.170827.xyz/2024/10/10/WebAPI-Filter/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/10/11/WebAPI-%E4%B8%AD%E9%97%B4%E4%BB%B6/" title="WebAPI-中间件">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">WebAPI-中间件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/09/WebAPI-%E9%85%8D%E7%BD%AE/" title="WebAPI-配置">
+                        <span class="hidden-mobile">WebAPI-配置</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

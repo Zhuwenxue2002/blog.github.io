@@ -1,0 +1,693 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="VUE3-组件通信propsprops是使用频率最高的一种通信方式，对于父传子而言，这种方式很方便 使用props实现子传父，就现在父定义方法，将方法给子，然后子在合适的时机调用此方法将数据传给父 相当于子不直接把内容给父，而是父先给子一个盒子，子把东西装在盒子里扔给父  自定义事件事件名为多个单词组成的情况下，推荐事件使用肉串（kebab-case）命名，函数使用驼峰命名 在父组件给子组件元素绑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VUE3-组件通信">
+<meta property="og:url" content="http://blog.170827.xyz/2025/01/03/VUE3-%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="VUE3-组件通信propsprops是使用频率最高的一种通信方式，对于父传子而言，这种方式很方便 使用props实现子传父，就现在父定义方法，将方法给子，然后子在合适的时机调用此方法将数据传给父 相当于子不直接把内容给父，而是父先给子一个盒子，子把东西装在盒子里扔给父  自定义事件事件名为多个单词组成的情况下，推荐事件使用肉串（kebab-case）命名，函数使用驼峰命名 在父组件给子组件元素绑">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-03T15:13:13.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.396Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>VUE3-组件通信 - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="VUE3-组件通信"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-03 15:13" pubdate>
+          2025年1月3日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">VUE3-组件通信</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="VUE3-组件通信"><a href="#VUE3-组件通信" class="headerlink" title="VUE3-组件通信"></a>VUE3-组件通信</h1><h3 id="props"><a href="#props" class="headerlink" title="props"></a>props</h3><p>props是使用频率最高的一种通信方式，对于父传子而言，这种方式很方便</p>
+<p>使用props实现子传父，就现在父定义方法，将方法给子，然后子在合适的时机调用此方法将数据传给父</p>
+<p><em>相当于子不直接把内容给父，而是父先给子一个盒子，子把东西装在盒子里扔给父</em></p>
+<hr>
+<h3 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h3><p><em>事件名为多个单词组成的情况下，推荐事件使用肉串（kebab-case）命名，函数使用驼峰命名</em></p>
+<p>在父组件给子组件元素绑定一个自定义事件，并定义一个事件的回调函数</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">child</span> @<span class="hljs-attr">send-msg</span>=<span class="hljs-string">&quot;save&quot;</span>/ &gt;</span><br>    <br><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">	<span class="hljs-keyword">import</span> child <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;child.vue&#x27;</span></span><br><span class="language-javascript">    </span><br><span class="language-javascript">    <span class="hljs-keyword">function</span> <span class="hljs-title function_">save</span>(<span class="hljs-params">value</span>)&#123;</span><br><span class="language-javascript">        <span class="hljs-comment">// 事件的回调方法，参数value可以由子组件传递，在这里接收</span></span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>在子组件使用defineEmits的方法接受此事件，并且在合适的时机触发事件</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> emit = <span class="hljs-title function_">defineEmits</span>([<span class="hljs-string">&#x27;send-msg&#x27;</span>])<br><br><span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;send-msg&#x27;</span>) <span class="hljs-comment">// 触发此事件</span><br></code></pre></td></tr></table></figure>
+
+<p>尽管直接通过 <code>props</code> 传递回调函数也能实现子组件向父组件传递消息，但使用事件系统具有更好的实践意义，它能带来更清晰的代码结构、更高的可维护性和更好的职责分离，这些都是构建大型应用所必需的。因此，推荐使用自定义事件的方式来实现子组件向父组件的消息传递</p>
+<hr>
+<h3 id="mitt"><a href="#mitt" class="headerlink" title="mitt"></a>mitt</h3><p><code>mitt</code> 是一个轻量级的事件发射器（event emitter）库，它允许你创建一个简单的事件总线（event bus），以便在你的应用中不同组件或模块之间传递消息</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/developit/mitt">developit&#x2F;mitt: 🥊 Tiny 200 byte functional event emitter &#x2F; pubsub.</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装工具</span><br>npm i mitt<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> mitt <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;mitt&#x27;</span><br><br><span class="hljs-keyword">const</span> emitter = <span class="hljs-title function_">mitt</span>()<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> emitter<br></code></pre></td></tr></table></figure>
+
+<p>常用API：</p>
+<ul>
+<li>on：绑定事件</li>
+<li>off：解绑事件</li>
+<li>all.clear：解绑所有事件</li>
+<li>emit：触发事件，参数为事件名称</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 使用生命周期钩子定义emitter的事件解绑，有利于资源释放</span><br><span class="hljs-title function_">onUnmouted</span>(<span class="hljs-function">()=&gt;</span>&#123;<br>    emitter.<span class="hljs-title function_">off</span>(<span class="hljs-string">&#x27;send-toy&#x27;</span>)<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="v-model"><a href="#v-model" class="headerlink" title="v-model"></a>v-model</h3><p>当v-model用于html标签上时，可以实现元素与数据之间的双向绑定，其底层原理是使用响应式数据+input事件触发的原理</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ts">&lt;input <span class="hljs-keyword">type</span>=<span class="hljs-string">&#x27;text&#x27;</span> v-model=<span class="hljs-string">&#x27;username&#x27;</span>&gt;<br>&lt;!-- 底层原理 --&gt;<br>&lt;input type=&#x27;text&#x27; @input=&#x27;username = (&lt;HTMLInputElement&gt;$event.target).value&#x27;&gt;<br></code></pre></td></tr></table></figure>
+
+<p>在实际开发中，我们经常使用组件库中的组件来代替类似于input的表单元素，实现精美的效果</p>
+<p>但是一个普通的组件是无法使用v-model与数据进行双向绑定的</p>
+<p>这里，底层使用的还是props与自定义事件来配合完成组件之间的通信</p>
+<p>在使用时，我们也无需手动的props和自定义事件来实现数据的双向绑定，而是使用v-model直接语法糖使用</p>
+<p>这样就完成了UI组件和调用组件之间的双向通信</p>
+<hr>
+<h3 id="attrs"><a href="#attrs" class="headerlink" title="$attrs"></a>$attrs</h3><p>这是一个vue对象中的属性，当父通过props的方式传参给子组件的时候，子组件没有使用defineProps显式接受的参数都会存在这个$attrs属性中</p>
+<p>子组件可以通过将这个属性再次传递的方式将这组没被自己接受的参数再次传给子组件</p>
+<p>这个属性在二次封装UI组件的时候很有用，不想写一堆属性的时候就可以写成： v-bind&#x3D;”$attrs”</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ts">&lt;child v-bind=<span class="hljs-string">&quot;&#123;a:a,b:b&#125;&quot;</span>&gt;<br><span class="hljs-comment">// v-bind对象，可以批量传输props</span><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">child</span> <span class="hljs-attr">:a</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">:b</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="ref-parent"><a href="#ref-parent" class="headerlink" title="$ref&amp;$parent"></a>$ref&amp;$parent</h3><p>这个特性我们用过，可以在父子组件中暴露数据让对方操作</p>
+<p>使用defineExpose函数暴露，其参数是一个对象</p>
+<p>我们可以使用ref操作子组件中暴露的内容</p>
+<p>也可以使用parent操作父组件中暴露的内容</p>
+<hr>
+<h3 id="provide"><a href="#provide" class="headerlink" title="provide"></a>provide</h3><p>从vue对象中获取provide属性，这个属性可以向自己的所有后代提供数据</p>
+<p>从vue对象中获取inject属性，这个属性可以注入已经提供的数据</p>
+<p>这个数据如果是响应式数据，那么后代获取的也是响应式数据，即在后代中修改数据，其父组件的值也会被修改</p>
+<hr>
+<h3 id="slot"><a href="#slot" class="headerlink" title="slot"></a>slot</h3><p>默认插槽：组件也可以写成双标签的形式，vue会将组件起始标签和结束标签中的其他元素标签内容放到被slot标签占位的位置</p>
+<p>具名插槽：子组件的slot元素标签使用name属性标识后，在父组件中的组件标签上加入v-slot&#x3D;[name属性值]的方式，把指定内容插入指定插槽中</p>
+<p>在这里，可以在元素上包裹一层template标签，将v-slot属性直接加在template标签中</p>
+<p>在这里，v-slot&#x3D;可以被简写成# ，很多UI组件库都将这里的属性简写成# </p>
+<p>作用域插槽：UI组件库中会大量使用作用域插槽，一些弹窗，表格都是通过默认与插槽来实现的</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVAWEB/" class="category-chain-item">JAVAWEB</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/JAVAWEB/vue/" class="category-chain-item">vue</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>VUE3-组件通信</div>
+      <div>http://blog.170827.xyz/2025/01/03/VUE3-组件通信/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/01/03/VUE3-%E5%85%B6%E4%BB%96API/" title="VUE3-其他API">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">VUE3-其他API</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/03/VUE3/" title="VUE3">
+                        <span class="hidden-mobile">VUE3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

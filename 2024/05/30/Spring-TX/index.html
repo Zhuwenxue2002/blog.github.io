@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Spring-TX编程式事务 参考 JDBC -&gt; JDBC-事务  编程式事务是指手动编写程序来管理事务，即通过代码的方式直接控制事务的提交和回滚 在之前的学习中，我们使用JDBC中的连接来控制事务的提交和回滚 但是编程式实现方式存在缺陷：  细节没有被屏蔽：具体操作过程各种，所有细节都需要程序员来自己完成，比较繁琐 代码复用性低   声明式事务声明式事务是指用注解或XML的方式来控制事务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-TX">
+<meta property="og:url" content="http://blog.170827.xyz/2024/05/30/Spring-TX/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="Spring-TX编程式事务 参考 JDBC -&gt; JDBC-事务  编程式事务是指手动编写程序来管理事务，即通过代码的方式直接控制事务的提交和回滚 在之前的学习中，我们使用JDBC中的连接来控制事务的提交和回滚 但是编程式实现方式存在缺陷：  细节没有被屏蔽：具体操作过程各种，所有细节都需要程序员来自己完成，比较繁琐 代码复用性低   声明式事务声明式事务是指用注解或XML的方式来控制事务">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.170827.xyz/upload/%E5%A3%B0%E6%98%8E%E5%BC%8F%E4%BA%8B%E5%8A%A1.PNG">
+<meta property="article:published_time" content="2024-05-30T16:36:37.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.402Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.170827.xyz/upload/%E5%A3%B0%E6%98%8E%E5%BC%8F%E4%BA%8B%E5%8A%A1.PNG">
+  
+  
+  
+  <title>Spring-TX - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Spring-TX"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-30 16:36" pubdate>
+          2024年5月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Spring-TX</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Spring-TX"><a href="#Spring-TX" class="headerlink" title="Spring-TX"></a>Spring-TX</h1><h3 id="编程式事务"><a href="#编程式事务" class="headerlink" title="编程式事务"></a>编程式事务</h3><blockquote>
+<p>参考 JDBC -&gt; JDBC-事务</p>
+</blockquote>
+<p>编程式事务是指手动编写程序来管理事务，即通过代码的方式直接控制事务的提交和回滚</p>
+<p>在之前的学习中，我们使用JDBC中的连接来控制事务的提交和回滚</p>
+<p>但是编程式实现方式存在缺陷：</p>
+<ul>
+<li>细节没有被屏蔽：具体操作过程各种，所有细节都需要程序员来自己完成，比较繁琐</li>
+<li>代码复用性低</li>
+</ul>
+<hr>
+<h3 id="声明式事务"><a href="#声明式事务" class="headerlink" title="声明式事务"></a>声明式事务</h3><p>声明式事务是指用注解或XML的方式来控制事务的提交和回滚</p>
+<p>我们可以使用AOP的思路来写事务增强，但Spring对事务的AOP进行了再次的封装，更加简化了我们的操作</p>
+<hr>
+<h5 id="Spring事务管理器"><a href="#Spring事务管理器" class="headerlink" title="Spring事务管理器"></a>Spring事务管理器</h5><p><img src="/upload/%E5%A3%B0%E6%98%8E%E5%BC%8F%E4%BA%8B%E5%8A%A1.PNG" srcset="/img/loading.gif" lazyload alt="声明式事务.PNG"></p>
+<p>在Spring的底层实现中，创建了一个事务增强，又制作了一个事务管理器统一规范的接口</p>
+<p>通过事务增强去调用事务管理器的接口完成事务的具体操作（开启，提交，回滚）</p>
+<p>又针对于不同的框架制作了不同的事务管理器的具体实现类</p>
+<p>当我们选择某一个具体框架的事务管理器实现类时，Spring会将这个实现类自动注入到事务增强调用的事务管理器的接口</p>
+<ul>
+<li>TransactionManager接口：事务管理器的统一接口</li>
+<li>PlatformTansactionManager：统一接口的子接口，扩展实现<ul>
+<li>DataSourceTransactionManager：实现类<ul>
+<li>JDBC方式</li>
+<li>JdbcTemplate方式</li>
+<li>Mybatis方式</li>
+</ul>
+</li>
+<li>HibernateTransactionManager：实现类<ul>
+<li>hibernate方式</li>
+</ul>
+</li>
+<li>JpaTransactionManager<ul>
+<li>jpa方式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><em>注：DataSourceTransactionManager由spring-jdbc依赖提供，HibernateTransactionManager和JpaTransactionManager由spring-orm依赖提供</em></p>
+<hr>
+<h5 id="DataSourceTransactionManager"><a href="#DataSourceTransactionManager" class="headerlink" title="DataSourceTransactionManager"></a>DataSourceTransactionManager</h5><p>我们学习的事务管理器实现是DataSourceTransactionManager，用以整合JDBC、jdbcTemplate、Mybatis方式的事务实现</p>
+<p>DataSourceTransactionManager的主要方法：</p>
+<ul>
+<li>doBegin()：开启事务</li>
+<li>doSuspend()：挂起事务</li>
+<li>doResume()：恢复挂起的事务</li>
+<li>doCommit()：提交事务</li>
+<li>doRollback()：回滚事务</li>
+</ul>
+<p><em>然而以上的方法我们都不会自己使用，因为框架帮我们完成了一切，我们只需要使用注解声明即可</em></p>
+<hr>
+<h3 id="基于注解的声明式事务"><a href="#基于注解的声明式事务" class="headerlink" title="基于注解的声明式事务"></a>基于注解的声明式事务</h3><p>导入依赖：</p>
+<ul>
+<li>spring-jdbc</li>
+<li>spring-tx</li>
+</ul>
+<p><em>从6.1.8版本开始，tx为jdbc自动导入的依赖，所以无需导入</em></p>
+<p>首先，我们在配置类中将事务管理器的实现添加到IoC容器中</p>
+<p>事务管理器的实现中，要进行对事务的操作，需要使用<strong>连接池对象</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-keyword">public</span> TransactionManager <span class="hljs-title function_">transactionManager</span><span class="hljs-params">(DataSource dataSource)</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataSourceTransactionManager</span>(dataSource);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="EnableTransactionManagement"><a href="#EnableTransactionManagement" class="headerlink" title="@EnableTransactionManagement"></a>@EnableTransactionManagement</h5><p>在配置类中加@EnableTransactionManagement注解，开启对事务注解的支持</p>
+<hr>
+<h3 id="Transactional"><a href="#Transactional" class="headerlink" title="@Transactional"></a>@Transactional</h3><p>这个注解的作用就是开启事务，它可以加载方法和类上：</p>
+<ul>
+<li>方法：方法开启事务</li>
+<li>类：类中所有方法开启事务</li>
+</ul>
+<p>此时，方法就被Spring的事务管理器以AOP的方式接管了，如果方法执行有异常，则整个方法回滚，如果方法执行顺利，则事务提交</p>
+<hr>
+<h5 id="readOnly"><a href="#readOnly" class="headerlink" title="readOnly"></a>readOnly</h5><p>只读模式可以提高查询事务的效率，如果事务中只有查询代码，使用只读模式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(readOnly = true)</span><br></code></pre></td></tr></table></figure>
+
+<p><em>当@Transactional注解到类时，推荐将类中调用查询的方法加入此注解和属性</em></p>
+<hr>
+<h5 id="timeout"><a href="#timeout" class="headerlink" title="timeout"></a>timeout</h5><p>事务在执行过程中，有可能因为遇到某些问题，导致程序卡住，从而长时间占用数据库</p>
+<p>使用timeout属性设置事务的超时时间</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(timeout = 5)</span> <span class="hljs-comment">// 单位：秒</span><br></code></pre></td></tr></table></figure>
+
+<p>如果事务超时，则会报异常：TransactionTimedOutException</p>
+<p><em>注：当类的注解有timeout属性时，方法如果也有注解但没有属性，方法的注解会覆盖类的注解！！！</em></p>
+<hr>
+<h5 id="rollbackFor-norollbackFor"><a href="#rollbackFor-norollbackFor" class="headerlink" title="rollbackFor&amp;norollbackFor"></a>rollbackFor&amp;norollbackFor</h5><p>事务的默认是发生运行时异常才会回滚，其他异常不会回滚（比如IO异常）</p>
+<p>使用rollbackFor属性，调整为无论发生什么异常时都回滚事务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(rollbackFor = Exception.class)</span><br></code></pre></td></tr></table></figure>
+
+<p>norollbackFor可以放行某些异常，使某些异常发生时不回滚事务</p>
+<hr>
+<h5 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h5><p>数据库事务的隔离级别是指在多个事务并发执行时，数据库系统为了保证数据一致性所遵循的规定。常见的隔离级别包括：</p>
+<ul>
+<li><p>读未提交（Read Uncommitted）：事务可以读取未被提交的数据，容易产生脏读、不可重复读和幻读等问题。实现简单但不太安全，一般不用。</p>
+</li>
+<li><p>读已提交（Read Committed）：事务只能读取已经提交的数据，可以避免脏读问题，但可能引发不可重复读和幻读。</p>
+</li>
+<li><p>可重复读（Repeatable Read）：在一个事务中，相同的查询将返回相同的结果集，不管其他事务对数据做了什么修改。可以避免脏读和不可重复读，但仍有幻读的问题。</p>
+</li>
+<li><p>串行化（Serializable）：最高的隔离级别，完全禁止了并发，只允许一个事务执行完毕之后才能执行另一个事务。可以避免以上所有问题，但效率较低，不适用于高并发场景。</p>
+</li>
+</ul>
+<p>不同的隔离级别适用于不同的场景，需要根据实际业务需求进行选择和调整</p>
+<p><em>MySQL的默认隔离级别是可重复读（Repeatable Read）</em></p>
+<p>使用isolation属性设置隔离级别，推荐设置为<em>读已提交（Read Committed）</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(isolation = Isolation.READ_COMMITTED)</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="事务传播行为"><a href="#事务传播行为" class="headerlink" title="事务传播行为"></a>事务传播行为</h5><p>事务之间也存在互相调用的情况，以事务的传播行为来决定事物之间调用的影响程度</p>
+<p>事务传播行为的属性设定，是设置在子事务（方法）上的</p>
+<p>使用propagation 属性设置事务的传播行为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span><br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>REQUIRED  默认值</td>
+<td>如果父方法有事务，就加入，如果没有就新建自己独立！</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>不管父方法是否有事务，我都新建事务，都是独立的！</td>
+</tr>
+</tbody></table>
+<p>如果父方法调用子方法，父方法有事务，使用REQUIRED时，子方法会加入父方法的事务中，形成一个事务</p>
+<p>如果使用REQUIRES_NEW属性，方法之间事务独立，相互不影响</p>
+<p><em>事务的传播行为一般都推荐用默认值，只有面试的情况下才会问相关问题！！！</em></p>
+<p>在同一个类中，事务的传播行为不会生效，这是因为Spring框架中实际上是使用了代理模式实现事务机制</p>
+<p>而代理是根据类来生成增强类，同一个类间的调用就不经过代理</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/JAVA/SSM/" class="category-chain-item">SSM</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Spring-TX</div>
+      <div>http://blog.170827.xyz/2024/05/30/Spring-TX/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/03/MyBatis/" title="MyBatis">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MyBatis</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/28/Spring-AOP/" title="Spring-AOP">
+                        <span class="hidden-mobile">Spring-AOP</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

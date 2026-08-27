@@ -1,0 +1,796 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Mybatis-mapper.xml使用根标签mapper的namespace属性配置接口 1234567891011&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; ?&gt;&lt;!--这句话是文档类型声明，用以写xml文件约束，不是根标签--&gt;&lt;!DOCTYPE mapper        PUBLIC &amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis-mapper.xml">
+<meta property="og:url" content="http://blog.170827.xyz/2024/06/03/MyBatis-mapper.xml/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="Mybatis-mapper.xml使用根标签mapper的namespace属性配置接口 1234567891011&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; ?&gt;&lt;!--这句话是文档类型声明，用以写xml文件约束，不是根标签--&gt;&lt;!DOCTYPE mapper        PUBLIC &amp;q">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-06-03T21:10:47.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.402Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>MyBatis-mapper.xml - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MyBatis-mapper.xml"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-06-03 21:10" pubdate>
+          2024年6月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MyBatis-mapper.xml</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Mybatis-mapper-xml"><a href="#Mybatis-mapper-xml" class="headerlink" title="Mybatis-mapper.xml"></a>Mybatis-mapper.xml</h1><p>使用根标签mapper的namespace属性配置接口</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span> ?&gt;</span><br><br><span class="hljs-comment">&lt;!--这句话是文档类型声明，用以写xml文件约束，不是根标签--&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">mapper</span></span><br><span class="hljs-meta">        <span class="hljs-keyword">PUBLIC</span> <span class="hljs-string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span></span><br><span class="hljs-meta">        <span class="hljs-string">&quot;https://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--根标签mapper，namespace属性的值是与之对应接口的全路径名--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">mapper</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;com.xiaobai.mapper.EmployeeMapper&quot;</span>&gt;</span><br>    <br><span class="hljs-tag">&lt;/<span class="hljs-name">mapper</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>在根标签中可以使用子标签写crud的sql语句，每一个根标签都对应着Mapper接口中的一个具体的功能方法，也对应其具体的实现</p>
+<ul>
+<li><p>select标签：查找的SQL语句标签</p>
+<ul>
+<li>id属性：对应Mapper接口的方法名</li>
+<li>resultType属性：对应SQL语句的返回值类型</li>
+</ul>
+</li>
+<li><p>insert</p>
+<ul>
+<li>id属性：对应Mapper接口的方法名</li>
+<li>useGeneratedKeys：开启主键回显</li>
+<li>keyColumn：要回显的列名</li>
+<li>keyProperty：对应回显的属性名</li>
+</ul>
+</li>
+<li><p>update</p>
+<ul>
+<li>id属性：对应Mapper接口的方法名</li>
+</ul>
+</li>
+<li><p>delete</p>
+<ul>
+<li>id属性：对应Mapper接口的方法名</li>
+</ul>
+</li>
+</ul>
+<p><em>注：在mapper接口中，不能进行方法的重载，标签与方法的映射是通过方法名实现，重载是同名不同参</em></p>
+<hr>
+<h3 id="和-两种占位符"><a href="#和-两种占位符" class="headerlink" title="# 和 $ 两种占位符"></a># 和 $ 两种占位符</h3><p>#{ key }：先将 ? 赋值给此处，再将具体的值赋值给 ? </p>
+<p>${ key }：直接进行字符串拼接</p>
+<p>推荐使用#{ key }，防止注入攻击，但#{ key }的方式只能替代参数值</p>
+<p>${ key }的方式可以替代容器名（标签、列名、关键字），使用此方式能实现容器名的动态</p>
+<p><em>在JDBC中，我们使用PreparedStatement代替Statement解决注入攻击问题</em></p>
+<hr>
+<h3 id="key占位符"><a href="#key占位符" class="headerlink" title="key占位符"></a>key占位符</h3><h5 id="单个参数"><a href="#单个参数" class="headerlink" title="单个参数"></a>单个参数</h5><p>当传入单个简单类型时，这个key随意写，但习惯于使用参数名，保证代码规范</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryEmployeeById&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Employee&quot;</span>&gt;</span><br>    select emp_id empId, emp_name empName , emp_salary empSalary<br>    from t_emp where emp_id = #&#123;id&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">delete</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;deleteById&quot;</span>&gt;</span><br>    delete from t_emp where emp_id = #&#123;id&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">delete</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryBySalary&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Employee&quot;</span>&gt;</span><br>    select emp_id empId, emp_name empName , emp_salary empSalary<br>    from t_emp where emp_salary = #&#123;salary&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="实体类对象"><a href="#实体类对象" class="headerlink" title="实体类对象"></a>实体类对象</h5><p>当传入对象为实体类对象时，key写该对象的属性名</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">insert</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;insertEmployee&quot;</span>&gt;</span><br>    insert into t_emp (emp_name , emp_salary) values (#&#123;empName&#125;,#&#123;empSalary&#125;)<br><span class="hljs-tag">&lt;/<span class="hljs-name">insert</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="多个参数"><a href="#多个参数" class="headerlink" title="多个参数"></a>多个参数</h5><p>当传入多个简单类型时，有两个方案写key</p>
+<p>注解指定：在形参列表中使用@param注解指定，注解的值即为key的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;Employee&gt; <span class="hljs-title function_">queryByNameAndSalary</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;name&quot;)</span> String name, <span class="hljs-meta">@Param(&quot;salary&quot;)</span> Double salary)</span>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryByNameAndSalary&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Employee&quot;</span>&gt;</span><br>    select emp_id empId , emp_name empName , emp_salary empSalary<br>    from t_emp where emp_name = #&#123;name&#125; and emp_salary = #&#123;salary&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>MyBatis机制：在形参列表中的参数，从左到右依次对应arg0, arg1……</p>
+<p><em>或者使用param1, param2……</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;Employee&gt; <span class="hljs-title function_">queryByNameAndSalary</span><span class="hljs-params">(String name, Double salary)</span>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryByNameAndSalary&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Employee&quot;</span>&gt;</span><br>    select emp_id empId , emp_name empName , emp_salary empSalary<br>    from t_emp where emp_name = #&#123;arg0&#125; and emp_salary = #&#123;arg1&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryByNameAndSalary&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Employee&quot;</span>&gt;</span><br>    select emp_id empId , emp_name empName , emp_salary empSalary<br>    from t_emp where emp_name = #&#123;param1&#125; and emp_salary = #&#123;param2&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="map集合参数"><a href="#map集合参数" class="headerlink" title="map集合参数"></a>map集合参数</h5><p>当传入的参数为map集合时，使用map集合的key值获取参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Map ：</span><br><span class="hljs-comment">// nameKey -&gt; nameValue</span><br><span class="hljs-comment">// salaryKey -&gt; salaryValue</span><br>List&lt;Employee&gt; <span class="hljs-title function_">queryByNameAndSalary</span><span class="hljs-params">(Map data)</span>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryByNameAndSalary&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Employee&quot;</span>&gt;</span><br>    select emp_id empId , emp_name empName , emp_salary empSalary<br>    from t_emp where emp_name = #&#123;nameKey&#125; and emp_salary = #&#123;salaryKey&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="resultType属性"><a href="#resultType属性" class="headerlink" title="resultType属性"></a>resultType属性</h3><p>当使用查询SQL语句时，我们需要使用resultType属性来配置返回结果的数据类型</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryEmployeeById&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Employee&quot;</span>&gt;</span><br>    ……<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>类全名</li>
+<li>别名简称</li>
+</ul>
+<p>MyBatis提供了72种默认的别名，这些都是我们常用的Java数据类型<a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh_CN/configuration.html#typeAliases">mybatis – MyBatis 3 | 配置</a></p>
+<p>除此之外，用户可以自定义别名和使用类全名</p>
+<hr>
+<h5 id="自定义别名"><a href="#自定义别名" class="headerlink" title="自定义别名"></a>自定义别名</h5><p>在MyBatis配置文件（mybatis-config.xml）中配置别名</p>
+<p>使用typeAlias标签为 Java 类型设置一个缩写名字</p>
+<p><em>Aliases中文释义：别名</em></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">typeAliases</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">typeAlias</span> <span class="hljs-attr">alias</span>=<span class="hljs-string">&quot;Employee&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Employee&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">typeAliases</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>也可以指定一个包名，MyBatis会将这个包下所有的类分配别名，这个别名为类名的首字母小写形式</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">typeAliases</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">package</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;com.xiaobai.pojo&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">typeAliases</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>当使用package批量管理时，可以使用注解@Alias为类起另外的名字</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@Alias(&quot;em&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Employee</span> &#123;<br>	……<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="指定结果类型为Map"><a href="#指定结果类型为Map" class="headerlink" title="指定结果类型为Map"></a>指定结果类型为Map</h5><p>当我们返回结果是单个实体类对象但没有对应的实体类可以接值时，</p>
+<p>我们可以使用map集合来接，key为列名，value为值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Map&lt;String, Object&gt; <span class="hljs-title function_">queryMaxSalaryAndAverageSalary</span><span class="hljs-params">()</span>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryEmployeeById&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;map&quot;</span>&gt;</span><br>    ……<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="指定结果类型为List"><a href="#指定结果类型为List" class="headerlink" title="指定结果类型为List"></a>指定结果类型为List</h5><p>当我们返回结果是多个实体类对象，但没有对应的实体类可以接值时，我们可以使用List集合来接</p>
+<p><em><strong>注：当返回值为列表时，resultType属性只写List中的具体数据类型</strong></em></p>
+<p>这是因为底层的iBatis的查询方法有两个：selectOne和selectList</p>
+<p>但selectOne方法的本质时调用selectList方法查询集合后取第一个</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; <span class="hljs-title function_">queryNamesBySalary</span><span class="hljs-params">(Double salary)</span>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryNamesBySalary&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;string&quot;</span>&gt;</span><br>    select emp_name<br>    from t_emp<br>    where emp_salary &gt; #&#123;salary&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="insert标签及相关问题"><a href="#insert标签及相关问题" class="headerlink" title="insert标签及相关问题"></a>insert标签及相关问题</h3><h5 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h5><p>之前在配置文件中讲过，MyBaits会关闭自动提交（开启事务）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">SqlSession</span> <span class="hljs-variable">sqlSession</span> <span class="hljs-operator">=</span> sqlSessionFactory.openSession(<span class="hljs-literal">true</span>); <span class="hljs-comment">// 在获取sqlSession时开启自动提交（关闭事务）</span><br></code></pre></td></tr></table></figure>
+
+<p>或者在关闭连接之前手动提交事务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">sqlSession.commit(); <span class="hljs-comment">// 手动提交事务</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="主键回显"><a href="#主键回显" class="headerlink" title="主键回显"></a>主键回显</h5><p>主键回显就是将数据库自动增长的主键会显到实体类中，业务层可获取到这个值</p>
+<p>在insert标签中，使用属性配置主键回显</p>
+<ul>
+<li>useGeneratedKeys：开启主键回显</li>
+<li>keyColumn：要回显的列名</li>
+<li>keyProperty：对应回显的属性名</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">insert</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;insertEmployee&quot;</span> <span class="hljs-attr">useGeneratedKeys</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">keyColumn</span>=<span class="hljs-string">&quot;emp_id&quot;</span> <span class="hljs-attr">keyProperty</span>=<span class="hljs-string">&quot;empId&quot;</span>&gt;</span><br>    insert into t_emp (emp_name , emp_salary) values (#&#123;empName&#125;,#&#123;empSalary&#125;)<br><span class="hljs-tag">&lt;/<span class="hljs-name">insert</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="Mybatis维护主键自增"><a href="#Mybatis维护主键自增" class="headerlink" title="Mybatis维护主键自增"></a>Mybatis维护主键自增</h5><p>方案一：通过Java自带的工具类UUID随机生成id值，作为用户的唯一约束也就是主键值 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">TeacherMapper</span> <span class="hljs-variable">mapper</span> <span class="hljs-operator">=</span> sqlSession.getMapper(TeacherMapper.class);<br><span class="hljs-type">String</span> <span class="hljs-variable">uuid</span> <span class="hljs-operator">=</span> UUID.randomUUID().toString().replaceAll(<span class="hljs-string">&quot;-&quot;</span>, <span class="hljs-string">&quot; &quot;</span>);<br>mapper.insert(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Teacher</span>(uuid,<span class="hljs-string">&quot;xiaobai&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>方案二：在mapper.xml中，使用insert子标签selectKey运行sql代码</p>
+<ul>
+<li>order属性：after|before      selectKey中代码在在sql语句之前还是之后执行</li>
+<li>resultType属性：返回值类型</li>
+<li>keyProperty属性：给实体类中哪一个属性赋值</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">insert</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;insert&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">selectKey</span> <span class="hljs-attr">order</span>=<span class="hljs-string">&quot;BEFORE&quot;</span> <span class="hljs-attr">resultType</span>=<span class="hljs-string">&quot;string&quot;</span> <span class="hljs-attr">keyProperty</span>=<span class="hljs-string">&quot;tId&quot;</span>&gt;</span><br>        select replace(uuid(),&quot;-&quot;,&quot; &quot;)<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">selectKey</span>&gt;</span><br>    insert into teacher (t_id,t_name)<br>    value (#&#123;tId&#125;,#&#123;tName&#125;)<br><span class="hljs-tag">&lt;/<span class="hljs-name">insert</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>先通过selectKey执行uuid()再使用replace()替换”-“为” “，然后将sql执行的结果以String接收后赋值给实体类的tId属性</p>
+<p>这样再执行insert命令时，实体类的tId属性存在一个sql生成的uuid了</p>
+<hr>
+<h3 id="列名和属性名映射"><a href="#列名和属性名映射" class="headerlink" title="列名和属性名映射"></a>列名和属性名映射</h3><p>之前的学习中，我们针对属性名和别名不同的处理方式是起别名，但MyBatis为我们提供了更好的解决方式</p>
+<p>在MyBatis配置文件（mybatis-config.xml）中配置settings项</p>
+<p>开启mapUnderscoreToCamelCase为true，即可自动映射数据库列名和实体类属性名</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">setting</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;mapUnderscoreToCamelCase&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><em>mapUnderscoreToCamelCase中文释义：映射下划线至驼峰</em></p>
+<p><em>学到今天终于解决了这个问题了，开心！！！</em> 😊</p>
+<hr>
+<h3 id="ResultMap"><a href="#ResultMap" class="headerlink" title="ResultMap"></a>ResultMap</h3><p>resultType的是按照规则自动映射，如果开启驼峰转换后，resultType也只是按照驼峰转换的规则自动映射</p>
+<p>resultType只能映射一层结构，多表查询的结果无法自动映射！！！</p>
+<p>所以，我们可以使用resultMap标签新建自定义映射规则</p>
+<ul>
+<li>id属性：规则集别名</li>
+<li>type：映射类型（命名方式与resultType相同，使用类全名或者 别名）</li>
+</ul>
+<h5 id="id标签"><a href="#id标签" class="headerlink" title="id标签"></a>id标签</h5><p>resultMap的子标签id，用来做主键列映射关系</p>
+<h5 id="result标签"><a href="#result标签" class="headerlink" title="result标签"></a>result标签</h5><p>resultMap的子标签result，用来做非主键列映射关系</p>
+<hr>
+<p>在select标签中设置resultMap映射规则，值为其别名</p>
+<p>这样就完成了利用resultMap去配置 列名和属性名映射</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">resultMap</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tMap&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;com.xiaobai.pojo.Teacher&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;t_id&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;tId&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;t_name&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;tName&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">resultMap</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;queryById&quot;</span> <span class="hljs-attr">resultMap</span>=<span class="hljs-string">&quot;tMap&quot;</span>&gt;</span><br>    select * from teacher where t_id = #&#123;id&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><em>resultMap的功能远不止如此，我们在这里只是学习他的其中一种功能</em></p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/JAVA/SSM/" class="category-chain-item">SSM</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MyBatis-mapper.xml</div>
+      <div>http://blog.170827.xyz/2024/06/03/MyBatis-mapper.xml/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年6月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/04/MyBatis-%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95%E5%B0%81%E8%A3%85/" title="MyBatis-测试方法封装">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MyBatis-测试方法封装</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/03/MyBatis/" title="MyBatis">
+                        <span class="hidden-mobile">MyBatis</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="双端验证在此项目中，User和Admin两端是分别发送了不同格式的Token以区分登陆状态  Admin:  Token: &lt;token&gt; User:  Authorization:&lt;token&gt;  所以我们在配置JWT验证规则时，应该分别为其配置验证规则 12345678910111213141516171819202122232425262728293031323334">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实战项目-双端验证">
+<meta property="og:url" content="http://blog.170827.xyz/2024/12/06/%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE-%E5%8F%8C%E7%AB%AF%E9%AA%8C%E8%AF%81/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="双端验证在此项目中，User和Admin两端是分别发送了不同格式的Token以区分登陆状态  Admin:  Token: &lt;token&gt; User:  Authorization:&lt;token&gt;  所以我们在配置JWT验证规则时，应该分别为其配置验证规则 12345678910111213141516171819202122232425262728293031323334">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.170827.xyz/upload/Swagger.png">
+<meta property="article:published_time" content="2024-12-06T15:37:17.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.392Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.170827.xyz/upload/Swagger.png">
+  
+  
+  
+  <title>实战项目-双端验证 - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="实战项目-双端验证"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-06 15:37" pubdate>
+          2024年12月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">实战项目-双端验证</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="双端验证"><a href="#双端验证" class="headerlink" title="双端验证"></a>双端验证</h1><p>在此项目中，User和Admin两端是分别发送了不同格式的Token以区分登陆状态</p>
+<blockquote>
+<p>Admin:  Token: &lt;token&gt;</p>
+<p>User:  Authorization:&lt;token&gt;</p>
+</blockquote>
+<p>所以我们在配置JWT验证规则时，应该分别为其配置验证规则</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 配置Admin的验证规则</span><br>.AddJwtBearer(<span class="hljs-string">&quot;Admin&quot;</span>, options =&gt;<br>&#123;<br>    options.RequireHttpsMetadata = <span class="hljs-literal">false</span>;<br>    options.SaveToken = <span class="hljs-literal">true</span>;<br>    options.TokenValidationParameters = <span class="hljs-keyword">new</span> TokenValidationParameters<br>    &#123;<br>        ValidateIssuerSigningKey = <span class="hljs-literal">true</span>,<br>        IssuerSigningKey = <span class="hljs-keyword">new</span> SymmetricSecurityKey(<br>            Encoding.ASCII.GetBytes(builder.Configuration[<span class="hljs-string">&quot;Jwt:Key&quot;</span>] ??<br>                                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException())),<br><br>        ValidateIssuer = <span class="hljs-literal">true</span>,<br>        ValidIssuer = builder.Configuration[<span class="hljs-string">&quot;Jwt:Issuer&quot;</span>],<br>        ValidateAudience = <span class="hljs-literal">true</span>,<br>        ValidAudience = builder.Configuration[<span class="hljs-string">&quot;Jwt:Audience&quot;</span>]<br>    &#125;;<br>    <span class="hljs-comment">// 使用自定义处理请求头的方式</span><br>    options.EventsType = <span class="hljs-keyword">typeof</span>(AdminJwtBearerEvents);<br>&#125;)<br>    <br><span class="hljs-comment">// 配置User的验证规则</span><br>.AddJwtBearer(<span class="hljs-string">&quot;User&quot;</span>, options =&gt;<br>&#123;<br>    options.RequireHttpsMetadata = <span class="hljs-literal">false</span>;<br>    options.SaveToken = <span class="hljs-literal">true</span>;<br>    options.TokenValidationParameters = <span class="hljs-keyword">new</span> TokenValidationParameters<br>    &#123;<br>        ValidateIssuerSigningKey = <span class="hljs-literal">true</span>,<br>        IssuerSigningKey = <span class="hljs-keyword">new</span> SymmetricSecurityKey(<br>            Encoding.ASCII.GetBytes(builder.Configuration[<span class="hljs-string">&quot;Jwt:Key&quot;</span>] ??<br>                                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException())),<br>        <br>        ValidateIssuer = <span class="hljs-literal">true</span>,<br>        ValidIssuer = builder.Configuration[<span class="hljs-string">&quot;Jwt:Issuer&quot;</span>],<br>        ValidateAudience = <span class="hljs-literal">true</span>,<br>        ValidAudience = builder.Configuration[<span class="hljs-string">&quot;Jwt:Audience&quot;</span>]<br>    &#125;;<br>    <span class="hljs-comment">// 使用自定义处理请求头的方式</span><br>    options.EventsType = <span class="hljs-keyword">typeof</span>(UserJwtBearerEvents);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="JwtBearerEvents"><a href="#JwtBearerEvents" class="headerlink" title="JwtBearerEvents"></a>JwtBearerEvents</h3><p>分别添加Admin身份认证方案和User身份认证方案</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 配置Admin身份认证方案处理请求头中Token的方式</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AdminJwtBearerEvents</span> : <span class="hljs-title">JwtBearerEvents</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> Task <span class="hljs-title">MessageReceived</span>(<span class="hljs-params">MessageReceivedContext context</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> token = context.Request.Headers[<span class="hljs-string">&quot;Token&quot;</span>].FirstOrDefault();<br>        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(token))<br>        &#123;<br>            context.Token = token;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.MessageReceived(context);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 配置User身份认证方案处理请求头中Token的方式</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UserJwtBearerEvents</span> : <span class="hljs-title">JwtBearerEvents</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> Task <span class="hljs-title">MessageReceived</span>(<span class="hljs-params">MessageReceivedContext context</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> token = context.Request.Headers[<span class="hljs-string">&quot;Authorization&quot;</span>].FirstOrDefault();<br>        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(token))<br>        &#123;<br>            context.Token = token;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.MessageReceived(context);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="AuthenticationSchemes"><a href="#AuthenticationSchemes" class="headerlink" title="AuthenticationSchemes"></a>AuthenticationSchemes</h3><p>我们在Controller中，可以使用不同的身份认证方案来对不同的Action方法进行验证</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> 员工登出</span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;returns&gt;</span><span class="hljs-doctag">&lt;/returns&gt;</span></span><br>[<span class="hljs-meta">Authorize(AuthenticationSchemes = <span class="hljs-string">&quot;Admin&quot;</span>)</span>]<br>[<span class="hljs-meta">HttpPost(<span class="hljs-string">&quot;logout&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">public</span> Result&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">Logout</span>()</span><br>&#123;<br>    <span class="hljs-keyword">return</span> Result&lt;<span class="hljs-built_in">string</span>&gt;.Success();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们也可以将这个方法直接添加到控制器类上，再将登陆方法暴露出来</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">ApiController</span>]<br>[<span class="hljs-meta">Route(<span class="hljs-string">&quot;/admin/employee&quot;</span>)</span>]<br>[<span class="hljs-meta">Authorize(AuthenticationSchemes = <span class="hljs-string">&quot;Admin&quot;</span>)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EmployeeController</span> : <span class="hljs-title">ControllerBase</span><br>&#123;<br>    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span><br>    <span class="hljs-comment"><span class="hljs-doctag">///</span> 员工登录Action</span><br>    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span><br>    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;employeeLoginReq&quot;&gt;</span><span class="hljs-doctag">&lt;/param&gt;</span></span><br>    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;returns&gt;</span><span class="hljs-doctag">&lt;/returns&gt;</span></span><br>    [<span class="hljs-meta">HttpPost(<span class="hljs-string">&quot;login&quot;</span>)</span>]<br>    [<span class="hljs-meta">AllowAnonymous</span>]<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Result&lt;EmployeeLoginResp&gt; <span class="hljs-title">Login</span>(<span class="hljs-params">[FromBody] EmployeeLoginReq employeeLoginReq</span>)</span><br>    &#123;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Swagger按钮"><a href="#Swagger按钮" class="headerlink" title="Swagger按钮"></a>Swagger按钮</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-meta">#<span class="hljs-keyword">region</span> MyRegion Swagger</span><br><br>builder.Services.AddSwaggerGen(<br>    options =&gt;<br>    &#123;<br>        <span class="hljs-comment">// 以下配置影响两个输入Token的按钮</span><br>        <span class="hljs-comment">// 添加一个安全定义,定义名称为&quot;Admin&quot;</span><br>        options.AddSecurityDefinition(<span class="hljs-string">&quot;Admin&quot;</span>, <span class="hljs-keyword">new</span> OpenApiSecurityScheme<br>        &#123;<br>            <span class="hljs-comment">// 描述如何使用Token进行身份验证</span><br>            Description = <span class="hljs-string">&quot;Token: &lt;token&gt;&quot;</span>,<br>            <span class="hljs-comment">// 指定认证头的名称，这里是&quot;Token&quot;</span><br>            Name = <span class="hljs-string">&quot;Token&quot;</span>,<br>            <span class="hljs-comment">// 指定认证信息应该放置的位置，这里是HTTP头部</span><br>            In = ParameterLocation.Header,<br>            <span class="hljs-comment">// 指定安全方案的类型，这里是指API密钥类型</span><br>            Type = SecuritySchemeType.ApiKey,<br>        &#125;);<br>        <span class="hljs-comment">// 添加安全要求，这将告诉Swagger UI哪些安全方案是必需的</span><br>        options.AddSecurityRequirement(<span class="hljs-keyword">new</span> OpenApiSecurityRequirement<br>        &#123;<br>            &#123;<br>                <span class="hljs-keyword">new</span> OpenApiSecurityScheme<br>                &#123;<br>                    <span class="hljs-comment">// 引用之前定义的安全方案</span><br>                    Reference = <span class="hljs-keyword">new</span> OpenApiReference<br>                    &#123;<br>                        Type = ReferenceType.SecurityScheme,<br>                        Id = <span class="hljs-string">&quot;Admin&quot;</span> <span class="hljs-comment">// 对应于上面定义的安全方案的Id</span><br>                    &#125;,<br>                &#125;,<br>                <span class="hljs-keyword">new</span> List&lt;<span class="hljs-built_in">string</span>&gt;() <span class="hljs-comment">// 空列表表示不需要特定的作用域</span><br>            &#125;<br>        &#125;);<br><br>        <span class="hljs-comment">// 添加一个安全定义,定义名称为&quot;User&quot;</span><br>        options.AddSecurityDefinition(<span class="hljs-string">&quot;User&quot;</span>, <span class="hljs-keyword">new</span> OpenApiSecurityScheme<br>        &#123;<br>            <span class="hljs-comment">// 描述如何进行身份验证</span><br>            Description = <span class="hljs-string">&quot;Authorization: &lt;token&gt;&quot;</span>,<br>            <span class="hljs-comment">// 指定认证头的名称，这里是&quot;Authorization&quot;</span><br>            Name = <span class="hljs-string">&quot;Authorization&quot;</span>,<br>            <span class="hljs-comment">// 指定认证信息应该放置的位置，这里是HTTP头部</span><br>            In = ParameterLocation.Header,<br>            <span class="hljs-comment">// 指定安全方案的类型，这里是指API密钥类型</span><br>            Type = SecuritySchemeType.ApiKey,<br>        &#125;);<br>        <span class="hljs-comment">// 添加安全要求，这将告诉Swagger UI哪些安全方案是必需的</span><br>        options.AddSecurityRequirement(<span class="hljs-keyword">new</span> OpenApiSecurityRequirement<br>        &#123;<br>            &#123;<br>                <span class="hljs-keyword">new</span> OpenApiSecurityScheme<br>                &#123;<br>                    <span class="hljs-comment">// 引用之前定义的安全方案</span><br>                    Reference = <span class="hljs-keyword">new</span> OpenApiReference<br>                    &#123;<br>                        Type = ReferenceType.SecurityScheme,<br>                        Id = <span class="hljs-string">&quot;User&quot;</span> <span class="hljs-comment">// 对应于上面定义的安全方案的Id</span><br>                    &#125;,<br>                &#125;,<br>                <span class="hljs-keyword">new</span> List&lt;<span class="hljs-built_in">string</span>&gt;() <span class="hljs-comment">// 空列表表示不需要特定的作用域</span><br>            &#125;<br>        &#125;);<br>    &#125;);<br><br><span class="hljs-meta">#<span class="hljs-keyword">endregion</span></span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/upload/Swagger.png" srcset="/img/loading.gif" lazyload alt="Swagger.png"></p>
+<h3 id="Swagger文档"><a href="#Swagger文档" class="headerlink" title="Swagger文档"></a>Swagger文档</h3><p>我们应该为Admin和User配置不同的接口文档，以方便测试使用</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs c#">builder.Services.AddSwaggerGen(<br>    options =&gt;<br>    &#123;<br>        options.SwaggerDoc(<span class="hljs-string">&quot;admin&quot;</span>, <span class="hljs-keyword">new</span> OpenApiInfo &#123; Title = <span class="hljs-string">&quot;Admin API&quot;</span>, Version = <span class="hljs-string">&quot;v1&quot;</span> &#125;);<br>        options.SwaggerDoc(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-keyword">new</span> OpenApiInfo &#123; Title = <span class="hljs-string">&quot;User API&quot;</span>, Version = <span class="hljs-string">&quot;v1&quot;</span> &#125;);<br>        <span class="hljs-comment">//文档逻辑包含</span><br>        options.DocInclusionPredicate((docName, apiDesc) =&gt;<br>        &#123;<br>            <span class="hljs-comment">// 检查 apiDesc 的 ActionDescriptor 是否是 ControllerActionDescriptor 类型</span><br>            <span class="hljs-keyword">if</span> (apiDesc.ActionDescriptor <span class="hljs-keyword">is</span> ControllerActionDescriptor actionDescriptor)<br>            &#123;<br>                <span class="hljs-comment">// 获取控制器的命名空间</span><br>                <span class="hljs-keyword">var</span> controllerNamespace = actionDescriptor.ControllerTypeInfo.Namespace;<br><br>                <span class="hljs-comment">// 确保命名空间不为空，并且包含 &quot;Controllers&quot; 字符串</span><br>                <span class="hljs-keyword">if</span> (controllerNamespace != <span class="hljs-literal">null</span> &amp;&amp; controllerNamespace.Contains(<span class="hljs-string">&quot;Controllers&quot;</span>))<br>                &#123;<br>                    <span class="hljs-comment">// 如果文档名称是 &quot;user&quot;</span><br>                    <span class="hljs-keyword">if</span> (docName == <span class="hljs-string">&quot;user&quot;</span>)<br>                    &#123;<br>                        <span class="hljs-comment">// 只有当控制器命名空间包含 &quot;User&quot; 时才包含该 API 描述</span><br>                        <span class="hljs-keyword">return</span> controllerNamespace.Contains(<span class="hljs-string">&quot;User&quot;</span>);<br>                    &#125;<br>                    <span class="hljs-comment">// 如果文档名称是 &quot;admin&quot;</span><br><br>                    <span class="hljs-keyword">if</span> (docName == <span class="hljs-string">&quot;admin&quot;</span>)<br>                    &#123;<br>                        <span class="hljs-comment">// 只有当控制器命名空间包含 &quot;Admin&quot; 时才包含该 API 描述</span><br>                        <span class="hljs-keyword">return</span> controllerNamespace.Contains(<span class="hljs-string">&quot;Admin&quot;</span>);<br>                    &#125;<br>                &#125;<br>            &#125;<br><br>            <span class="hljs-comment">// 如果上述条件都不满足，则返回 false，表示不包含该 API 描述</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;);<br>    &#125;);<br>)<br></code></pre></td></tr></table></figure>
+
+<h5 id="配置中间件"><a href="#配置中间件" class="headerlink" title="配置中间件"></a>配置中间件</h5><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#">app.UseSwaggerUI(options =&gt;<br>    &#123;<br>        options.SwaggerEndpoint(<span class="hljs-string">&quot;/swagger/v1-user/swagger.json&quot;</span>, <span class="hljs-string">&quot;User API V1&quot;</span>);<br>        options.SwaggerEndpoint(<span class="hljs-string">&quot;/swagger/v1-admin/swagger.json&quot;</span>, <span class="hljs-string">&quot;Admin API V1&quot;</span>);<br>    &#125;<br>);<br></code></pre></td></tr></table></figure>
+
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NET%E6%A1%86%E6%9E%B6%E7%9B%B8%E5%85%B3/" class="category-chain-item">NET框架相关</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/NET%E6%A1%86%E6%9E%B6%E7%9B%B8%E5%85%B3/net/" class="category-chain-item">net</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>实战项目-双端验证</div>
+      <div>http://blog.170827.xyz/2024/12/06/实战项目-双端验证/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/12/06/%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE-%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/" title="实战项目-连接查询">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">实战项目-连接查询</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/12/06/WebAPI-Excel/" title="WebAPI-Excel">
+                        <span class="hidden-mobile">WebAPI-Excel</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

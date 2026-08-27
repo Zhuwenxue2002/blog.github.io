@@ -1,0 +1,870 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="实战项目-苍穹外卖这是一个基于ASP.NET Core WebAPI框架（.NET6.0）重置的苍穹外卖 我会在这里记录学习过程中的任何问题和笔记 项目   目录名 作用    Storage 用于存放实体类和DbContext，也可以叫做EFCore   Dal 根据业务进一步调用DbContext，封装成具体业务方法，像是仓储模式   Model 存放Vo，Dto，常量和枚举类型，自定义特性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实战项目-笔记">
+<meta property="og:url" content="http://blog.170827.xyz/2024/12/06/%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE-%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="实战项目-苍穹外卖这是一个基于ASP.NET Core WebAPI框架（.NET6.0）重置的苍穹外卖 我会在这里记录学习过程中的任何问题和笔记 项目   目录名 作用    Storage 用于存放实体类和DbContext，也可以叫做EFCore   Dal 根据业务进一步调用DbContext，封装成具体业务方法，像是仓储模式   Model 存放Vo，Dto，常量和枚举类型，自定义特性">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-06T15:38:34.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.392Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>实战项目-笔记 - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="实战项目-笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-06 15:38" pubdate>
+          2024年12月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">实战项目-笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="实战项目-苍穹外卖"><a href="#实战项目-苍穹外卖" class="headerlink" title="实战项目-苍穹外卖"></a>实战项目-苍穹外卖</h3><p>这是一个基于ASP.NET Core WebAPI框架（.NET6.0）重置的苍穹外卖</p>
+<p>我会在这里记录学习过程中的任何问题和笔记</p>
+<h3 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h3><table>
+<thead>
+<tr>
+<th>目录名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Storage</td>
+<td>用于存放实体类和DbContext，也可以叫做EFCore</td>
+</tr>
+<tr>
+<td>Dal</td>
+<td>根据业务进一步调用DbContext，封装成具体业务方法，像是仓储模式</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>存放Vo，Dto，常量和枚举类型，自定义特性</td>
+</tr>
+<tr>
+<td>Bll</td>
+<td>业务层代码</td>
+</tr>
+<tr>
+<td>Commen</td>
+<td>存放工具类</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="EFCore"><a href="#EFCore" class="headerlink" title="EFCore"></a>EFCore</h1><p>在EFCore的DbContext做实体类和表的映射时，我们通常用实体类加s来作为属性名</p>
+<p>这是一种约定，通常用来表示这是一组实体，一个集合</p>
+<p>在Code First开发模式中，迁移插件会自动将这个加上s的属性作为表名来迁移（可以手动配置）</p>
+<h3 id="isAsNoTracking"><a href="#isAsNoTracking" class="headerlink" title="isAsNoTracking"></a>isAsNoTracking</h3><p>在对Dao层方法创建时，我们可以提供一个形参isAsNoTracking &#x3D; true来决定是否进行实体跟踪</p>
+<p>如果该Dao层方法<strong>仅用来查询</strong>，我们可以禁用实体跟踪，可以减少内存使用并提高查询性能</p>
+<p><em>注：虽然EFCore不进行实体跟踪，但其数据库查询到的主键仍然会回显</em></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 常规查询，不禁用系统跟踪</span><br><span class="hljs-keyword">public</span> xiaobai_cangqiong_Storage.Entity.Employee? GetByUsername(<span class="hljs-built_in">string</span> username)<br>&#123;<br>    <span class="hljs-keyword">return</span> _dbContext.Employees.FirstOrDefault(e =&gt; e.Username == username);<br>&#125;<br><br><span class="hljs-comment">// 利用isAsNoTracking形参和AsNoTracking方法禁用系统跟踪</span><br><span class="hljs-keyword">public</span> xiaobai_cangqiong_Storage.Entity.Employee? GetByUsername(<span class="hljs-built_in">string</span> username, <span class="hljs-built_in">bool</span> isAsNoTracking = <span class="hljs-literal">true</span>)<br>&#123;<br>    <span class="hljs-keyword">var</span> data = _dbContext.Employees.Where(e =&gt; e.Username == username);<br>    <span class="hljs-keyword">if</span> (isAsNoTracking)<br>    &#123;<br>        <span class="hljs-keyword">return</span> data.AsNoTracking().FirstOrDefault();<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> data.AsNoTracking().FirstOrDefault();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="SaveChange"><a href="#SaveChange" class="headerlink" title="SaveChange"></a>SaveChange</h3><p>在Java中，我们通过添加过滤器的方式来实现对公共字段的填充</p>
+<p>在DBContext中，我们可以通过重写SaveChanges方法的方式，在每次调用前进行一些操作</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">int</span> <span class="hljs-title">SaveChanges</span>()</span><br>&#123;<br>    OnBeforeSaving();<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.SaveChanges();<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> Task&lt;<span class="hljs-built_in">int</span>&gt; <span class="hljs-title">SaveChangesAsync</span>(<span class="hljs-params"><span class="hljs-built_in">bool</span> acceptAllChangesOnSuccess,</span></span><br><span class="hljs-params"><span class="hljs-function">    CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)</span><br>&#123;<br>    OnBeforeSaving();<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnBeforeSaving</span>()</span><br>&#123;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="IAuditable接口"><a href="#IAuditable接口" class="headerlink" title="IAuditable接口"></a>IAuditable接口</h5><ul>
+<li><p>类型安全：通过实现 <code>IAuditable</code> 接口，你可以确保所有需要自动填充的实体类都具有相同的属性结构。这有助于避免在运行时出现类型不匹配的问题。</p>
+</li>
+<li><p>代码复用：接口提供了一种标准化的方式来定义一组公共属性，使得你在处理这些实体时可以使用统一的逻辑。</p>
+</li>
+<li><p>易于扩展：如果你将来需要添加更多的审计字段或修改现有的字段，只需要修改接口即可，而不需要逐一修改每个实体类。</p>
+</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IAuditable</span><br>&#123;<br>    DateTime CreateTime &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br>    DateTime UpdateTime &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br>    <span class="hljs-built_in">long</span> CreateUser &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br>    <span class="hljs-built_in">long</span> UpdateUser &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>让具有公共字段的实体类实现这个接口</p>
+<hr>
+<h5 id="OnBeforeSaving"><a href="#OnBeforeSaving" class="headerlink" title="OnBeforeSaving"></a>OnBeforeSaving</h5><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnBeforeSaving</span>()</span><br>&#123;<br>    <span class="hljs-comment">// 遍历所有实现了IAuditable接口的实体条目</span><br>    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> entry <span class="hljs-keyword">in</span> ChangeTracker.Entries&lt;IAuditable&gt;())<br>    &#123;<br>        <span class="hljs-comment">// 检查实体的状态</span><br>        <span class="hljs-keyword">if</span> (entry.State == EntityState.Added)<br>        &#123;<br>            <span class="hljs-comment">// 如果实体是新添加的</span><br>            entry.Entity.CreateTime = DateTime.Now;<br>            entry.Entity.UpdateTime = DateTime.Now;<br>            entry.Entity.CreateUser =<br>                <span class="hljs-built_in">long</span>.Parse(_httpContextAccessor.HttpContext?.Items[<span class="hljs-string">&quot;UserId&quot;</span>]?.ToString() ?? <span class="hljs-built_in">string</span>.Empty);<br>            entry.Entity.UpdateUser =<br>                <span class="hljs-built_in">long</span>.Parse(_httpContextAccessor.HttpContext?.Items[<span class="hljs-string">&quot;UserId&quot;</span>]?.ToString() ?? <span class="hljs-built_in">string</span>.Empty);<br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (entry.State == EntityState.Modified)<br>        &#123;<br>            <span class="hljs-comment">// 如果实体已被修改</span><br>            entry.Entity.UpdateTime = DateTime.Now;<br>            entry.Entity.UpdateUser =<br>                <span class="hljs-built_in">long</span>.Parse(_httpContextAccessor.HttpContext?.Items[<span class="hljs-string">&quot;UserId&quot;</span>]?.ToString() ?? <span class="hljs-built_in">string</span>.Empty);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="AutoMapper"><a href="#AutoMapper" class="headerlink" title="AutoMapper"></a>AutoMapper</h1><p>在调用AutoMapper时，有两种方式</p>
+<p>将employee实体类映射到EmployeeLoginResp实体类</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 在调用方法时，实例化被映射对象</span><br><span class="hljs-keyword">var</span> employeeLoginResp = _mapper.Map&lt;EmployeeLoginResp&gt;(employee);<br><br><span class="hljs-comment">// 已经存在被映射对象，可直接映射</span><br><span class="hljs-keyword">var</span> employeeLoginResp = <span class="hljs-keyword">new</span> EmployeeLoginResp();<br>_mapper.Map(employee, employeeLoginResp);<br></code></pre></td></tr></table></figure>
+
+<h3 id="奇淫巧计"><a href="#奇淫巧计" class="headerlink" title="奇淫巧计"></a><del>奇淫巧计</del></h3><p><strong>这里非常感谢雨哥和翔哥给出纠正，再正式项目中，表中一定会存在特别为其置空的字段，那么对与这种方法是完全错误的思路，还是要针对于某一个业务制定特定的接口才行</strong></p>
+<p>我们将update更新方法通过if判断的方式写成动态的update，可以满足所有业务的更新需求</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Update</span>(<span class="hljs-params">xiaobai_cangqiong_Storage.Entity.Category category</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> single = _dbContext.Categories.Single(c =&gt; c.Id == category.Id);<br>    <br>    <span class="hljs-keyword">if</span> (category.Type != <span class="hljs-literal">null</span>)<br>    &#123;<br>        single.Type = category.Type;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (category.Name != <span class="hljs-literal">null</span>)<br>    &#123;<br>        single.Name = category.Name;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (category.Sort != <span class="hljs-literal">null</span>)<br>    &#123;<br>        single.Sort = category.Sort;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (category.Status != <span class="hljs-literal">null</span>)<br>    &#123;<br>        single.Status = category.Status;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (category.UpdateTime != <span class="hljs-literal">null</span>)<br>    &#123;<br>        single.UpdateTime = category.UpdateTime;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (category.UpdateUser != <span class="hljs-literal">null</span>)<br>    &#123;<br>        single.UpdateUser = category.UpdateUser;<br>    &#125;<br><br>    _dbContext.SaveChanges();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>但这样写，当实体类属性（表中的列）过多时，我们需要动态判断的属性太多了，太过于麻烦</p>
+<p><del>我们可以通过AutoMapper映射自己，做非空字段的映射</del></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c#">CreateMap&lt;Category, Category&gt;()<br>    .ForAllMembers(opt =&gt;<br>        opt.Condition((src, dest, srcMember) =&gt;<br>            srcMember != <span class="hljs-literal">null</span>));<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>ForAllMembers</code> 方法用于为所有成员（属性）应用相同的条件。</li>
+<li><code>opt.Condition</code> 方法定义一个条件，只有当条件满足时才进行属性映射。</li>
+<li><code>src</code>：源对象（即要映射的对象）。</li>
+<li><code>dest</code>：目标对象（即被映射的对象）。</li>
+<li><code>srcMember</code>：源对象的成员（属性）。</li>
+<li><code>srcMember != null</code>：只有当源对象的属性值不为 <code>null</code> 时，才进行映射。</li>
+</ul>
+<p><em>需要注意的是，自我映射的非空判断仅仅会判断引用类型的数据是否为空，但在我们数据表中，很多字段为基本数据类型，默认为0</em></p>
+<blockquote>
+<p>对于想要进行自我映射实现动态更新，必须保证实体类中基本类型属性，例如：int，long……这一类型数据必须为int?，long?</p>
+<p>因为如果为基本数据类型，自我映射时进行非空判断会出现问题，基本数据类型的默认为0，但如果是int?数据类型，默认为null</p>
+</blockquote>
+<hr>
+<h1 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h1><p>我们选择使用JWT来签发Token进行项目的身份验证</p>
+<blockquote>
+<p>依赖导入</p>
+<p>Microsoft.AspNetCore.Authentication.JwtBearer</p>
+</blockquote>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;Jwt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;Key&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;your_secret_key&gt;&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;Issuer&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;your_issuer&gt;&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;Audience&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;your_audience&gt;&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="注册服务"><a href="#注册服务" class="headerlink" title="注册服务"></a>注册服务</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-meta">#<span class="hljs-keyword">region</span> 注册JWT服务</span><br><span class="hljs-comment">// 注册JWT工具类</span><br>builder.Services.AddScoped&lt;JwtUtil&gt;();<br><span class="hljs-comment">// 配置身份验证服务</span><br>builder.Services.AddAuthentication(x =&gt;<br>    &#123;<br>        <span class="hljs-comment">// 设置默认的身份验证方案为JWT承载认证</span><br>        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;<br><br>        <span class="hljs-comment">// 设置默认的挑战方案为JWT承载认证</span><br>        <span class="hljs-comment">// 挑战方案用于处理未认证的请求，例如返回401状态码</span><br>        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;<br>    &#125;)<br>    .AddJwtBearer(x =&gt;<br>    &#123;<br>        <span class="hljs-comment">// 是否要求HTTPS元数据，默认为true。设置为false允许在非HTTPS连接下接收和验证JWT令牌</span><br>        x.RequireHttpsMetadata = <span class="hljs-literal">false</span>;<br><br>        <span class="hljs-comment">// 是否在认证过程中保存令牌，这对于调试和日志记录很有用</span><br>        x.SaveToken = <span class="hljs-literal">true</span>;<br><br>        <span class="hljs-comment">// 配置令牌验证参数</span><br>        x.TokenValidationParameters = <span class="hljs-keyword">new</span> TokenValidationParameters<br>        &#123;<br>            <span class="hljs-comment">// 是否验证签名密钥，确保令牌是由正确的密钥签名的</span><br>            ValidateIssuerSigningKey = <span class="hljs-literal">true</span>,<br><br>            <span class="hljs-comment">// 提供用于验证令牌的密钥</span><br>            <span class="hljs-comment">// 因为SymmetricSecurityKey方法需求的是一个字节数组，所以在此调用Encoding.ASCII.GetBytes将字符串转化</span><br>            IssuerSigningKey = <span class="hljs-keyword">new</span> SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration[<span class="hljs-string">&quot;Jwt:Key&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException())),<br><br>            <span class="hljs-comment">// 是否验证发行者</span><br>            ValidateIssuer = <span class="hljs-literal">true</span>,<br><br>            <span class="hljs-comment">// 发行者值</span><br>            ValidIssuer = builder.Configuration[<span class="hljs-string">&quot;Jwt:Issuer&quot;</span>],<br><br>            <span class="hljs-comment">// 是否验证受众</span><br>            ValidateAudience = <span class="hljs-literal">true</span>,<br><br>            <span class="hljs-comment">// 受众值</span><br>            ValidAudience = builder.Configuration[<span class="hljs-string">&quot;Jwt:Audience&quot;</span>]<br>        &#125;;<br>    	<span class="hljs-comment">// 使用自定义JWT Bearer事件</span><br>    	x.EventsType = <span class="hljs-keyword">typeof</span>(CustomJwtBearerEvents);<br>    &#125;);<br><span class="hljs-meta">#<span class="hljs-keyword">endregion</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="注册中间件"><a href="#注册中间件" class="headerlink" title="注册中间件"></a>注册中间件</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 在授权之前添加身份验证中间件</span><br>app.UseAuthentication();<br>app.UseAuthorization();<br></code></pre></td></tr></table></figure>
+
+<h3 id="JWTUtil工具类"><a href="#JWTUtil工具类" class="headerlink" title="JWTUtil工具类"></a>JWTUtil工具类</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">JwtUtil</span><br>&#123;<br>    <span class="hljs-comment">// 私有字段，用于存储JWT密钥、发行者和受众</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _jwtKey;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _jwtIssuer;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _jwtAudience;<br><br>    <span class="hljs-comment">// 构造函数，通过依赖注入接收 IConfiguration 对象</span><br>    <span class="hljs-comment">// IConfiguration 对象用于从配置文件中读取JWT相关的设置</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">JwtUtil</span>(<span class="hljs-params">IConfiguration configuration</span>)</span><br>    &#123;<br>        _jwtKey = configuration[<span class="hljs-string">&quot;Jwt:Key&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException(); <span class="hljs-comment">// 读取JWT密钥</span><br>        _jwtIssuer = configuration[<span class="hljs-string">&quot;Jwt:Issuer&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException(); <span class="hljs-comment">// 读取发行者</span><br>        _jwtAudience = configuration[<span class="hljs-string">&quot;Jwt:Audience&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException(); <span class="hljs-comment">// 读取受众</span><br>    &#125;<br><br>    <span class="hljs-comment">// 生成JWT令牌的方法</span><br>    <span class="hljs-comment">// 参数：</span><br>    <span class="hljs-comment">// - userId: 用户ID，用于生成令牌的唯一标识</span><br>    <span class="hljs-comment">// - expirationTime: 令牌的有效期</span><br>    <span class="hljs-comment">// 返回值：</span><br>    <span class="hljs-comment">// - 生成的JWT令牌字符串</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> <span class="hljs-title">GenerateToken</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> userId, TimeSpan expirationTime</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// 创建一个新的JwtSecurityTokenHandler实例</span><br>        <span class="hljs-keyword">var</span> tokenHandler = <span class="hljs-keyword">new</span> JwtSecurityTokenHandler();<br><br>        <span class="hljs-comment">// 将JWT密钥字符串转换为字节数组</span><br>        <span class="hljs-keyword">var</span> key = Encoding.ASCII.GetBytes(_jwtKey);<br><br>        <span class="hljs-comment">// 创建一个SecurityTokenDescriptor对象，用于描述令牌的属性</span><br>        <span class="hljs-keyword">var</span> tokenDescriptor = <span class="hljs-keyword">new</span> SecurityTokenDescriptor<br>        &#123;<br>            <span class="hljs-comment">// 设置令牌的主题，包含一个Claim，表示用户的唯一标识</span><br>            Subject = <span class="hljs-keyword">new</span> ClaimsIdentity(<span class="hljs-keyword">new</span> Claim[]<br>            &#123;<br>                <span class="hljs-keyword">new</span> Claim(ClaimTypes.Name, userId)<br>            &#125;),<br><br>            <span class="hljs-comment">// 设置令牌的过期时间</span><br>            Expires = DateTime.UtcNow.Add(expirationTime),<br><br>            <span class="hljs-comment">// 设置令牌的发行者</span><br>            Issuer = _jwtIssuer,<br><br>            <span class="hljs-comment">// 设置令牌的受众</span><br>            Audience = _jwtAudience,<br><br>            <span class="hljs-comment">// 设置签名凭据，使用对称密钥和HMAC SHA256算法进行签名</span><br>            SigningCredentials = <span class="hljs-keyword">new</span> SigningCredentials(<span class="hljs-keyword">new</span> SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)<br>        &#125;;<br><br>        <span class="hljs-comment">// 使用JwtSecurityTokenHandler创建一个JwtSecurityToken对象</span><br>        <span class="hljs-keyword">var</span> token = tokenHandler.CreateToken(tokenDescriptor);<br><br>        <span class="hljs-comment">// 将JwtSecurityToken对象序列化为字符串</span><br>        <span class="hljs-keyword">return</span> tokenHandler.WriteToken(token);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>JWT签发的token为键值对Token，而JWT通过特性来验证Token时默认采用以下格式：</p>
+<blockquote>
+<p>Authorization: Bearer &lt;token&gt;</p>
+</blockquote>
+<p>但苍穹外面的前端项目的token负载采用的是以下格式：</p>
+<blockquote>
+<p>Token: &lt;token&gt;</p>
+</blockquote>
+<h5 id="CustomJwtBearerEvents"><a href="#CustomJwtBearerEvents" class="headerlink" title="CustomJwtBearerEvents"></a>CustomJwtBearerEvents</h5><p>自定义JWT处理业务方式与逻辑</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CustomJwtBearerEvents</span> : <span class="hljs-title">JwtBearerEvents</span><br>&#123;<br>    <span class="hljs-comment">// 当接收到消息时触发，用于处理自定义的令牌头</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> Task <span class="hljs-title">MessageReceived</span>(<span class="hljs-params">MessageReceivedContext context</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// 从请求头中获取 &quot;Token&quot; 字段的值</span><br>        <span class="hljs-keyword">var</span> token = context.Request.Headers[<span class="hljs-string">&quot;Token&quot;</span>].FirstOrDefault();<br>        <br>        <span class="hljs-comment">// 如果 &quot;Token&quot; 字段存在且不为空，则将其赋值给 context.Token</span><br>        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(token))<br>        &#123;<br>            context.Token = token;<br>        &#125;<br>        <br>        <span class="hljs-comment">// 返回基类的实现</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.MessageReceived(context);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="MD5工具类"><a href="#MD5工具类" class="headerlink" title="MD5工具类"></a>MD5工具类</h1><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MD5Util</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">string</span> <span class="hljs-title">GetMd5Hash</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> input</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// 使用MD5CryptoServiceProvider创建一个MD5哈希对象</span><br>        <span class="hljs-keyword">using</span> (MD5 md5 = MD5.Create())<br>        &#123;<br>            <span class="hljs-comment">// 将输入字符串转换为字节数组，并计算哈希</span><br>            <span class="hljs-built_in">byte</span>[] inputBytes = Encoding.UTF8.GetBytes(input);<br>            <span class="hljs-built_in">byte</span>[] hashBytes = md5.ComputeHash(inputBytes);<br><br>            <span class="hljs-comment">// 将字节数组转换成十六进制字符串</span><br>            StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();<br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; hashBytes.Length; i++)<br>            &#123;<br>                sb.Append(hashBytes[i].ToString(<span class="hljs-string">&quot;x2&quot;</span>));<br>            &#125;<br>            <span class="hljs-keyword">return</span> sb.ToString();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h1><h3 id="AddSwaggerGen"><a href="#AddSwaggerGen" class="headerlink" title="AddSwaggerGen"></a>AddSwaggerGen</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 添加Swagger生成器</span><br>builder.Services.AddSwaggerGen(options =&gt;<br>    &#123;<br>        <span class="hljs-comment">//创建一个Swagger文档，命名为&quot;v1&quot;，并提供API的基本信息</span><br>        options.SwaggerDoc(<span class="hljs-string">&quot;v1&quot;</span>,<span class="hljs-keyword">new</span> OpenApiInfo()<br>        &#123;<br>            Version = <span class="hljs-string">&quot;v1&quot;</span>,<br>            Title = <span class="hljs-string">&quot;xiaobai-cangqiong API&quot;</span>,<br>        &#125;);<br>    &#125;<br>);<br></code></pre></td></tr></table></figure>
+
+<p><em>这里如果不创建Swagger文档，系统也会默认帮我们创建一个文档</em></p>
+<hr>
+<h3 id="AddSecurityDefinition与AddSecurityRequirement"><a href="#AddSecurityDefinition与AddSecurityRequirement" class="headerlink" title="AddSecurityDefinition与AddSecurityRequirement"></a>AddSecurityDefinition与AddSecurityRequirement</h3><p>在Swagger中添加一个可以携带token请求头的按钮，</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-meta">#<span class="hljs-keyword">region</span> MyRegion Swagger</span><br>builder.Services.AddSwaggerGen(<br>    options =&gt;<br>    &#123;<br>        <span class="hljs-comment">// 添加一个安全定义,定义名称为&quot;Token&quot;</span><br>        options.AddSecurityDefinition(<span class="hljs-string">&quot;Token&quot;</span>, <span class="hljs-keyword">new</span> OpenApiSecurityScheme<br>        &#123;<br>            <span class="hljs-comment">// 描述如何使用Token进行身份验证</span><br>            Description = <span class="hljs-string">&quot;Token: &lt;token&gt;&quot;</span>,<br>            <span class="hljs-comment">// 指定认证头的名称，这里是&quot;Token&quot;</span><br>            Name = <span class="hljs-string">&quot;Token&quot;</span>,<br>            <span class="hljs-comment">// 指定认证信息应该放置的位置，这里是HTTP头部</span><br>            In = ParameterLocation.Header,<br>            <span class="hljs-comment">// 指定安全方案的类型，这里是指API密钥类型</span><br>            Type = SecuritySchemeType.ApiKey,<br>        &#125;);<br>        <span class="hljs-comment">// 添加安全要求，这将告诉Swagger UI哪些安全方案是必需的</span><br>        options.AddSecurityRequirement(<span class="hljs-keyword">new</span> OpenApiSecurityRequirement<br>        &#123;<br>            &#123;<br>                <span class="hljs-keyword">new</span> OpenApiSecurityScheme<br>                &#123;<br>                    <span class="hljs-comment">// 引用之前定义的安全方案</span><br>                    Reference = <span class="hljs-keyword">new</span> OpenApiReference<br>                    &#123;<br>                        Type = ReferenceType.SecurityScheme,<br>                        Id = <span class="hljs-string">&quot;Token&quot;</span> <span class="hljs-comment">// 对应于上面定义的安全方案的Id</span><br>                    &#125;,<br>                &#125;,<br>                <span class="hljs-keyword">new</span> List&lt;<span class="hljs-built_in">string</span>&gt;() <span class="hljs-comment">// 空列表表示不需要特定的作用域</span><br>            &#125;<br>        &#125;);<br>    &#125;);<br><br><span class="hljs-meta">#<span class="hljs-keyword">endregion</span></span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="HttpContext-Items"><a href="#HttpContext-Items" class="headerlink" title="HttpContext.Items"></a>HttpContext.Items</h1><p><strong>ASP.NETCore提供了非常好用的方式来获取到用户信息，而不是通过丑陋的过滤器手动将用户信息保存来实现</strong></p>
+<p>在Java中，我们通过ThreadLocal来存储过滤器从Token中解析出来的UserId</p>
+<p>在ASP.NETCore中，HttpContext.Items可以解决中间件、过滤器、控制器和其他组件在处理同一个请求时共享数据，而无需通过参数传递</p>
+<hr>
+<h3 id="TokenValidationFilter"><a href="#TokenValidationFilter" class="headerlink" title="TokenValidationFilter"></a>TokenValidationFilter</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">TokenValidationFilter</span> : <span class="hljs-title">IAsyncActionFilter</span><br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> JwtUtil _jwtUtil;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TokenValidationFilter</span>(<span class="hljs-params">JwtUtil jwtUtil</span>)</span><br>    &#123;<br>        _jwtUtil = jwtUtil;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">OnActionExecutionAsync</span>(<span class="hljs-params">ActionExecutingContext context, ActionExecutionDelegate next</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// 从请求头中获取Token</span><br>        <span class="hljs-keyword">var</span> token = context.HttpContext.Request.Headers[<span class="hljs-string">&quot;Token&quot;</span>].ToString();<br><br>        <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">string</span>.IsNullOrEmpty(token))<br>        &#123;<br>            <span class="hljs-keyword">try</span><br>            &#123;<br>                <span class="hljs-comment">// 使用 JWTUtils 解析 Token 获取 UserId</span><br>                <span class="hljs-keyword">var</span> userId = _jwtUtil.ParseToken(token);<br><br>                <span class="hljs-comment">// 将 UserId 添加到 HttpContext.Items，以便后续处理逻辑使用</span><br>                context.HttpContext.Items[<span class="hljs-string">&quot;UserId&quot;</span>] = userId;<br>            &#125;<br>            <span class="hljs-keyword">catch</span> (System.Exception ex)<br>            &#123;<br>                <span class="hljs-comment">// 如果解析失败，返回未授权的状态码</span><br>                context.Result = <span class="hljs-keyword">new</span> UnauthorizedResult();<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            <span class="hljs-comment">// 如果没有提供Token，也可以选择返回未授权</span><br>            context.Result = <span class="hljs-keyword">new</span> UnauthorizedResult();<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 继续执行下一个过滤器或控制器操作</span><br>        <span class="hljs-keyword">await</span> next();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="注册filter"><a href="#注册filter" class="headerlink" title="注册filter"></a>注册filter</h3><p>在需要使用UserId的请求的控制器中加入[TypeFilter(typeof(TokenValidationFilter))]特性</p>
+<p>一般为增加和修改的业务上</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> 新增员工</span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;employeeSaveReq&quot;&gt;</span><span class="hljs-doctag">&lt;/param&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;param name=&quot;token&quot;&gt;</span><span class="hljs-doctag">&lt;/param&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;returns&gt;</span><span class="hljs-doctag">&lt;/returns&gt;</span></span><br>[<span class="hljs-meta">HttpPost</span>]<br>[<span class="hljs-meta">TypeFilter(typeof(TokenValidationFilter))</span>]<br><span class="hljs-function"><span class="hljs-keyword">public</span> Result&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">Save</span>(<span class="hljs-params">[FromBody] EmployeeSaveReq employeeSaveReq</span>)</span><br>&#123;<br>    _logger.LogInformation(<span class="hljs-string">&quot;新增员工:&#123;&#125;&quot;</span>, employeeSaveReq);<br>    _employeeService.Save(employeeSaveReq);<br>    <span class="hljs-keyword">return</span> Result&lt;<span class="hljs-built_in">string</span>&gt;.Success();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="IHttpContextAccessor"><a href="#IHttpContextAccessor" class="headerlink" title="IHttpContextAccessor"></a>IHttpContextAccessor</h3><p>在使用HttpContext.Items时，我们要注册服务之后才能在控制器&#x2F;服务层中调用，获取到存储在Items中的值</p>
+<blockquote>
+<p>注册服务</p>
+<p>builder.Services.AddHttpContextAccessor();</p>
+</blockquote>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 注入依赖</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IHttpContextAccessor _httpContextAccessor;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">UserService</span>(<span class="hljs-params">IHttpContextAccessor httpContextAccessor</span>)</span><br>&#123;<br>    _httpContextAccessor = httpContextAccessor;<br>&#125;<br><br>employee.CreateUser = <span class="hljs-built_in">long</span>.Parse(_httpContextAccessor.HttpContext?.Items[<span class="hljs-string">&quot;UserId&quot;</span>]?.ToString() ?? <span class="hljs-built_in">string</span>.Empty);<br>employee.UpdateUser = <span class="hljs-built_in">long</span>.Parse(_httpContextAccessor.HttpContext?.Items[<span class="hljs-string">&quot;UserId&quot;</span>]?.ToString() ?? <span class="hljs-built_in">string</span>.Empty);<br></code></pre></td></tr></table></figure>
+
+<p>配合OnBeforeSaving实现每次存储前自动填充字段</p>
+<hr>
+<h3 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h3><p>默认情况下，类库项目只会引用.NET框架而不会引用ASP.NETCore框架，所以会存在在别的层无法注入依赖的情况</p>
+<p>比如_httpContextAccessor.HttpContext对象无法注入在Bll的Service中</p>
+<p>我们可以通过项目文件来为项目添加ASP.NETCore框架</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">FrameworkReference</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">&quot;Microsoft.AspNetCore.App&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="OSS"><a href="#OSS" class="headerlink" title="OSS"></a>OSS</h1><blockquote>
+<p>依赖安装</p>
+<p>Aliyun.OSS.SDK.NetCore</p>
+</blockquote>
+<p><em>注：依赖导入Aliyun.OSS.SDK可能会出现意料之外的问题</em></p>
+<h3 id="配置文件-1"><a href="#配置文件-1" class="headerlink" title="配置文件"></a>配置文件</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;OSS&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;Endpoint&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;oss-cn-qingdao.aliyuncs.com&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;AccessKeyId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;your_access_key_id&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;AccessKeySecret&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;your_access_key_secret&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;BucketName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;your_bucket_name&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AliOssUtil</span><br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _endpoint;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _accessKeyId;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _accessKeySecret;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _bucketName;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AliOssUtil</span>(<span class="hljs-params">IConfiguration configuration</span>)</span><br>    &#123;<br>        _endpoint = configuration[<span class="hljs-string">&quot;OSS:Endpoint&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>        _accessKeyId = configuration[<span class="hljs-string">&quot;OSS:AccessKeyId&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>        _accessKeySecret = configuration[<span class="hljs-string">&quot;OSS:AccessKeySecret&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>        _bucketName = configuration[<span class="hljs-string">&quot;OSS:BucketName&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> <span class="hljs-title">Upload</span>(<span class="hljs-params">Stream fileStream, <span class="hljs-built_in">string</span> fileName</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> ossClient = <span class="hljs-keyword">new</span> OssClient(_endpoint, _accessKeyId, _accessKeySecret);<br>        <br>        <span class="hljs-comment">// 上传文件到指定的Bucket</span><br>        ossClient.PutObject(_bucketName, fileName, fileStream);<br>        <br>        <span class="hljs-comment">//返回拼接好的url</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">$&quot;https://<span class="hljs-subst">&#123;_bucketName&#125;</span>.<span class="hljs-subst">&#123;_endpoint&#125;</span>/<span class="hljs-subst">&#123;fileName&#125;</span>&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="注册服务-1"><a href="#注册服务-1" class="headerlink" title="注册服务"></a>注册服务</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c#">services.AddSingleton&lt;AliOssUtil&gt;();<br></code></pre></td></tr></table></figure>
+
+<p><em>阿里云oss注册为单例服务即可</em></p>
+<h3 id="使用服务"><a href="#使用服务" class="headerlink" title="使用服务"></a>使用服务</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">HttpPost(<span class="hljs-string">&quot;upload&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">public</span> Result&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">Upload</span>(<span class="hljs-params">[FromForm]IFormFile <span class="hljs-keyword">file</span></span>)</span><br>&#123;<br>    _logger.LogInformation(<span class="hljs-string">&quot;文件上传：&#123;&#125;&quot;</span>, <span class="hljs-keyword">file</span>);<br>    <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> stream = <span class="hljs-keyword">file</span>.OpenReadStream();<br>    <span class="hljs-keyword">return</span> Result&lt;<span class="hljs-built_in">string</span>&gt;.Success(_aliOssUtil.Upload(stream, <span class="hljs-keyword">file</span>.FileName));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h1><p>我们在Jwt和Oss一类的工具类中，直接使用了IConfiguration注入的方式来注入配置参数</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _endpoint;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _accessKeyId;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _accessKeySecret;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> _bucketName;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AliOssUtil</span>(<span class="hljs-params">IConfiguration configuration</span>)</span><br>&#123;<br>    _endpoint = configuration[<span class="hljs-string">&quot;OSS:Endpoint&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>    _accessKeyId = configuration[<span class="hljs-string">&quot;OSS:AccessKeyId&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>    _accessKeySecret = configuration[<span class="hljs-string">&quot;OSS:AccessKeySecret&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>    _bucketName = configuration[<span class="hljs-string">&quot;OSS:BucketName&quot;</span>] ?? <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以创建Settings配置类，来简化配置注入，将服务注入为强类型</p>
+<h3 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OssSettings</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Endpoint &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125; = <span class="hljs-literal">null</span>!;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> AccessKeyId &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125; = <span class="hljs-literal">null</span>!;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> SecretAccessKey &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125; = <span class="hljs-literal">null</span>!;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> BucketName &#123; <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; &#125; = <span class="hljs-literal">null</span>!;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="注册服务-2"><a href="#注册服务-2" class="headerlink" title="注册服务"></a>注册服务</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c#">builder.Services.Configure&lt;JwtSettings&gt;(builder.Configuration.GetSection(<span class="hljs-string">&quot;Jwt&quot;</span>));<br>builder.Services.Configure&lt;OssSettings&gt;(builder.Configuration.GetSection(<span class="hljs-string">&quot;OSS&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<h3 id="注入服务"><a href="#注入服务" class="headerlink" title="注入服务"></a>注入服务</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> OssSettings _ossSettings;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AliOssUtil</span>(<span class="hljs-params">IOptions&lt;OssSettings&gt; ossSettings</span>)</span><br>&#123;<br>    _ossSettings = ossSettings.Value;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>在此项目中，我们使用的是DBFirst开发模式，并且用的是逻辑外键的开发形式，不存在数据库层级的物理外键，也不存在级联关系的插入和查询</p>
+<p>所以我们要在Service层完成对两个表的分别操作（增删改），我们就需要在Service层加入事务，来保证操作的原子性</p>
+<p>在原Java项目中，我们可以通过Spring框架提供的Transactional注解来自动实现整个方法的事务，在ASP.NETCore中，没有类似这个注解的特性</p>
+<p>所以我们要通过TransactionScope对象来实现事务</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> scope = <span class="hljs-keyword">new</span> TransactionScope())<br>&#123;<br>	scope.Complete();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="小贴士"><a href="#小贴士" class="headerlink" title="小贴士"></a>小贴士</h5><p>对于List&lt;T&gt;, ICollection&lt;T&gt;, IReadOnlyCollection&lt;T&gt; 等实现了 IEnumerable&lt;T&gt; 接口的集合</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c#">dishFlavors!=<span class="hljs-literal">null</span> &amp;&amp; dishFlavors.Any();<br><span class="hljs-comment">// 替换</span><br>dishFlavors!=<span class="hljs-literal">null</span> &amp;&amp; dishFlavors.Length&gt;<span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+
+<p>使用Any方法替换Length方法对集合做非空判断，性能更好，但数组的情况下无法使用Any方法，仍使用Length做非空判断</p>
+<h3 id="EFCore的事务实现"><a href="#EFCore的事务实现" class="headerlink" title="EFCore的事务实现"></a>EFCore的事务实现</h3><p>EFCore的<code>SaveChanges</code> 会自动实现事务，也可以使用<code>DbContext.Database.BeginTransaction()</code> 方法开始一个事务，并且使用 <code>Commit()</code> 或 <code>Rollback()</code> 来提交或回滚事务</p>
+<ul>
+<li>优点：避免了TransactionScope事务的性能问题、连接池问题、外部依赖问题</li>
+<li>缺点：需要在service层注入DbContext对象</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 异步方法的调用</span><br><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> transaction = <span class="hljs-keyword">await</span> _dbContext.Database.BeginTransactionAsync())<br>&#123;<br>    <span class="hljs-keyword">try</span><br>    &#123;<br>        <span class="hljs-comment">// 提交事务</span><br>    	<span class="hljs-keyword">await</span> transaction.CommitAsync();<br>    &#125;<br>    <span class="hljs-keyword">catch</span><br>    &#123;<br>        <span class="hljs-comment">// 回滚事务</span><br>        <span class="hljs-keyword">await</span> transaction.RollbackAsync();<br>        <span class="hljs-keyword">throw</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><blockquote>
+<p>注入依赖</p>
+<p>Microsoft.Extensions.Caching.StackExchangeRedis</p>
+</blockquote>
+<h3 id="注册服务-3"><a href="#注册服务-3" class="headerlink" title="注册服务"></a>注册服务</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c#">builder.Services.AddStackExchangeRedisCache(options =&gt;<br>    &#123;<br>        options.Configuration = builder.Configuration[<span class="hljs-string">&quot;Redis:Configuration&quot;</span>];<br>        options.InstanceName = builder.Configuration[<span class="hljs-string">&quot;Redis:InstanceName&quot;</span>];<br>    &#125;);<br></code></pre></td></tr></table></figure>
+
+<h3 id="注入服务-1"><a href="#注入服务-1" class="headerlink" title="注入服务"></a>注入服务</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// Redis</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IDistributedCache _distributedCache;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ShopController</span>(<span class="hljs-params">ILogger&lt;ShopController&gt; logger, IDistributedCache distributedCache</span>)</span><br>&#123;<br>    _distributedCache = distributedCache;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Get-Set"><a href="#Get-Set" class="headerlink" title="Get&amp;Set"></a>Get&amp;Set</h3><p>_distributedCache（分布式缓存）服务常用的两个方法为Get（GetAsync）和Set（SetAsync），使用起来简单灵活</p>
+<p>但需要注意，这两个方法的参数为字节数组，而通常我们是需要将其他数据类型存入Redis，这就涉及到了<strong>数据类型转换</strong>的问题</p>
+<h5 id="简单数据类型"><a href="#简单数据类型" class="headerlink" title="简单数据类型"></a>简单数据类型</h5><p>对于简单的数据类型（如整数、布尔值等），可以直接使用 <code>BitConverter.GetBytes</code> 转换为 <code>byte[]</code></p>
+<p>在反序列化时，调用<code>BitConverter.ToInt32</code></p>
+<h5 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h5><p>通过<code>System.Text.Encoding</code>将<code>string</code>转换为<code>byte[]</code></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 序列化字符串到byte[]</span><br>Encoding.UTF8.GetBytes(str);<br><br><span class="hljs-comment">// 反序列化</span><br>Encoding.UTF8.GetString(bytes);<br></code></pre></td></tr></table></figure>
+
+<h5 id="复杂类型"><a href="#复杂类型" class="headerlink" title="复杂类型"></a>复杂类型</h5><p>对于复杂类型的对象，我们通常先调用<code>JsonSerializer.Serialize()</code>将其序列化成字符串，然后再将字符串序列化为byte[]</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 序列化</span><br><span class="hljs-built_in">byte</span>[] bytes = Encoding.UTF8.GetBytes(jsonString);<br><span class="hljs-keyword">await</span> _distributedCache.SetAsync(<span class="hljs-string">&quot;SHOP_STATUS&quot;</span>, bytes, <span class="hljs-keyword">new</span> DistributedCacheEntryOptions());<br><br><span class="hljs-comment">// 反序列化</span><br><span class="hljs-built_in">string</span> jsonString = Encoding.UTF8.GetString(cachedBytes);<br><span class="hljs-keyword">var</span> deserializedStatusInfo = JsonSerializer.Deserialize&lt;YourType&gt;(jsonString);<br></code></pre></td></tr></table></figure>
+
+<h3 id="SetString-GetString"><a href="#SetString-GetString" class="headerlink" title="SetString&amp;GetString"></a>SetString&amp;GetString</h3><p>在.NET6之后的版本中，_distributedCache为我们额外提供了SetString（SetStringAsync）和GetString（GetStringAsync）</p>
+<p>简化了我们序列化和反序列化的操作，至此，我们可以将所有想要存入redis的对象都序列化为字符串直接存入</p>
+<h3 id="注意事项-2"><a href="#注意事项-2" class="headerlink" title="注意事项"></a>注意事项</h3><p>在这个项目中，我们为<strong>用户端</strong>的菜品及套餐的查询操作应用了缓存，在<strong>管理端</strong>的菜品增删改中实现了清空缓存达到及时更新数据</p>
+<p>我们使用工具类CacheUtils将增删查的操作封装，简化了代码</p>
+<hr>
+<h1 id="控制器命名"><a href="#控制器命名" class="headerlink" title="控制器命名"></a>控制器命名</h1><p>在spring中，如果同时存在user包的ShopController和Admin包的ShopController，在没有指定bean名称的时候，会抛出异常，因为这两个Controller都会被注入到IoC容器中，名称会冲突，但为什么ASP.NETCore中就可以存在两个相同名称的Controller呢？</p>
+<p>在 ASP.NET Core 中，MVC 和 Razor Pages 的默认行为是基于约定来发现控制器。MVC 会扫描程序集中的所有类型，并根据命名规则（例如类名以 “Controller” 结尾）来识别控制器。当找到多个具有相同名称的控制器时，ASP.NET Core 不会直接抛出异常，而是通过<strong>路由系统</strong>来区分这些控制器。</p>
+<ul>
+<li><strong>路由配置</strong>：每个控制器通常有自己的路由前缀，即使两个控制器有相同的名称，它们的完整路径（包括命名空间）通常是不同的</li>
+<li><strong>命名空间</strong>：即使没有显式的路由配置，ASP.NET Core 也会使用控制器的命名空间作为默认的路由前缀。这意味着如果两个控制器位于不同的命名空间中，它们的默认路由也将是不同的。</li>
+</ul>
+<p>这两种框架的不同设计哲学和实现方式导致了在处理同名控制器或 Bean 时的行为差异。ASP.NET Core 更加依赖于路由和命名空间来区分控制器，而 Spring 则要求开发者明确指定 Bean 的名称或使用限定符来避免冲突。</p>
+<hr>
+<h1 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h1><p>在.NETCore中已经内置了HttpClient</p>
+<h3 id="注册服务-4"><a href="#注册服务-4" class="headerlink" title="注册服务"></a>注册服务</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 注册HttpClient服务</span><br>builder.Services.AddHttpClient(<span class="hljs-string">&quot;WxLogin&quot;</span>, client =&gt;<br>&#123;<br>    client.BaseAddress = <span class="hljs-keyword">new</span> Uri(<span class="hljs-string">&quot;https://api.weixin.qq.com/&quot;</span>);<br>    client.Timeout = TimeSpan.FromSeconds(<span class="hljs-number">5</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h3 id="注入依赖"><a href="#注入依赖" class="headerlink" title="注入依赖"></a>注入依赖</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 获取HttpClient对象</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> HttpClient _httpClient;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">UserServiceDao</span>(<span class="hljs-params">IOptions&lt;WxSetting&gt; wxSetting, IHttpClientFactory httpClientFactory</span>)</span><br>&#123;<br>    _httpClient = httpClientFactory.CreateClient(<span class="hljs-string">&quot;WxClient&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// 拼接uri参数</span><br><span class="hljs-keyword">var</span> uriBuilder = <span class="hljs-keyword">new</span> UriBuilder(_httpClient.BaseAddress);<br>uriBuilder.Query = QueryHelpers.AddQueryString(uriBuilder.Query, <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>?&gt;<br>&#123;<br>    &#123; <span class="hljs-string">&quot;appId&quot;</span>, _wxSetting.AppId &#125;,<br>    &#123; <span class="hljs-string">&quot;secret&quot;</span>, _wxSetting.AppSecret &#125;,<br>    &#123; <span class="hljs-string">&quot;js_code&quot;</span>, code &#125;,<br>    &#123; <span class="hljs-string">&quot;grant_type&quot;</span>, _wxSetting.GrantType &#125;<br>&#125;);<br><br><span class="hljs-comment">// 发送请求</span><br><span class="hljs-keyword">var</span> response = <span class="hljs-keyword">await</span> _httpClient.GetAsync(uriBuilder.Uri);<br><span class="hljs-keyword">if</span> (response.IsSuccessStatusCode)<br>&#123;<br>    <span class="hljs-comment">// 将响应中的内容读出来</span><br>    result = <span class="hljs-keyword">await</span> response.Content.ReadAsStringAsync();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="时间区间"><a href="#时间区间" class="headerlink" title="时间区间"></a>时间区间</h1><p>将开始时间和结束时间的日期区间中的每一天加入到集合中</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#">List&lt;DateTime&gt; dateList = <span class="hljs-keyword">new</span> List&lt;DateTime&gt;();<br><span class="hljs-keyword">while</span> (begin &lt;= end)<br>&#123;<br>    dateList.Add(begin);<br>    begin = begin.AddDays(<span class="hljs-number">1</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="集合转换字符串"><a href="#集合转换字符串" class="headerlink" title="集合转换字符串"></a>集合转换字符串</h1><p>通过string.Join的工具方法，搭配Linq的select语句可以将集合转换为字符串并指定换行符</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c#">DateList = <span class="hljs-built_in">string</span>.Join(<span class="hljs-string">&quot;,&quot;</span>, dateList.Select(d =&gt; d.ToString(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>))),<br>TurnoverList = <span class="hljs-built_in">string</span>.Join(<span class="hljs-string">&quot;,&quot;</span>, sum.Select(d =&gt; d.ToString(<span class="hljs-string">&quot;0.00&quot;</span>)))<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NET%E6%A1%86%E6%9E%B6%E7%9B%B8%E5%85%B3/" class="category-chain-item">NET框架相关</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/NET%E6%A1%86%E6%9E%B6%E7%9B%B8%E5%85%B3/net/" class="category-chain-item">net</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>实战项目-笔记</div>
+      <div>http://blog.170827.xyz/2024/12/06/实战项目-笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/12/06/SSO/" title="SSO">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SSO</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/12/06/%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE-%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2/" title="实战项目-连接查询">
+                        <span class="hidden-mobile">实战项目-连接查询</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

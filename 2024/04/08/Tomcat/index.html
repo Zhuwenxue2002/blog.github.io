@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Tomcat  常见的JavaWeb服务器：  Tomcat（Apache）：当前应用最广的JavaWeb服务器 Jetty：更轻量级、更灵活的servlet容器 JBoss（Redhat红帽）：支持JavaEE，应用比较广 EJB容器 -&gt; SSH轻量级的框架代替 GlassFish（Orcale）：Oracle开发的JavaWeb服务器，应用不是很广 Resin（Caucho）：支持Ja">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat">
+<meta property="og:url" content="http://blog.170827.xyz/2024/04/08/Tomcat/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="Tomcat  常见的JavaWeb服务器：  Tomcat（Apache）：当前应用最广的JavaWeb服务器 Jetty：更轻量级、更灵活的servlet容器 JBoss（Redhat红帽）：支持JavaEE，应用比较广 EJB容器 -&gt; SSH轻量级的框架代替 GlassFish（Orcale）：Oracle开发的JavaWeb服务器，应用不是很广 Resin（Caucho）：支持Ja">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-08T22:15:28.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.398Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Tomcat - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Tomcat"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-08 22:15" pubdate>
+          2024年4月8日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Tomcat</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h1><p>  常见的JavaWeb服务器：</p>
+<ul>
+<li>Tomcat（Apache）：当前应用最广的JavaWeb服务器</li>
+<li>Jetty：更轻量级、更灵活的servlet容器</li>
+<li>JBoss（Redhat红帽）：支持JavaEE，应用比较广 EJB容器 -&gt; SSH轻量级的框架代替</li>
+<li>GlassFish（Orcale）：Oracle开发的JavaWeb服务器，应用不是很广</li>
+<li>Resin（Caucho）：支持JavaEE，应用的越来越广</li>
+<li>Weblogic（Orcale）：要钱的！支持JavaEE，适合大型项目</li>
+<li>Websphere（IBM）：要钱的！支持JavaEE，适合大型项目</li>
+</ul>
+<hr>
+<h3 id="Tomcat目录结构"><a href="#Tomcat目录结构" class="headerlink" title="Tomcat目录结构"></a>Tomcat目录结构</h3><ul>
+<li><strong>bin</strong>: bin为binary的简写，主要放置系统的必备执行文件</li>
+<li>work：work目录用来存放tomcat在运行时的编译后文件，<em>例如JSP编译后的文件</em></li>
+<li><strong>conf</strong>：存放一些tomcat的配置文件</li>
+<li><strong>lib</strong>：存放tomcat的主要jar包</li>
+<li>logs：日志文件存放目录</li>
+<li>temp：运行时产生的临时目录</li>
+<li><strong>webapps</strong>：存放tomcat的具体项目</li>
+</ul>
+<hr>
+<h3 id="Tomcat项目结构"><a href="#Tomcat项目结构" class="headerlink" title="Tomcat项目结构*"></a>Tomcat项目结构*</h3><p>Tomcat项目存放在<strong>webapps</strong>文件夹下，文件树结构一般如下</p>
+<ul>
+<li>app项目应用根目录<ul>
+<li>一些.html文件（也可以新建目录page用来存放）</li>
+<li>static：非必要目录，一般在此处放静态资源（css js img）<ul>
+<li>css：存放css文件</li>
+<li>js：存放js文件</li>
+<li>img：存放图片</li>
+</ul>
+</li>
+<li><strong>WEB-INF</strong>：此目录下的资源是受保护的资源，不可以通过浏览器直接访问<ul>
+<li>classes：字节码根路径，是java文件生成的字节码文件</li>
+<li>lib：项目中第三方jar包存放库，<em>一般不会存放到tomcat的lib下，要做到项目隔离</em></li>
+<li>web.xml：每个项目都有自己的web.xml配置文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="Tomcat部署项目"><a href="#Tomcat部署项目" class="headerlink" title="Tomcat部署项目"></a>Tomcat部署项目</h3><p>除了将项目直接放在webapps文件夹下，还可以将项目放到其他位置，由tomcat中的配置文件指向app的实际磁盘路径</p>
+<p>在配置文件中新建xml配置文件</p>
+<blockquote>
+<p>conf -&gt; Catalina -&gt; localhost -&gt; app.xml</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">Context</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/app&quot;</span> <span class="hljs-attr">docBase</span>=<span class="hljs-string">&quot;D:\mywebapps\app&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这样配置就可以将D盘根目录下mywebapps中的app项目挂载到tomcat运行</p>
+<hr>
+<h3 id="Tomcat的管理项目"><a href="#Tomcat的管理项目" class="headerlink" title="Tomcat的管理项目"></a>Tomcat的管理项目</h3><p>Tomcat中的manager和host-manager项目需要账户和密码来登录</p>
+<p>可以通过<strong>tomcat-users.xml</strong>配置文件来配置用户名和密码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">role</span> <span class="hljs-attr">rolename</span>=<span class="hljs-string">&quot;admin-gui&quot;</span>/&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">role</span> <span class="hljs-attr">rolename</span>=<span class="hljs-string">&quot;admin-script&quot;</span>/&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">role</span> <span class="hljs-attr">rolename</span>=<span class="hljs-string">&quot;manager-gui&quot;</span>/&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">role</span> <span class="hljs-attr">rolename</span>=<span class="hljs-string">&quot;manager-script&quot;</span>/&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">role</span> <span class="hljs-attr">rolename</span>=<span class="hljs-string">&quot;manager-jmx&quot;</span>/&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">role</span> <span class="hljs-attr">rolename</span>=<span class="hljs-string">&quot;manager-status&quot;</span>/&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">user</span> <span class="hljs-attr">username</span>=<span class="hljs-string">&quot;XIAOBAI&quot;</span> <span class="hljs-attr">password</span>=<span class="hljs-string">&quot;XIAOBAI&quot;</span> <span class="hljs-attr">roles</span>=<span class="hljs-string">&quot;admin-gui,admin-script,manager-gui,manager-script,manager-jmx,manager-status&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="IDEA关联Tomcat"><a href="#IDEA关联Tomcat" class="headerlink" title="IDEA关联Tomcat"></a>IDEA关联Tomcat</h3><ul>
+<li>建立Tomcat和idea的关联</li>
+<li>使用idea创建一个Java web工程，在web工程中开发代码</li>
+<li>使用idea将工程构建成一个可以发布的app</li>
+<li>使用idea将构建好的app部署到tomcat中，启动运行</li>
+</ul>
+<blockquote>
+<p>在idea设置中，构建、执行、部署 -&gt; 应用程序服务器中添加Tomcat</p>
+<p>新建项目后，项目结构 -&gt; 模块 -&gt; 依赖中添加Tomcat</p>
+<p>双击shift -&gt; 添加框架支持 -&gt; 添加JavaWeb应用程序</p>
+</blockquote>
+<p><em>注：如果不依赖添加Tomcat直接添加JavaWeb应用程序时，会直接添加到低版本的JavaWeb</em></p>
+<p><em><strong>注：使用idea引入js和css文件时，可尝试直接将文件拖入</strong></em></p>
+<hr>
+<h5 id="工程文件"><a href="#工程文件" class="headerlink" title="工程文件"></a>工程文件</h5><p>工程文件可以理解为项目在idea里面的样子，其内容大致为</p>
+<ul>
+<li>resources文件夹：用来放一些配置文件要将其标记为Resources根目录**</li>
+<li>src文件夹：通常用来存放java代码</li>
+<li>web文件夹：此文件夹是web项目的文件夹<ul>
+<li>static文件夹：存放css，js，img等静态文件</li>
+<li>WEB-INF文件夹：存放web.xml，lib文件夹<ul>
+<li>lib文件夹：<strong>web项目中的运行依赖要放在这，而不是在其他文件夹</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><em><strong>注：在web工程导入jar包时，需要在WEB-INF路径下的lib文件夹内导入，并将lib文件夹添加为库（模块）</strong></em></p>
+<hr>
+<h5 id="应用文件"><a href="#应用文件" class="headerlink" title="应用文件"></a>应用文件</h5><blockquote>
+<p>工程文件在idea中 构建 -&gt; 构建工件 后产生的out -&gt; artifacts文件夹中</p>
+</blockquote>
+<p><em>artifaces中文释义：工件</em></p>
+<p><strong>src与resources会被编译进classes文件夹中</strong></p>
+<p>由idea编译生成的应用文件会有自己的命名规则，但这并不重要，因为：</p>
+<p><em><strong>上下文路径（访问路径）与文件路经可以不相同！！！！！！！！！！</strong></em></p>
+<hr>
+<h5 id="Tomcat运行时部署"><a href="#Tomcat运行时部署" class="headerlink" title="Tomcat运行时部署"></a>Tomcat运行时部署</h5><blockquote>
+<p>添加tomcat本地为运行时部署 -&gt; 在部署中将应用文件作为工件添加 -&gt; 配置上下文路经</p>
+</blockquote>
+<p>idea在运行Tomcat时调用的时Tomcat Catalina 日志，这个日志的默认字符集编码时UTF-8</p>
+<p>通过修改配置文件，在idea的控制台中显示中文</p>
+<blockquote>
+<p>tomcat的配置文件夹 -&gt; logging.properties文件 -&gt;修改Catalina的字符集为GBK</p>
+</blockquote>
+<hr>
+<h3 id="IDea实现Tomcat的原理"><a href="#IDea实现Tomcat的原理" class="headerlink" title="IDea实现Tomcat的原理"></a>IDea实现Tomcat的原理</h3><p>为了保证Tomcat的纯净，idea不会将文件放在Tomcat中运行，而会创建一个Tomcat的副本</p>
+<p>但这个副本并不是Tomcat的完全复制，而是存放和部署项目相关的配置文件，让tomcat本体按照副本的配置文件运行</p>
+<p>配置文件中，通过xml文件的配置信息来配置具体的项目地址</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA/" class="category-chain-item">JAVA</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/JAVA/java-web/" class="category-chain-item">java-web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Tomcat</div>
+      <div>http://blog.170827.xyz/2024/04/08/Tomcat/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/04/10/HTTP/" title="HTTP">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HTTP</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/07/XML/" title="XML">
+                        <span class="hidden-mobile">XML</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

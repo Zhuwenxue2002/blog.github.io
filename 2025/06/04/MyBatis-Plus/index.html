@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Mybatis-Plus在学习微服务之前，我们再次重温MybatisPlus的内容 个人理解，MybatisPlus提供了非常简便的接口以供快速开发单表的增删改查，所以非常契合微服务架构 条件构造器尤其是在使用体验和对SQL语句的封装程度上，Mybatis-Plus的Wrapper机制确实与EF Core的LINQ查询有异曲同工之妙，使得两者的调用方式在某些场景下显得非常相似 Mybatis-Pl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis-Plus">
+<meta property="og:url" content="http://blog.170827.xyz/2025/06/04/MyBatis-Plus/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="Mybatis-Plus在学习微服务之前，我们再次重温MybatisPlus的内容 个人理解，MybatisPlus提供了非常简便的接口以供快速开发单表的增删改查，所以非常契合微服务架构 条件构造器尤其是在使用体验和对SQL语句的封装程度上，Mybatis-Plus的Wrapper机制确实与EF Core的LINQ查询有异曲同工之妙，使得两者的调用方式在某些场景下显得非常相似 Mybatis-Pl">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-04T10:30:41.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.405Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>MyBatis-Plus - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MyBatis-Plus"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-04 10:30" pubdate>
+          2025年6月4日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MyBatis-Plus</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Mybatis-Plus"><a href="#Mybatis-Plus" class="headerlink" title="Mybatis-Plus"></a>Mybatis-Plus</h1><p>在学习微服务之前，我们再次重温MybatisPlus的内容</p>
+<p>个人理解，MybatisPlus提供了非常简便的接口以供快速开发单表的增删改查，所以非常契合微服务架构</p>
+<h3 id="条件构造器"><a href="#条件构造器" class="headerlink" title="条件构造器"></a>条件构造器</h3><p>尤其是在使用体验和对SQL语句的封装程度上，Mybatis-Plus的<code>Wrapper</code>机制确实与EF Core的LINQ查询有异曲同工之妙，使得两者的调用方式在某些场景下显得非常相似</p>
+<p>Mybatis-Plus的<code>Wrapper</code>机制，特别是其对Lambda表达式的支持，确实在很大程度上提供了与EF Core的LINQ查询相似的、面向对象的、流式化的SQL构建体验，极大地提升了开发效率</p>
+<hr>
+<p><strong>QueryWrapper&amp;UpdateWrapper</strong></p>
+<p>当单纯的使用where作为条件拼接时，QueryWrapper可以完美的替代UpdateWrapper</p>
+<p>在默认设置的更新策略下Redis（NOT_NULL），是不可以将数据库字段更新为空值的，但使用UpdateWrapper的set方法可以针对字段更新，那么也就可以将指定字段更新为null，这是 UpdateWrapper 的一个重要优势</p>
+<p>UpdateWrapper提供了setSql()方法，允许你在SET子句中直接写入SQL片段，这对于实现column &#x3D; column + 1（自增）、update_time &#x3D; NOW()（更新时间戳）等操作非常有用</p>
+<hr>
+<p><strong>整合</strong></p>
+<p>使用wrapper作为where的条件是正确思路，但直接将一些select语句写在service层又不符合企业规范</p>
+<p>所以可以将条件的构建交给mybatisplus接管，使用wrapper构建，其他的sql语句仍然写在mapper.xml中</p>
+<p>需要注意的是，在mapper层给mapper.xml传wrapper时，我们需要将wrapper参数加上 Param注解，且注解的值必须为ew</p>
+<p><em>或者调用Constants.WRAPPER获取常量</em></p>
+<hr>
+<h3 id="哑巴“mapper”"><a href="#哑巴“mapper”" class="headerlink" title="哑巴“mapper”"></a>哑巴“mapper”</h3><p><strong>理想的“哑巴”Mapper：</strong></p>
+<p>如果 Mapper 层是绝对的“哑巴”，它应该只知道如何将 User 实体对象映射到 user 表，并提供最基本的 CRUD 操作（insert(User)、update(User)、selectById(id)、deleteById(id)）。</p>
+<p>它的方法签名和 XML 定义应该严格对应数据库的单表操作，不涉及任何业务概念上的“视图”或“聚合”。</p>
+<p>在这种理想情况下，任何涉及多表联查、复杂聚合、或者需要特定字段组合的“业务视图”，都应该由 Service 层通过调用多个 Mapper 的单表方法，然后在内存中进行数据组装和处理。</p>
+<p><strong>Mybatis 的现实与优势：</strong></p>
+<p>Mybatis 的核心优势就是它能够让你直接编写 SQL。这意味着你可以利用数据库的强大能力来执行复杂的 JOIN、子查询、聚合函数、窗口函数等。</p>
+<p>如果 Service 层需要一个“用户及其所有订单”的视图，让数据库通过一个 JOIN 查询一次性返回，通常比 Service 层先查用户，再循环查每个用户的订单（N+1 问题），或者查所有用户和所有订单然后在内存中匹配，要高效得多。</p>
+<p>Mybatis 的 resultMap 机制也使得将复杂的 JOIN 结果直接映射到复杂的 DTO&#x2F;VO 对象变得非常方便，省去了 Service 层手动组装的繁琐。</p>
+<p>在 Mybatis 的世界里，我们确实是利用了它方便编写 SQL 的特性，在 Mapper 层（特别是 XML 文件中）定义了许多<strong>针对 Service 层特定业务需求而定制的“抽象视图”或“聚合查询”</strong>。</p>
+<p>这是一种<strong>务实且高效的架构选择</strong>，它在一定程度上“牺牲”了 Mapper 层的绝对“哑巴”特性，以换取更优的性能、更简洁的 Service 层代码（无需手动组装复杂对象），以及更灵活的 SQL 控制能力。这种折中在 Mybatis 社区中是普遍接受的最佳实践。</p>
+<hr>
+<h3 id="MybatisPlus的最佳实践"><a href="#MybatisPlus的最佳实践" class="headerlink" title="MybatisPlus的最佳实践"></a>MybatisPlus的最佳实践</h3><p>在微服务架构下，Mybatis-Plus 和 Mybatis 并非互斥，而是相辅相成的强大工具。理解它们的优势与适用场景，并遵循清晰的服务边界原则，是构建高效、可维护系统的关键。</p>
+<p><strong>1. Mybatis (XML) 最佳实践：复杂查询与性能优化</strong></p>
+<p>在服务内部，当面临需要高性能、复杂数据聚合的查询场景时，我们可以在 Mybatis 的 XML Mapper 中编写定制化的 SQL。</p>
+<ul>
+<li><strong>妥协“哑巴原则”：</strong> 在这种特定场景下，为了追求极致的性能和灵活性，我们可以适度偏离严格的“哑巴原则”（即 SQL 仅负责简单的 CRUD 映射）。</li>
+<li><strong>采用“抽象视图原则”：</strong> 即在 XML 中编写复杂的 SQL（如多表 JOIN、子查询、聚合函数、窗口函数等），以构建针对特定业务需求的“数据视图”。</li>
+<li><strong>优势：</strong> 这种方式能够充分利用数据库的优化能力，实现高性能的复杂查询，减少应用层的内存组装和网络往返。对于服务内部的复杂报表、统计或特定业务视图而言，其性能优势是显著的。</li>
+<li><strong>局限性：</strong> 虽然可能降低 SQL 的通用复用性，因为这些 SQL 通常是为特定业务场景量身定制的。</li>
+<li><strong>重要前提：</strong> <strong>此实践仅限于服务内部的数据操作。</strong></li>
+</ul>
+<p><strong>2. Mybatis-Plus 最佳实践：单表操作与动态条件</strong></p>
+<p>Mybatis-Plus 在微服务架构中展现出巨大优势，尤其适用于处理服务内部的单表 CRUD (增删改查) 操作。</p>
+<ul>
+<li><strong>简化单表操作：</strong> Mybatis-Plus 提供了大量开箱即用的通用方法，极大地简化了单表操作的开发工作，减少了大量的样板代码。这与微服务中每个服务通常聚焦于其核心数据模型的特点高度契合。</li>
+<li><strong>强大的 Wrapper 机制：</strong> 其核心亮点在于强大的 <code>Wrapper</code> 机制。通过 <code>Wrapper</code>，我们可以在 Java 代码中灵活、类型安全地拼接各种动态的 <code>WHERE</code> 条件、排序、分组等，以满足不同业务场景下对单表数据的查询需求。</li>
+<li><strong>优势：</strong> 这使得业务逻辑层能够根据运行时参数动态构建查询，而无需为每种条件组合编写独立的 SQL，提高了开发效率和代码可维护性。</li>
+</ul>
+<p><strong>3. 核心准则：服务边界与数据所有权</strong></p>
+<p>Mybatis-Plus 和 Mybatis 的协同使用，应严格遵循微服务架构的核心原则——<strong>服务边界与数据所有权</strong>。</p>
+<ul>
+<li><strong>黄金准则：</strong> <strong>同一服务内的多张表应该 JOIN，跨服务的表不应该 JOIN！</strong></li>
+<li><strong>服务内 JOIN 的合理性：</strong><ul>
+<li>服务内部的表通常属于同一个业务领域，共同构成该服务的数据模型。</li>
+<li>在同一个数据库实例内进行 JOIN 操作，可以保证事务一致性，并利用数据库的优化能力，实现高效的数据聚合。</li>
+<li>这符合服务内部数据内聚的原则。</li>
+</ul>
+</li>
+<li><strong>跨服务 JOIN 的危害：</strong><ul>
+<li><strong>打破封装性：</strong> 直接跨服务 JOIN 数据库表会严重破坏服务的封装性，侵入其他服务的内部实现细节。</li>
+<li><strong>紧密耦合：</strong> 导致服务间紧密耦合，一旦被 JOIN 的服务修改了数据库结构，依赖方将立即受影响，阻碍服务的独立部署、独立演进和弹性伸缩。</li>
+<li><strong>分布式事务复杂性：</strong> 跨库 JOIN 无法在一个本地事务中完成，若涉及数据一致性，将引入复杂的分布式事务问题。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="category-chain-item">微服务</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/MybatisPlus/" class="category-chain-item">MybatisPlus</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MyBatis-Plus</div>
+      <div>http://blog.170827.xyz/2025/06/04/MyBatis-Plus/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/06/05/MyBatis-Plus-IService/" title="MyBatis-Plus-IService">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MyBatis-Plus-IService</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">
+                        <span class="hidden-mobile">设计模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

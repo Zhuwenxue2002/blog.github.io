@@ -1,0 +1,890 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="指令标记，动作标记和自定义标记指令标记page标记1&lt;%@page contentType&#x3D;&quot;text&#x2F;java;charset&#x3D;UTF-8&quot;%&gt;    contentType：设置MIME类型和字符编码   import：导入类   pageencoding：定义jsp的编码格式 include标记1&lt;%@include file&#x3D;&quot;1.jsp&amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP">
+<meta property="og:url" content="http://blog.170827.xyz/2023/04/24/JSP/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="指令标记，动作标记和自定义标记指令标记page标记1&lt;%@page contentType&#x3D;&quot;text&#x2F;java;charset&#x3D;UTF-8&quot;%&gt;    contentType：设置MIME类型和字符编码   import：导入类   pageencoding：定义jsp的编码格式 include标记1&lt;%@include file&#x3D;&quot;1.jsp&amp;q">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-24T14:10:37.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.406Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>JSP - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JSP"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-24 14:10" pubdate>
+          2023年4月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">JSP</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="指令标记，动作标记和自定义标记"><a href="#指令标记，动作标记和自定义标记" class="headerlink" title="指令标记，动作标记和自定义标记"></a>指令标记，动作标记和自定义标记</h1><h3 id="指令标记"><a href="#指令标记" class="headerlink" title="指令标记"></a>指令标记</h3><h5 id="page标记"><a href="#page标记" class="headerlink" title="page标记"></a>page标记</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%<span class="hljs-meta">@page</span> contentType=<span class="hljs-string">&quot;text/java;charset=UTF-8&quot;</span>%&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  contentType：设置MIME类型和字符编码</p>
+<p>  import：导入类</p>
+<p>  pageencoding：定义jsp的编码格式</p>
+<h5 id="include标记"><a href="#include标记" class="headerlink" title="include标记"></a>include标记</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%<span class="hljs-meta">@include</span> file=<span class="hljs-string">&quot;1.jsp&quot;</span>%&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  导入整个页面</p>
+<h3 id="动作标记"><a href="#动作标记" class="headerlink" title="动作标记"></a>动作标记</h3><h5 id="include标记-1"><a href="#include标记-1" class="headerlink" title="include标记"></a>include标记</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:include page=<span class="hljs-string">&quot;&quot;</span>&gt;<br>  &lt;jsp:param value=<span class="hljs-string">&quot;&quot;</span> name=<span class="hljs-string">&quot;&quot;</span>&gt;&lt;/jsp:param&gt;<br>&lt;/jsp:include&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  通过jsp:include可以导入页面（通过动态标签的方式）</p>
+<p>  在标签对里面使用jsp:param可以在导入页面的时候传参</p>
+<h5 id="forward标记"><a href="#forward标记" class="headerlink" title="forward标记"></a>forward标记</h5><p>  执行页面跳转——转发</p>
+<p>  page属性指定转发的页面</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:forward page=<span class="hljs-string">&quot;&quot;</span>&gt;&lt;/jsp:forward&gt;<br></code></pre></td></tr></table></figure>
+
+<p>   通过forward标签可以转发到指定页面</p>
+<p>  <em>注：forword转发后导航栏网址不变，其目标是简化问题的解决</em></p>
+<hr>
+<h1 id="JSP内置对象"><a href="#JSP内置对象" class="headerlink" title="JSP内置对象"></a>JSP内置对象</h1><p>  概念：在JSP页面的java程序片和java表达式中可以直接使用的局部变量</p>
+<ul>
+<li>request</li>
+</ul>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%<br>    request.setCharacterEncoding(<span class="hljs-string">&quot;utf-8&quot;</span>);<span class="hljs-comment">//设置编码格式</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> request.getParameter(<span class="hljs-string">&quot;&quot;</span>);<span class="hljs-comment">//接受单个参数值</span><br>    String[] ss = request.getParameterValues(<span class="hljs-string">&quot;&quot;</span>);<span class="hljs-comment">//接受多个参数值</span><br>    request.setAttribute(<span class="hljs-string">&quot;属性名&quot;</span>,<span class="hljs-string">&quot;属性值&quot;</span>);<br>    request.getRequestDispatcher(<span class="hljs-string">&quot;show.jsp&quot;</span>).forward(request,response);<span class="hljs-comment">//另一种转发方法</span><br>%&gt;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>response</li>
+</ul>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%<br>		response.sendRedirect(url);<span class="hljs-comment">//重定向</span><br>		response.setHeader(<span class="hljs-string">&quot;refresh&quot;</span>,<span class="hljs-string">&quot;1;url=&quot;</span>);<span class="hljs-comment">//刷新</span><br>%&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  <em>注：区别于转发和重定向，转发是服务端操作，浏览器地址不改变，重定向是浏览器操作，浏览器地址栏改变</em></p>
+<ul>
+<li>out</li>
+</ul>
+<p>  response.getWriter获取的对象</p>
+<p>  out.print显示结果</p>
+<ul>
+<li>session <ul>
+<li>public void setAttribute(String key,Object value)</li>
+<li>public Object getAttribute(String Key)</li>
+<li>public void removeAttribute(String key)</li>
+</ul>
+</li>
+</ul>
+<p>  从打开浏览器开始到关闭浏览器结束</p>
+<p>  实质上是请求中的方法 request.getSession()                                                                                                                                                                                                                                      </p>
+<p>  <em>session不同于请求和响应，不会随着请求响应的变化而关闭</em></p>
+<ul>
+<li>application</li>
+</ul>
+<p>  以服务器开始为开始，以服务器结束为结束</p>
+<p>  <strong>application的方法和session基本相同</strong></p>
+<ul>
+<li>page、pageContext、config、exception</li>
+</ul>
+<p>  <em>page对象以页面为存活时间，无论是转发，重定向都会消失</em></p>
+<p>  page对象是当前JSP页面转译生成的java文件所创建的对象</p>
+<p>  pageContext对象可以获取当前页面的访问对象及相关页面信息</p>
+<p>  setAttribute方法</p>
+<p>  getAttribute方法</p>
+<p>  findAttribute()方法</p>
+<h1 id="javabean"><a href="#javabean" class="headerlink" title="javabean"></a>javabean</h1><p>  javaBean也分为三大类，分别是成员类、工具类、判别类</p>
+<h2 id="三个基本动作标记"><a href="#三个基本动作标记" class="headerlink" title="三个基本动作标记"></a>三个基本动作标记</h2><ul>
+<li>&lt;jsp:useBean&gt;</li>
+<li>&lt;jsp:getProperty&gt;</li>
+<li>&lt;jsp:setProperty&gt;</li>
+</ul>
+<h3 id="使用useBean标签寻找-创建对象"><a href="#使用useBean标签寻找-创建对象" class="headerlink" title="使用useBean标签寻找&#x2F;创建对象"></a>使用useBean标签寻找&#x2F;创建对象</h3><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:useBean id=<span class="hljs-string">&quot;对象名&quot;</span> class=<span class="hljs-string">&quot;类全名（包括包名）&quot;</span> scope=<span class="hljs-string">&quot;page/request/session/application&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  useBean的运行步骤</p>
+<ol>
+<li><p>最开始先从scope（内置对象）中寻找相应存在attribute中的id（对象名）</p>
+<p><em>这一步用了getAttribute的方法</em></p>
+</li>
+<li><p>如果没有，就向外层寻找，比如scope写的是request，当request中没有时，向Session或application中寻找</p>
+<p><em>这一步用了findAttribute方法</em></p>
+</li>
+<li><p>如果找到在1,2的步骤中找到，则标签返回此对象</p>
+</li>
+<li><p>如果都没找到，则在scope中的Attribute中根据class（类）实例化此对象</p>
+</li>
+</ol>
+<hr>
+<h3 id="使用访问器"><a href="#使用访问器" class="headerlink" title="使用访问器"></a>使用访问器</h3><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:getProperty name=<span class="hljs-string">&quot;对象名&quot;</span> property=<span class="hljs-string">&quot;成员变量名&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>使用此访问器可直接访问对象中某一成员变量，返回值是该成员变量。</p>
+<p><em>此访问器除直接访问变量之外，还可以访问以get&#x2F;is开头的方法，直接返回其方法的返回值</em></p>
+<hr>
+<h3 id="使用修改器"><a href="#使用修改器" class="headerlink" title="使用修改器"></a>使用修改器</h3><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:setProperty name=<span class="hljs-string">&quot;对象名&quot;</span> property=<span class="hljs-string">&quot;*&quot;</span>&gt; <br></code></pre></td></tr></table></figure>
+
+<p>使用此修改器能直接修改对象中成员变量的属性</p>
+<p>需注意，Property取值为*，必须保证传参时变量名称一致</p>
+<p><em>由于表单中传过来的数据类型都是String 类型的，Jsp内在机制会把这些参数转化成Bean属性对应的类型。</em></p>
+<hr>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:setProperty name=<span class="hljs-string">&quot;对象名&quot;</span> property=<span class="hljs-string">&quot;成员变量名&quot;</span> param=<span class="hljs-string">&quot;赋值来源参数名&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>使用此修改器能直接修改对象中成员变量的属性</p>
+<p><em>同方式一，也会把param传来的参数自动转化成成员变量的类型</em></p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;jsp:setProperty name=<span class="hljs-string">&quot;对象名&quot;</span> property=<span class="hljs-string">&quot;成员变量名&quot;</span> value=<span class="hljs-string">&quot;变量或表达式&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>使用此修改器能直接修改对象中成员变量的属性</p>
+<p><em>同方式一，也会把value中的值（表达式或字符串）自动转化成成员变量的类型</em></p>
+<hr>
+<h1 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h1><p>继承于HttpServlet类的一个子类</p>
+<p><em>Jsp相当于把java程序片卸载网页中，Servlet相当于把网页写在；Java类中</em></p>
+<hr>
+<h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><p>public void init(ServletConfig config)</p>
+<p>public void doGet&#x2F;doPost(HttpServletRequest request,HttpServletResponse response)</p>
+<p>publie void destroy()</p>
+<hr>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><p>创建Servlet类</p>
+</li>
+<li><p>在web.xml文件中注册Servlet对象，格式：   </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">web-app</span>&gt;</span><br>  ……<br>  <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>Servlet对象名<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>Servlet类全名<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span><br>  	<span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>Servlet对象名<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/格式<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">web-app</span>&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>或者在创建Servlet时利用@WebServlet完成配置Servlet：格式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@WebServlet(&quot;/格式&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">XxxServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span>&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>亦或者多配置一些信息（对象名，多个格式，或者是带一些默认值）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@WebServlet(name=&quot;对象名字&quot;,</span><br><span class="hljs-meta">           urlPatterns=&#123;</span><br><span class="hljs-meta">              &quot;/格式1&quot;,</span><br><span class="hljs-meta">              &quot;/格式2&quot;</span><br><span class="hljs-meta">            &#125;</span><br><span class="hljs-meta">           initParams=&#123;</span><br><span class="hljs-meta">             @WebInitParam(name=&quot;param&quot;,value=&quot;123&quot;)，</span><br><span class="hljs-meta">               ……</span><br><span class="hljs-meta">           &#125;</span><br><span class="hljs-meta">           ……)</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h3 id="内置对象的一些特殊的定义方法"><a href="#内置对象的一些特殊的定义方法" class="headerlink" title="内置对象的一些特殊的定义方法"></a>内置对象的一些特殊的定义方法</h3><p><em>因为request和response是形参，可以直接使用。但是其他的内置对象需要单独定义</em></p>
+<p>out:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">PrintWriter</span> <span class="hljs-variable">out</span> <span class="hljs-operator">=</span> resp.getWriter();<br></code></pre></td></tr></table></figure>
+
+<p>session:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> req.getSession();<span class="hljs-comment">//非严格形式</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//严格形式</span><br><span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> req.getSession(<span class="hljs-literal">false</span>);<span class="hljs-comment">//使用已有的Session</span><br><span class="hljs-keyword">if</span>(session == <span class="hljs-literal">null</span>)&#123;<br>  session = req.getSession(<span class="hljs-literal">true</span>);<span class="hljs-comment">//当没有Session时，创建新的Session</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>application:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ServletContext</span> <span class="hljs-variable">application</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.getServletContext();<br></code></pre></td></tr></table></figure>
+
+<h1 id="EL"><a href="#EL" class="headerlink" title="EL"></a>EL</h1><p>Expression Language(表达式语言)</p>
+<p>EL的底层操作就是调用内置对象方法</p>
+<h3 id="表达式的构成"><a href="#表达式的构成" class="headerlink" title="表达式的构成"></a>表达式的构成</h3><ol>
+<li><p>隐式对象</p>
+<p>param、paramValues、initParam</p>
+<table>
+<thead>
+<tr>
+<th>jsp内置对象</th>
+<th>EL隐式对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>request.getParameter(“a”)</td>
+<td>${param.a}</td>
+</tr>
+<tr>
+<td>request.getAttribute(“a”)</td>
+<td>${requestScope.a}</td>
+</tr>
+<tr>
+<td>session.getAttribute(“a”)</td>
+<td>${SessionScope.a}</td>
+</tr>
+<tr>
+<td>pageConpage.findAttribute(“a”)</td>
+<td>${a}</td>
+</tr>
+<tr>
+<td>获取a中的属性value</td>
+<td>${sessionScope.a.value}</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<p><em>scope中文释义：范围</em></p>
+<ol start="2">
+<li>常量：boolean、整数、浮点数、字符串和null</li>
+<li>运算符：算术运算符、关系运算符、逻辑运算符、空</li>
+</ol>
+<h1 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h1><p>JSP Standard Tap Liberary(JSP标准标记库)</p>
+<h3 id="引入格式"><a href="#引入格式" class="headerlink" title="引入格式"></a>引入格式</h3><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;%<span class="hljs-meta">@taglib</span>  uri=<span class="hljs-string">&quot;路径及其类型&quot;</span> prefix=<span class="hljs-string">&quot;前缀&quot;</span>%&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="标记库类型"><a href="#标记库类型" class="headerlink" title="标记库类型"></a>标记库类型</h3><ol>
+<li>核心标记库（core）——c</li>
+<li>数据库访问标记库（sql）——sql</li>
+<li>XML标记库（xml）——x</li>
+<li>国际化标记库（fmt）——fmt</li>
+<li>函数标记库（functions）——fn</li>
+</ol>
+<hr>
+<h3 id="核心标记库"><a href="#核心标记库" class="headerlink" title="核心标记库"></a>核心标记库</h3><h5 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;c:forEach iterms=<span class="hljs-string">&quot;遍历源&quot;</span> <span class="hljs-keyword">var</span>=<span class="hljs-string">&quot;元素&quot;</span> varStatus=<span class="hljs-string">&quot;指定遍历状态&quot;</span> begin=<span class="hljs-string">&quot;开始的索引值&quot;</span> end=<span class="hljs-string">&quot;结束的索引值&quot;</span> step=<span class="hljs-string">&quot;步长（默认值1）&quot;</span>&gt;<br>循环体<br>&lt;/c:forEach&gt;<br></code></pre></td></tr></table></figure>
+
+<p><em>begin、end、step分别表示：起始序号，结束序号，跳跃步伐。</em></p>
+<p>我们一般用&lt;c:forEach&gt; 来遍历需要的数据，为了方便使用，varStatus属性可以方便我们实现一些与行数相关的功能，如：奇数行、偶数行差异；最后一行特殊处理等等。</p>
+<p>varStatus 是循环索引。先就varStatus属性常用参数总结下：</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>${status.index}</td>
+<td>输出行号，从0开始。</td>
+</tr>
+<tr>
+<td>${status.count}</td>
+<td>输出行号，从1开始。</td>
+</tr>
+<tr>
+<td>${status.current}</td>
+<td>当前这次迭代的（集合中的）项</td>
+</tr>
+<tr>
+<td>${status.first}</td>
+<td>判断当前项是否为集合中的第一项，返回值为true或false</td>
+</tr>
+<tr>
+<td>${status.last}</td>
+<td>判断当前项是否为集合中的最后一项，返回值为true或false</td>
+</tr>
+</tbody></table>
+<hr>
+<h5 id="if"><a href="#if" class="headerlink" title="if"></a>if</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">&quot;判断条件&quot;</span>&gt;<br>执行体<br>&lt;/c:<span class="hljs-keyword">if</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>if用于单分支判断</p>
+<hr>
+<h5 id="choose、when和otherwise"><a href="#choose、when和otherwise" class="headerlink" title="choose、when和otherwise"></a>choose、when和otherwise</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;c:choose&gt;<br>	&lt;c:<span class="hljs-keyword">when</span> test=<span class="hljs-string">&quot;判断条件&quot;</span>&gt;<br>    	执行体<br>    &lt;/c:<span class="hljs-keyword">when</span>&gt;<br>    ……<br>    &lt;c:otherwise&gt;最后一种操作&lt;/c:otherwise&gt;<br>&lt;/c:choose&gt;<br></code></pre></td></tr></table></figure>
+
+<p>choose、when和otherwise用于多分支判断</p>
+<p>具体使用时可与if elseif else 与switch类比</p>
+<hr>
+<h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;c:<span class="hljs-type">set</span> <span class="hljs-variable">var</span> <span class="hljs-operator">=</span><span class="hljs-string">&quot;变量名&quot;</span> value=<span class="hljs-string">&quot;值&quot;</span> scope=<span class="hljs-string">&quot;变量储存的范围&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+
+<p>新建变量</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;c:set target=<span class="hljs-string">&quot;Bean对象名&quot;</span> property=<span class="hljs-string">&quot;成员变量名&quot;</span> value=<span class="hljs-string">&quot;值&quot;</span> scope=<span class="hljs-string">&quot;成员变量的储存位置&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+
+<p>为对象成员变量赋值</p>
+<hr>
+<h5 id="url"><a href="#url" class="headerlink" title="url"></a>url</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;c:url <span class="hljs-keyword">var</span>=<span class="hljs-string">&quot;存储url地址对象名&quot;</span> value=<span class="hljs-string">&quot;被重写的url&quot;</span> context=<span class="hljs-string">&quot;站点名&quot;</span> scope=<span class="hljs-string">&quot;变量储存范围&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+
+<p>该标签用于生成一个 URL 路径的字符串，该符串可用于<a> 标记实现 URL 的链接，或者用于网页转发和重定向等</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;c:url <span class="hljs-keyword">var</span>=<span class="hljs-string">&quot;path&quot;</span> value=<span class="hljs-string">&quot;../login.jsp&quot;</span> scope=<span class="hljs-string">&quot;page&quot;</span>/&gt;<br>&lt;a href=<span class="hljs-string">&quot;$&#123;pageScope.path&#125;&quot;</span>&gt;登录页面&lt;/a&gt;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="redirect"><a href="#redirect" class="headerlink" title="redirect"></a>redirect</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;c:redirect url=<span class="hljs-string">&quot;重定向地址&quot;</span> context=<span class="hljs-string">&quot;站点名&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+
+<p>重定向</p>
+<p><em>注:例如url和redirect标记均可写成双标记形式，在中加入c:param标记传参</em></p>
+<hr>
+<h3 id="数据库访问标记库"><a href="#数据库访问标记库" class="headerlink" title="数据库访问标记库"></a>数据库访问标记库</h3><h5 id="setDataSource"><a href="#setDataSource" class="headerlink" title="setDataSource"></a>setDataSource</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;sql:dataSource diver=<span class="hljs-string">&quot;驱动串&quot;</span><br>                url=<span class="hljs-string">&quot;连接串&quot;</span><br>                user=<span class="hljs-string">&quot;用户名&quot;</span><br>                password=<span class="hljs-string">&quot;密码&quot;</span><br>                <span class="hljs-keyword">var</span>=<span class="hljs-string">&quot;存储链接的变量&quot;</span><br>                scope=<span class="hljs-string">&quot;存储对象的作用范围&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+
+<p>建立与数据库的连接源</p>
+<hr>
+<h5 id="query"><a href="#query" class="headerlink" title="query"></a>query</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs jsp">&lt;sql:query <span class="hljs-keyword">var</span>=<span class="hljs-string">&quot;存储查询结果的变量&quot;</span><br>           sql=<span class="hljs-string">&quot;sql语句&quot;</span><br>           dataSource=<span class="hljs-string">&quot;数据源&quot;</span><br>           startRow=<span class="hljs-string">&quot;起始行&quot;</span><br>           maxRows=<span class="hljs-string">&quot;显示的最大行数&quot;</span><br>           scope=<span class="hljs-string">&quot;存储对象的作用范围&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+
+<p><em>注:需使用查询结果变量的rows方法返回查询结果集</em></p>
+<p><em>可使用c:foreach标签遍历结果集</em></p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9D%82%E9%A1%B9/" class="category-chain-item">杂项</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9D%82%E9%A1%B9/ccut/" class="category-chain-item">ccut</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JSP</div>
+      <div>http://blog.170827.xyz/2023/04/24/JSP/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/24/adb-fastbootchang-yong-ming-ling/" title="adb/fastboot常用命令">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">adb/fastboot常用命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/24/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="多线程">
+                        <span class="hidden-mobile">多线程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

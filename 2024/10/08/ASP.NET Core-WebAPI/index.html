@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ASP.NET Core-WebAPISwaggerSwashbuckle 和 ASP.NET Core 入门 | Microsoft Learn 当我们创建好web API项目时，我们可以看到，项目默认存在一个软件包，其中就内置了Swagger的功能  LoggingASP.NET Core 自带了一个日志记录框架，这个框架通过 Microsoft.Extensions.Logging 命名空间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Core-WebAPI">
+<meta property="og:url" content="http://blog.170827.xyz/2024/10/08/ASP.NET%20Core-WebAPI/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="ASP.NET Core-WebAPISwaggerSwashbuckle 和 ASP.NET Core 入门 | Microsoft Learn 当我们创建好web API项目时，我们可以看到，项目默认存在一个软件包，其中就内置了Swagger的功能  LoggingASP.NET Core 自带了一个日志记录框架，这个框架通过 Microsoft.Extensions.Logging 命名空间">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-08T16:58:57.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.392Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>ASP.NET Core-WebAPI - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ASP.NET Core-WebAPI"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-08 16:58" pubdate>
+          2024年10月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ASP.NET Core-WebAPI</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ASP-NET-Core-WebAPI"><a href="#ASP-NET-Core-WebAPI" class="headerlink" title="ASP.NET Core-WebAPI"></a>ASP.NET Core-WebAPI</h1><h3 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h3><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-8.0&tabs=visual-studio">Swashbuckle 和 ASP.NET Core 入门 | Microsoft Learn</a></p>
+<p>当我们创建好web API项目时，我们可以看到，项目默认存在一个软件包，其中就内置了Swagger的功能</p>
+<hr>
+<h3 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h3><p>ASP.NET Core 自带了一个日志记录框架，这个框架通过 <code>Microsoft.Extensions.Logging</code> 命名空间提供</p>
+<p>这个命名空间包含了各种日志记录相关的接口和类，如 <code>ILogger</code> 和 <code>ILoggerFactory</code></p>
+<hr>
+<h3 id="DependencyInjection依赖注入"><a href="#DependencyInjection依赖注入" class="headerlink" title="DependencyInjection依赖注入"></a>DependencyInjection依赖注入</h3><p>DI的依赖也被框架所包含</p>
+<p>Microsoft.Extensions.DependencyInjection</p>
+<p>在Action方法中，我们可以单独为某一个方法注入存在于DI中的依赖，而不通过构造函数的方式来注入服务</p>
+<p>这种方式适用于某一个服务的执行过程很漫长，在构造函数中，对象实例化都会执行，所以不放在构造函数中</p>
+<p>通过[FromService]特性，在Action方法的参数中实现注入</p>
+<p>这样操作后，只有在调用此方法时才会将依赖实例化的对象注入，而不是在构造方法执行时就进行实例化注入</p>
+<hr>
+<h5 id="构造方法注入"><a href="#构造方法注入" class="headerlink" title="构造方法注入"></a>构造方法注入</h5><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ILogger&lt;WeatherForecastController&gt; _logger;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WeatherForecastController</span>(<span class="hljs-params">ILogger&lt;WeatherForecastController&gt; logger</span>)</span><br>&#123;<br>    _logger = logger;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="参数注入"><a href="#参数注入" class="headerlink" title="参数注入"></a>参数注入</h5><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">HttpGet</span>]<br><span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">GetWeatherForecast</span>(<span class="hljs-params">[FromServices] ILogger&lt;WeatherForecastController&gt; logger</span>)</span><br>&#123;	<br>    <span class="hljs-keyword">return</span> Ok();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Program-cs"><a href="#Program-cs" class="headerlink" title="Program.cs"></a>Program.cs</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">namespace</span> <span class="hljs-title">WebAPI</span>;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] <span class="hljs-keyword">args</span></span>)</span><br>    &#123;<br>        <span class="hljs-comment">// 创建一个WebApplicationBuilder实例，用于配置应用程序。这个实例使用命令行参数初始化。</span><br>        <span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(<span class="hljs-keyword">args</span>);<br><br>        <span class="hljs-comment">// 注册MVC控制器服务，使应用程序能够处理HTTP请求。</span><br>        builder.Services.AddControllers();<br><br>        <span class="hljs-comment">// 注册端点API探索器服务，用于生成API元数据，这些元数据可以被Swagger等工具使用。</span><br>        builder.Services.AddEndpointsApiExplorer();<br><br>        <span class="hljs-comment">// 注册Swagger生成器服务，用于生成Swagger文档，这些文档可以用来生成API文档和交互式API测试界面。</span><br>        builder.Services.AddSwaggerGen();<br><br>        <span class="hljs-comment">// 使用构建器创建一个配置好的WebApplication实例。</span><br>        <span class="hljs-keyword">var</span> app = builder.Build();<br><br>        <span class="hljs-comment">// 配置HTTP请求管道</span><br>        <span class="hljs-comment">// 如果应用程序处于开发环境，则启用Swagger和Swagger UI</span><br>        <span class="hljs-keyword">if</span> (app.Environment.IsDevelopment())<br>        &#123;<br>            app.UseSwagger();  <span class="hljs-comment">// 启用Swagger中间件，生成API文档</span><br>            app.UseSwaggerUI();  <span class="hljs-comment">// 启用Swagger UI界面，提供交互式API测试</span><br>        &#125;<br><br>        <span class="hljs-comment">// 启用HTTPS重定向中间件，将所有HTTP请求重定向到HTTPS</span><br>        app.UseHttpsRedirection();<br><br>        <span class="hljs-comment">// 启用授权中间件，处理授权逻辑，确保只有经过身份验证和授权的用户才能访问受保护的资源</span><br>        app.UseAuthorization();<br><br>        <span class="hljs-comment">// 注册MVC控制器路由，告诉应用程序如何处理控制器中的路由</span><br>        app.MapControllers();<br><br>        <span class="hljs-comment">// 启动应用程序，开始监听HTTP请求并处理它们</span><br>        app.Run();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>在Java中，一般返回值为集合时使用带泛型的List集合封装，但C#中使用IEnumerable进行封装</p>
+<p><em>和MVC不同的是，WebAPI的Controller继承自ControllerBase，而不是Controller，因为Controller是基于ControllerBase增加了视图相关</em></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">using</span> Microsoft.AspNetCore.Mvc;<br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">WebAPI.Controllers</span>;<br><br>[<span class="hljs-meta">ApiController</span>]<br>[<span class="hljs-meta">Route(<span class="hljs-string">&quot;[controller]&quot;</span>)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">WeatherForecastController</span> : <span class="hljs-title">ControllerBase</span><br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span>[] Summaries = <span class="hljs-keyword">new</span>[]<br>    &#123;<br>        <span class="hljs-string">&quot;Freezing&quot;</span>, <span class="hljs-string">&quot;Bracing&quot;</span>, <span class="hljs-string">&quot;Chilly&quot;</span>, <span class="hljs-string">&quot;Cool&quot;</span>, <span class="hljs-string">&quot;Mild&quot;</span>, <span class="hljs-string">&quot;Warm&quot;</span>, <span class="hljs-string">&quot;Balmy&quot;</span>, <span class="hljs-string">&quot;Hot&quot;</span>, <span class="hljs-string">&quot;Sweltering&quot;</span>, <span class="hljs-string">&quot;Scorching&quot;</span><br>    &#125;;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ILogger&lt;WeatherForecastController&gt; _logger;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WeatherForecastController</span>(<span class="hljs-params">ILogger&lt;WeatherForecastController&gt; logger</span>)</span><br>    &#123;<br>        _logger = logger;<br>    &#125;<br><br>    <span class="hljs-comment">// 在Java中，一般返回值为集合时使用带泛型的List集合封装，但C#中使用IEnumerable进行封装</span><br>    [<span class="hljs-meta">HttpGet(Name = <span class="hljs-string">&quot;GetWeatherForecast&quot;</span>)</span>]<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> IEnumerable&lt;WeatherForecast&gt; <span class="hljs-title">Get</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> Enumerable.Range(<span class="hljs-number">1</span>, <span class="hljs-number">5</span>).Select(index =&gt; <span class="hljs-keyword">new</span> WeatherForecast<br>            &#123;<br>                Date = DateTime.Now.AddDays(index),<br>                TemperatureC = Random.Shared.Next(<span class="hljs-number">-20</span>, <span class="hljs-number">55</span>),<br>                Summary = Summaries[Random.Shared.Next(Summaries.Length)]<br>            &#125;)<br>            .ToArray();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>特性（Attributes）解释</p>
+<ol>
+<li><p><strong><code>[ApiController]</code></strong></p>
+<ul>
+<li><strong>含义</strong>：<code>[ApiController]</code> 是一个特性，用于标记控制器类，表明该控制器是用于处理Web API请求的。这个特性会启用一些特定的行为，例如：<ul>
+<li><strong>模型验证</strong>：如果模型验证失败，会自动返回400 Bad Request响应。</li>
+<li><strong>绑定源参数</strong>：自动处理绑定源参数，例如查询字符串、表单数据等。</li>
+<li><strong>问题详细信息对象</strong>：在模型验证失败时，返回更详细的错误信息。</li>
+<li><strong>异步支持</strong>：支持异步操作方法。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong><code>[Route(&quot;[controller]&quot;)]</code></strong></p>
+<ul>
+<li><strong>含义</strong>：<code>[Route]</code> 特性用于定义路由模板。<code>[controller]</code> 是一个占位符，会被替换为控制器的名称（去掉“Controller”后缀）。例如，<code>WeatherForecastController</code> 的路由路径将是 <code>/weatherforecast</code>。</li>
+<li><strong>用途</strong>：用于定义控制器的基路径，使得URL更加清晰和可预测。</li>
+</ul>
+</li>
+<li><p><strong><code>[HttpGet(Name = &quot;GetWeatherForecast&quot;)]</code></strong></p>
+<ul>
+<li><p><strong>含义</strong>：<code>[HttpGet]</code> 特性用于标记一个方法，表示该方法处理HTTP GET请求。<code>Name</code> 参数用于给该路由起一个名字，可以在其他地方引用这个路由。</p>
+</li>
+<li><p><strong>用途</strong>：</p>
+<ul>
+<li><strong>HTTP动词</strong>：指定该方法只处理GET请求。</li>
+<li><strong>命名路由</strong>：通过 <code>Name</code> 参数，可以在其他地方（如链接生成）引用这个路由</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h5 id="Swagger的500错误"><a href="#Swagger的500错误" class="headerlink" title="Swagger的500错误"></a>Swagger的500错误</h5><p>当控制器存在一个没有特性修饰的public方法时，Swagger会报500错误</p>
+<p>只需要将方法私有化，或者加上请求方式的特性修饰即可</p>
+<hr>
+<h3 id="Action方法"><a href="#Action方法" class="headerlink" title="Action方法"></a>Action方法</h3><ul>
+<li><p>无论是MVC还是WebAPI中，Action方法既可以是同步，也可以是异步（异步的Action方法一般不需要以Async结尾）</p>
+</li>
+<li><p>Action方法的返回值如果为引用类型，则会被默认序列化为JSON格式</p>
+</li>
+<li><p>Action方法的返回值也可以是IActionResult类型</p>
+</li>
+<li><p>在WebAPI中，推荐使用IActionResult&lt;&gt;泛型方法，这个方法支持引用类型的序列化转换</p>
+</li>
+</ul>
+<p><em>注：IActionResult使用起来和在Java中我们自封装的Result结果集很相似，但返回方法由ControllerBase提供</em></p>
+<hr>
+<h5 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h5><p>与Java相同，ASP.NET Core也有三种请求参数的方式</p>
+<ul>
+<li>路径参数</li>
+<li>键值对参数</li>
+<li>请求体参数</li>
+</ul>
+<p>如果是请求体参数，则框架会自动帮忙结构并赋值到对象，不需要使用@RequestBody类似的注解</p>
+<p>如果是路径参数，[FromRoute]特性与@PathVariable注解功能相同</p>
+<p>如果是键值对参数，[FromQuery]特性与@RequestParam注解功能相同</p>
+<p>如果是请求体参数，[FromBody]特性与@RequestBody注解功能相同</p>
+<p><em>除了FromRoute、FromQuery、FromBody之外，还有FromForm、FromHeader等</em></p>
+<hr>
+<h3 id="WebAPI的请求风格"><a href="#WebAPI的请求风格" class="headerlink" title="WebAPI的请求风格"></a>WebAPI的请求风格</h3><p>和SpringMVC相同，ASP.NET Core WebAPI也有两种请求风格：</p>
+<ul>
+<li>RPC</li>
+<li>REST</li>
+</ul>
+<hr>
+<h5 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h5><p>如果想强制实现RPC的URL风格，即让URL包含调用的具体方法名字，则需要在路由上加入action</p>
+<p>这样在调用时，就需要使用控制器名&#x2F;方法名的方式来调用方法</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">ApiController</span>]<br>[<span class="hljs-meta">Route(<span class="hljs-string">&quot;[controller]/[action]&quot;</span>)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">WeatherForecastController</span> : <span class="hljs-title">ControllerBase</span><br>&#123;<br>    ……<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="REST"><a href="#REST" class="headerlink" title="REST"></a>REST</h5><p>具体实现流程和SpringMVC相同，具体可以翻看前面的笔记，需要注意的就是其特别的<strong>路径传参</strong>的方式</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-comment">// PUT: api/WeatherForecast/5</span><br><span class="hljs-comment">// 路径传参方式</span><br>[<span class="hljs-meta">HttpPut(<span class="hljs-string">&quot;&#123;id&#125;&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">Put</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> id, WeatherForecast forecast</span>)</span><br>&#123;<br>    <span class="hljs-comment">// 处理PUT请求，更新现有的WeatherForecast对象</span><br>    <span class="hljs-keyword">return</span> NoContent();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NET%E6%A1%86%E6%9E%B6%E7%9B%B8%E5%85%B3/" class="category-chain-item">NET框架相关</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/NET%E6%A1%86%E6%9E%B6%E7%9B%B8%E5%85%B3/net/" class="category-chain-item">net</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ASP.NET Core-WebAPI</div>
+      <div>http://blog.170827.xyz/2024/10/08/ASP.NET Core-WebAPI/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/10/09/WebAPI-%E7%BC%93%E5%AD%98/" title="WebAPI-缓存">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">WebAPI-缓存</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/08/ASP.NET%20Core/" title="ASP.NET Core">
+                        <span class="hidden-mobile">ASP.NET Core</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

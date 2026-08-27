@@ -1,0 +1,930 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第一章数据库的基本概念 数据（data） 描述事物的符号记录为数据 数据的含义称为数据的语义，数据及其语义是密不可分的  数据库（DB） 数据库具有永久存储、有组织和可共享三个特点  数据库管理系统（DBMS） 是计算机的基础软件 可以定义数据之间的联系 具有DDL和DML，可操作库和数据  数据库系统（DBS） 数据库系统是由数据库，数据库管理系统，应用程序和数据库管理员组成的储存、管理、处理和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库系统概论">
+<meta property="og:url" content="http://blog.170827.xyz/2023/05/26/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="第一章数据库的基本概念 数据（data） 描述事物的符号记录为数据 数据的含义称为数据的语义，数据及其语义是密不可分的  数据库（DB） 数据库具有永久存储、有组织和可共享三个特点  数据库管理系统（DBMS） 是计算机的基础软件 可以定义数据之间的联系 具有DDL和DML，可操作库和数据  数据库系统（DBS） 数据库系统是由数据库，数据库管理系统，应用程序和数据库管理员组成的储存、管理、处理和">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-26T14:15:37.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.406Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>数据库系统概论 - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="数据库系统概论"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-26 14:15" pubdate>
+          2023年5月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">数据库系统概论</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h1><h3 id="数据库的基本概念"><a href="#数据库的基本概念" class="headerlink" title="数据库的基本概念"></a>数据库的基本概念</h3><ol>
+<li><p>数据（data）</p>
+<p>描述事物的符号记录为数据</p>
+<p>数据的含义称为数据的语义，数据及其语义是密不可分的</p>
+</li>
+<li><p>数据库（DB）</p>
+<p>数据库具有永久存储、有组织和可共享三个特点</p>
+</li>
+<li><p>数据库管理系统（DBMS）</p>
+<p>是计算机的基础软件</p>
+<p>可以定义数据之间的联系</p>
+<p>具有DDL和DML，可操作库和数据</p>
+</li>
+<li><p>数据库系统（DBS）</p>
+<p>数据库系统是由数据库，数据库管理系统，应用程序和数据库管理员组成的储存、管理、处理和维护数据的系统</p>
+</li>
+</ol>
+<hr>
+<h3 id="数据模型的组成要素"><a href="#数据模型的组成要素" class="headerlink" title="数据模型的组成要素"></a>数据模型的组成要素</h3><p>数据模型通常由数据结构、数据操作和数据的完整性约束条件三部分组成</p>
+<ol>
+<li><p>数据结构</p>
+<p>数据结构描述数据库的组成对象以及对象之间的联系</p>
+</li>
+<li><p>数据操作</p>
+<p>数据操作是指数据库中各种对象的实例允许执行的操作的集合，包括操作有关的操作规则</p>
+</li>
+<li><p>数据的完整性约束条件</p>
+<p>数据的完整性约束条件是一条完整性规则</p>
+</li>
+</ol>
+<hr>
+<h3 id="数据系统的三级模式结构"><a href="#数据系统的三级模式结构" class="headerlink" title="数据系统的三级模式结构"></a>数据系统的三级模式结构</h3><p>数据库系统的三级模式结构是指数据库系统是由外模式、模式和内模式三级构成</p>
+<ol>
+<li><p>模式</p>
+<p>模式也称逻辑模式，是数据库中全体数据的逻辑结构和特征的描述，是所有用户的公共数据视图</p>
+</li>
+<li><p>外模式</p>
+<p>外模式也称子模式或用户模式，他是数据库用户能够看见和使用的局部数据的逻辑结构和特征的描述，是数据用户的数据视图，是与某一应用有关的数据的逻辑表示</p>
+</li>
+<li><p>内模式</p>
+<p>内模式又称存储模式，一个数据库只有一个内模式。他是数据物理结构和存储方式的描述，是数据在数据库内部的组织方式</p>
+</li>
+</ol>
+<p><em>注：个人理解，模式就是数据库的逻辑结构，内模式就是数据库的物理结构</em></p>
+<hr>
+<h3 id="数据库的二级映像功能与数据独立性"><a href="#数据库的二级映像功能与数据独立性" class="headerlink" title="数据库的二级映像功能与数据独立性"></a>数据库的二级映像功能与数据独立性</h3><ol>
+<li><p>外模式&#x2F;模式映像</p>
+<p>当模式改变时，由数据库管理员对各个外模式&#x2F;模式的映像作相应改变，可以使外模式保持不变。应用程序是依据数据的外模式编写的，从而应用程序不必修改，保证了数据与程序的逻辑独立性，简称数据的逻辑独立性</p>
+</li>
+<li><p>模式&#x2F;内模式映像</p>
+<p>当数据库的存储结构发生改变时，由数据库管理员对模式&#x2F;内模式映像作相应改变，可以使模式保持不变，从而应用程序也不必改变。保证了数据与程序的物理独立性，简称数据的物理独立性</p>
+</li>
+<li><p>数据独立性</p>
+<p>数据与程序之间的独立性使得数据的定义和描述可以从应用程序中分离出去。由于数据的存取由数据库管理系统管理，从而简化了应用程序的编制，大大减少了应用程序的维护和修改</p>
+</li>
+</ol>
+<hr>
+<h1 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h1><h3 id="关系代数"><a href="#关系代数" class="headerlink" title="关系代数"></a>关系代数</h3><h5 id="传统的集合运算"><a href="#传统的集合运算" class="headerlink" title="传统的集合运算"></a>传统的集合运算</h5><p>传统的集合运算是二目运算，包括并、交、差和笛卡尔积4种运算</p>
+<h5 id="专门的关系运算"><a href="#专门的关系运算" class="headerlink" title="专门的关系运算"></a>专门的关系运算</h5><p>专门的关系运算包括选择、投影、链接、除运算等</p>
+<ol>
+<li><p>选择（σ）</p>
+<p>σ字段条件（表名）</p>
+</li>
+<li><p>投影（Π）</p>
+<p>Π想要显示的列（表名）</p>
+</li>
+<li><p>连接（⨝）</p>
+<p>自然连接：关系1⨝关系2</p>
+</li>
+</ol>
+<p><em>注：关系代数中，选择相当于sql语句中的where，投影相当于sql语句中的select</em></p>
+<p><strong>一般流程为：将表自然连接后，用选择筛出符合条件的表，再用投影筛出自己想要的列</strong></p>
+<hr>
+<h1 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h1><p>SQL大致分为：QL（查询语言）DML（数据操纵语言）DDL（数据定义语言）DCL（数据控制语言）TC（事务控制）</p>
+<hr>
+<h3 id="QL"><a href="#QL" class="headerlink" title="QL"></a>QL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span><br><span class="hljs-keyword">DISTINCT</span> 列名<span class="hljs-operator">|</span><span class="hljs-operator">*</span><span class="hljs-operator">|</span>表达式 别名<br><span class="hljs-keyword">FROM</span><br>表名<span class="hljs-operator">|</span>试图名<span class="hljs-operator">|</span>子查询 别名<br><span class="hljs-keyword">WHERE</span><br>条件表达式  <span class="hljs-operator">&gt;</span>   <span class="hljs-operator">&lt;</span>   <span class="hljs-operator">&gt;=</span>   <span class="hljs-operator">&lt;=</span>   <span class="hljs-operator">&lt;&gt;</span>（不等于<span class="hljs-operator">!=</span>仍可用）<br><span class="hljs-keyword">in</span>    <span class="hljs-keyword">between</span>……<span class="hljs-keyword">and</span>……    <span class="hljs-keyword">like</span>     <span class="hljs-keyword">or</span>     <span class="hljs-keyword">not</span>     <span class="hljs-keyword">is</span> <span class="hljs-keyword">null</span><br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span><br>列名<span class="hljs-operator">|</span>表达式<br><span class="hljs-built_in">sum</span>()   <span class="hljs-built_in">avg</span>()    <span class="hljs-built_in">count</span>()   <span class="hljs-built_in">max</span>()   <span class="hljs-built_in">min</span>()<br><span class="hljs-keyword">HAVING</span><br>限制组的条件表达式<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <br>列名<span class="hljs-operator">|</span>别名<span class="hljs-operator">|</span>列序号 <span class="hljs-keyword">desc</span>倒序 <br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">CASE</span> expr <span class="hljs-keyword">WHEN</span> 值<span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span> 返回值<span class="hljs-number">1</span><br>                <span class="hljs-keyword">WHEN</span> 值<span class="hljs-number">2</span> <span class="hljs-keyword">THEN</span> 返回值<span class="hljs-number">2</span><br>                ……<br>                <span class="hljs-keyword">ELSE</span> 返回值<br><span class="hljs-keyword">END</span><br><br><span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> 条件<span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span> 返回值<span class="hljs-number">1</span><br>          <span class="hljs-keyword">WHEN</span> 条件<span class="hljs-number">2</span> <span class="hljs-keyword">THEN</span> 返回值<span class="hljs-number">2</span><br>          ……<br>          <span class="hljs-keyword">ELSE</span> 返回值<br><span class="hljs-keyword">END</span><br></code></pre></td></tr></table></figure>
+
+<p>连接标准写法</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">from</span> a <span class="hljs-keyword">left</span>  <span class="hljs-keyword">join</span> b<br><span class="hljs-keyword">on</span> a.col <span class="hljs-operator">=</span> b.col<br></code></pre></td></tr></table></figure>
+
+<p>自链接</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> q.ename,l.ename<br><span class="hljs-keyword">from</span> emp w,emp l<br><span class="hljs-keyword">where</span> w.领导号<span class="hljs-operator">=</span>l. 员工号<br></code></pre></td></tr></table></figure>
+
+<p>子查询（嵌套查询）<br>单行子查询<br>&lt; &gt;  &gt;&#x3D; &lt;&#x3D; &#x3D; &lt;&gt;<br>多行子查询<br>in any all<br>相关子查询<br>查询工资比其所在部门平均工资还高的员工</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> ename,salary,dept_id<br><span class="hljs-keyword">from</span> emp e<br><span class="hljs-keyword">where</span> salary<span class="hljs-operator">&gt;</span>(<span class="hljs-keyword">select</span> <span class="hljs-built_in">avg</span>(salary)<br>                    <span class="hljs-keyword">from</span> emp<br>                    <span class="hljs-keyword">where</span> dept_id<span class="hljs-operator">=</span>e.dept_id)<br></code></pre></td></tr></table></figure>
+
+<p>思路就是 ，查询第一个人的部门为参数，计算这个部门的平均工资，在对比。以此循环<br>相关子查询的改写</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> ename,salary,dept_id<br><span class="hljs-keyword">from</span> emp e,(<span class="hljs-keyword">select</span> dept_id ,<span class="hljs-built_in">avg</span>(salary) avgsal<br>                 <span class="hljs-keyword">from</span> emp<br>                 <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> dept_id) a                                                     <br><span class="hljs-keyword">where</span> e.dept_id<span class="hljs-operator">=</span>a.dept_id<br><span class="hljs-keyword">and</span> e.salary<span class="hljs-operator">&gt;</span>a.avgsal<br></code></pre></td></tr></table></figure>
+
+
+<p>改写的思路是，分组部门获取每一个部门平均工资作为新表，把新旧表链接，在对比</p>
+<p>集合运算<br>并 交 差<br>union&#x2F;union all(不去重，不排序)<br>intersect<br>minus</p>
+<p>交 与 差 两种集合运算符在MySql无效，需通过相关子查询实现 </p>
+<p>select ……<br>union<br>select ……</p>
+<hr>
+<h3 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h3><p>create</p>
+<p>alter</p>
+<p>drop</p>
+<p>tuncate table 表名</p>
+<hr>
+<h3 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h3><p>增</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert into</span> 表名<br><span class="hljs-keyword">values</span> (值<span class="hljs-number">1</span>,值<span class="hljs-number">2</span>,值<span class="hljs-number">3</span>……)<br></code></pre></td></tr></table></figure>
+
+<p>删</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">delete</span> 表名<br><span class="hljs-keyword">where</span> 条件<br></code></pre></td></tr></table></figure>
+
+<p>改</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> 表名<br><span class="hljs-keyword">set</span> 列<span class="hljs-operator">=</span>值,列<span class="hljs-operator">=</span>值，……<br><span class="hljs-keyword">where</span> 条件<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">grant</span> 权限<br><span class="hljs-keyword">on</span> 对象<br><span class="hljs-keyword">to</span> 用户<span class="hljs-operator">|</span>角色<br><br><span class="hljs-keyword">revoke</span> 权限<br><span class="hljs-keyword">on</span> 对象<br><span class="hljs-keyword">from</span> 用户<span class="hljs-operator">|</span>角色<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="第五章"><a href="#第五章" class="headerlink" title="第五章"></a>第五章</h1><h3 id="完整性约束"><a href="#完整性约束" class="headerlink" title="完整性约束"></a>完整性约束</h3><ol>
+<li><p>实体完整性</p>
+<p>实体完整性约束就是对事物进行区分的唯一属性，在数据库中通常通过非空主键（primary key）来体现</p>
+</li>
+<li><p>参照完整性</p>
+<p>参照完整性指的是关系与关系之间的联系，即表与表之间的联系，通常对应表中的外键约束或外键引用（Foreign Key）</p>
+</li>
+<li><p>用户自定义完整性</p>
+<p>用户定义的完整性，针对的是某一个具体使用的数据库中的约束条件。反映的是具体应用、具体业务或场景，涉及的数据必须满足的要求。</p>
+<p>这类约束的实现，可以放在应用层完成检查校验；也可以由关系数据库管理系统，提供对这类完整性定义、实现和检验的机制，由数据库系统层统一管理和处理，减少应用程序的负担</p>
+<p><em>例如电话号码，身份证的有效性检验</em></p>
+</li>
+</ol>
+<hr>
+<h1 id="第六章"><a href="#第六章" class="headerlink" title="第六章"></a>第六章</h1><h3 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h3><p>关系数据库中的关系是要满足一定要求的，满足不同程度要求的为不同范式</p>
+<p>一个低一级范式的关系模式通过模式分解可以转换为若干个高一级范式的关系模式的集合，这种过程就叫<strong>规范化</strong></p>
+<p><em>个人理解：范式的存在就是为了消除数据冗余</em></p>
+<ol>
+<li><p>第一范式：无重复的列</p>
+</li>
+<li><p>第二范式：属性完全依赖于主键</p>
+<p><em>注：如果出现了联合主键（例如：学号和学生姓名，课程号和课程名）同时出现一张表中，存在部份依赖，不符合第二范式</em></p>
+</li>
+<li><p>第三范式：要求一个数据库表中不包含已在其它表中已包含的非主关键字信息</p>
+</li>
+<li><p>BC范式：</p>
+<p>与2NF,3NF的定义不同，BCNF的定义直接建立在1NF的基础上。但实质上BCNF是3NF的改进形式。3NF仅考虑了非主属性对键的依赖情况，BCNF把主属性对键的依赖情况也包括进去。BCNF要求满足的条件比3NF所要求的更高。如果关系模式R是BCNF的，那么R必定是3NF，反之，则不一定成立。</p>
+</li>
+</ol>
+<hr>
+<h3 id="模式的分解"><a href="#模式的分解" class="headerlink" title="模式的分解"></a>模式的分解</h3><p>模式分解的三个定义：</p>
+<ol>
+<li>分解具有无损连接性</li>
+<li>分解要保持函数依赖</li>
+<li>分解既要保证无损连接性，也要保持函数依赖</li>
+</ol>
+<p>这三个定义是实行分解的三条不同的准则。按照不同的分解准则，模式所能达到的分离程度各不相同，各种范式就是对分离程度的测度</p>
+<hr>
+<h1 id="第七章"><a href="#第七章" class="headerlink" title="第七章"></a>第七章</h1><p>数据库的设计中分为以下五个步骤</p>
+<ol>
+<li>需求分析</li>
+<li>概念结构设计</li>
+<li>逻辑结构设计</li>
+<li>物理结构设计</li>
+<li>数据库的实施与维护</li>
+</ol>
+<hr>
+<h3 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h3><h5 id="需求分析的任务"><a href="#需求分析的任务" class="headerlink" title="需求分析的任务"></a>需求分析的任务</h5><p>调查的重点是“数据”和“处理”，通过调查、收集与分析，获得用户对数据库的如下要求</p>
+<ol>
+<li>信息要求</li>
+<li>处理要求</li>
+<li>安全性与完整性要求</li>
+</ol>
+<h5 id="需求分析的方法"><a href="#需求分析的方法" class="headerlink" title="需求分析的方法"></a>需求分析的方法</h5><p>调查步骤</p>
+<ol>
+<li>调查组织机构情况</li>
+<li>调查各部门的业务活动情况</li>
+<li>在熟悉业务活动的基础上，协助用户明确对新系统的各种要求</li>
+<li>确定新系统的边界</li>
+</ol>
+<p>调查方法</p>
+<ol>
+<li>跟班作业</li>
+<li>开调查会</li>
+<li>请专人介绍</li>
+<li>询问</li>
+<li>设计调查表请用户填写</li>
+<li>查阅记录</li>
+</ol>
+<h5 id="数据字典"><a href="#数据字典" class="headerlink" title="数据字典"></a>数据字典</h5><p>关于数据库中数据的描述，即元数据，而不是数据本身。数据字典是在需求分析阶段建立，在数据库设计过程中不断修改、充实、完善的。它在数据库设计中占有很重要的地位</p>
+<ol>
+<li>数据项</li>
+<li>数据结构</li>
+<li>数据流</li>
+<li>数据存储</li>
+<li>处理过程</li>
+</ol>
+<hr>
+<h3 id="概念结构设计"><a href="#概念结构设计" class="headerlink" title="概念结构设计"></a>概念结构设计</h3><h5 id="ER模型"><a href="#ER模型" class="headerlink" title="ER模型"></a>ER模型</h5><p>实体之间的联系：</p>
+<ol>
+<li>一对一联系</li>
+<li>一对多联系</li>
+<li>多对多联系</li>
+</ol>
+<h5 id="ER图"><a href="#ER图" class="headerlink" title="ER图"></a>ER图</h5><p>E-R 图提供了表示实体型、属性和联系的方法</p>
+<ol>
+<li>实体型用矩形表示，矩形框内写明实体名</li>
+<li>属性用椭圆形表示，并用无向边将其与相应的实体型连接起来</li>
+<li>联系用菱形表示，菱形框内写明联系名，并用无向边分别与有关实体型连接起来在无向边旁标上联系的类型(1:1、1:n或m:n)</li>
+</ol>
+<p>各子系统的 E-R图之间的冲突主要有三类:属性冲突、命名冲突和结构冲突</p>
+<hr>
+<h3 id="逻辑结构设计"><a href="#逻辑结构设计" class="headerlink" title="逻辑结构设计"></a>逻辑结构设计</h3><p>逻辑结构设计的任务就是把概念结构设计阶段设计好的基本 E-R 图转换为与选用数据库管理系统产品所支持的数据模型相符合的逻辑结构</p>
+<p>设计步骤：</p>
+<ol>
+<li>一个实体型转换为一个关系模式</li>
+<li>一个 1:1 联系可以转换为一个独立的关系模式，也可以与任意一端对应的关系模式合并</li>
+<li>一个 1:n 联系可以转换为一个独立的关系模式，也可以与 n 端对应的关系模式合并</li>
+<li>一个 m:n 联系转换为一个关系模式</li>
+<li>三个或三个以上实体间的一个多元联系可以转换为一个关系模式</li>
+<li>具有相同码的关系模式可合并</li>
+</ol>
+<p><em><strong>注：数据库逻辑设计的结果不是唯一的，且并不是规范化程度越高的关系就越优</strong></em></p>
+<hr>
+<h3 id="物理结构设计"><a href="#物理结构设计" class="headerlink" title="物理结构设计"></a>物理结构设计</h3><p>为一个给定的逻辑数据模型选取一个最适合应用要求的物理结构的过程，就是数据库的物理设计</p>
+<p>设计步骤：</p>
+<ol>
+<li>确定数据库的物理结构</li>
+<li>对物理结构进行评价</li>
+</ol>
+<hr>
+<h3 id="数据库的实施与维护"><a href="#数据库的实施与维护" class="headerlink" title="数据库的实施与维护"></a>数据库的实施与维护</h3><p><strong>数据库应用程序的设计应该与数据库设计同时进行</strong></p>
+<p>要注意两点：</p>
+<ol>
+<li>在数据库试运营时，先输入小批量数据做调试用，待试运行基本合格后再大批量输入数据，逐步增加数据量，逐步完成运行评价</li>
+<li>要做好数据库的转储和恢复工作</li>
+</ol>
+<hr>
+<h1 id="第十章"><a href="#第十章" class="headerlink" title="第十章"></a>第十章</h1><h3 id="故障的种类"><a href="#故障的种类" class="headerlink" title="故障的种类"></a>故障的种类</h3><ol>
+<li><p>事务内部的故障</p>
+<p>一小部分由事务程序发生的故障是可以由程序本身发现的，会直接让事物回滚（ROLLBACK）</p>
+<p>绝大多数的事务内部故障是非预期的，是不能由应用程序处理的（一般都指的是此类故障）</p>
+<p>事物撤销（UNDO）</p>
+</li>
+<li><p>系统故障</p>
+<p>系统故障是指造成系统停止运转的任何事件，使得系统要重新启动</p>
+<p>重做（REDO）</p>
+</li>
+</ol>
+<p>各类故障对数据库的影响有两种可能性：</p>
+<ol>
+<li>数据库本身被破坏</li>
+<li>数据库没有被破坏，但数据可能不正确</li>
+</ol>
+<p><strong>恢复的基本原理就是利用冗余</strong></p>
+<hr>
+<h3 id="恢复的实现技术"><a href="#恢复的实现技术" class="headerlink" title="恢复的实现技术"></a>恢复的实现技术</h3><p>建立冗余数据最常用的技术是数据转储和登记日志文件 (logging）</p>
+<h5 id="数据转储"><a href="#数据转储" class="headerlink" title="数据转储"></a>数据转储</h5><p>数据转储有两种方式，分别可以在两种状态下进行，因此数据转储方法可以分为4类:动态海量转储、动态增量转储、静态海量转储和静态增量转储</p>
+<p><em>个人理解：数据转储就是整盘备份，可以恢复到备份时间点后在运行所有更新事务</em></p>
+<h5 id="日志文件"><a href="#日志文件" class="headerlink" title="日志文件"></a>日志文件</h5><p>日志文件是用来记录事务对数据库的更新操作的文件</p>
+<p>日志文件中需要登记的内容包括:</p>
+<ul>
+<li>各个事务的开始(BEGINTRANSACTION)标记</li>
+<li>各个事务的结束(COMMIT或ROLLBACK)标记</li>
+<li>各个事务的所有更新操作</li>
+</ul>
+<p>为保证数据库是可恢复的，登记日志文件时必须遵循两条原则:</p>
+<ul>
+<li>登记的次序严格按并发事务执行的时间次序</li>
+<li>必须先写日志文件，后写数据库</li>
+</ul>
+<hr>
+<h1 id="第十一章"><a href="#第十一章" class="headerlink" title="第十一章"></a>第十一章</h1><h3 id="并发控制概述"><a href="#并发控制概述" class="headerlink" title="并发控制概述"></a>并发控制概述</h3><p>事务是并发控制的基本单位</p>
+<p>并发控制机制就是要用正确的方式调度并发操作，使一个用户事务的执行不受其他事务的干扰，从而避免造成数据的不一致性</p>
+<p>发控制的主要技术有封锁(locking)、时间戳(timestamp)、乐观控制法(optimisticscheduler)和多版本并发控制(multi-version concurrency control，MVCC)等</p>
+<hr>
+<h3 id="封锁"><a href="#封锁" class="headerlink" title="封锁"></a>封锁</h3><p>排他锁又称为写锁</p>
+<p>共享锁又称为读锁</p>
+<p><em>个人理解：写锁只能有一把，但是读锁可以由多把</em></p>
+<hr>
+<h3 id="活锁与死锁"><a href="#活锁与死锁" class="headerlink" title="活锁与死锁"></a>活锁与死锁</h3><h5 id="活锁"><a href="#活锁" class="headerlink" title="活锁"></a>活锁</h5><p>活锁最简单的解决方法就是使用队列</p>
+<h5 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h5><p>出现T1在等待 T2，而T2又在等待T1的局面，T1和T2，两个事务永远不能结束，形成死锁</p>
+<p>数据库系统中诊断死锁有两种方法</p>
+<ol>
+<li><p>超时法</p>
+</li>
+<li><p>事务图等待法</p>
+<p>如果事务图形成回路，则发生死锁</p>
+</li>
+</ol>
+<p>死锁的情况可以多种多样，死锁解决的方法就是<strong>选择一个处理死锁代价最小的事务，将其撤销，释放此事务持有的所有的锁，使其他事务得以继续运行下去</strong></p>
+<hr>
+<h3 id="两端锁协议"><a href="#两端锁协议" class="headerlink" title="两端锁协议"></a>两端锁协议</h3><p>两段锁 (TwoPhase Locking，简称2PL)</p>
+<p>第一阶段是获得封锁，也称为扩展阶段</p>
+<p>第二阶段是释放封锁，也称为收缩阶段</p>
+<p>事务遵守两段锁协议是可串行化调度的充分条件，而不是必要条件</p>
+<hr>
+<h3 id="封锁的粒度"><a href="#封锁的粒度" class="headerlink" title="封锁的粒度"></a>封锁的粒度</h3><p>封锁对象的大小称为封锁粒度(granularity)</p>
+<p>封锁对象可以是逻辑单元，也可以是物理单元</p>
+<p>封锁粒度与系统的并发度和并发控制的开销密切相关</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9D%82%E9%A1%B9/" class="category-chain-item">杂项</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9D%82%E9%A1%B9/ccut/" class="category-chain-item">ccut</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>数据库系统概论</div>
+      <div>http://blog.170827.xyz/2023/05/26/数据库系统概论/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/14/MVC%E6%A8%A1%E6%9D%BF/" title="MVC模板">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MVC模板</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/14/%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5/" title="多线程-线程同步">
+                        <span class="hidden-mobile">多线程-线程同步</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

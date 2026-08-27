@@ -1,0 +1,1244 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.jpg">
+  <link rel="icon" href="/img/logo.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="XIAOBAI">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Redis-常用命令redis命令手册 Commands | Docs (redis.io) Redis的命令也是不区分大小写的，但key是区分大小写的，例如k1和K1是两个不同的键 使用help @类型 命令，获取帮助文档 注：在一般的编程语言中，例如python和java，字符串的截取一般都用于左闭右开原则，而Redis采用左闭右闭原则 注2：如果存在中文乱码，则在客户端连接时加入参数--ra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis-常用命令">
+<meta property="og:url" content="http://blog.170827.xyz/2024/07/07/Redis-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="XIAOBAI的个人博客">
+<meta property="og:description" content="Redis-常用命令redis命令手册 Commands | Docs (redis.io) Redis的命令也是不区分大小写的，但key是区分大小写的，例如k1和K1是两个不同的键 使用help @类型 命令，获取帮助文档 注：在一般的编程语言中，例如python和java，字符串的截取一般都用于左闭右开原则，而Redis采用左闭右闭原则 注2：如果存在中文乱码，则在客户端连接时加入参数--ra">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-07T21:29:21.000Z">
+<meta property="article:modified_time" content="2026-08-27T06:02:20.405Z">
+<meta property="article:author" content="XIAOBAI">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Redis-常用命令 - XIAOBAI的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.170827.xyz","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>XIAOBAI的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/my-categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Redis-常用命令"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-07 21:29" pubdate>
+          2024年7月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Redis-常用命令</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Redis-常用命令"><a href="#Redis-常用命令" class="headerlink" title="Redis-常用命令"></a>Redis-常用命令</h1><p><a target="_blank" rel="noopener" href="https://www.redis.net.cn/order/">redis命令手册</a></p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/docs/latest/commands/">Commands | Docs (redis.io)</a></p>
+<p>Redis的命令也是不区分大小写的，但key是区分大小写的，例如<code>k1</code>和<code>K1</code>是两个不同的键</p>
+<p>使用help @<code>类型</code> 命令，获取帮助文档</p>
+<p><strong>注：在一般的编程语言中，例如python和java，字符串的截取一般都用于<code>左闭右开</code>原则，而Redis采用<code>左闭右闭</code>原则</strong></p>
+<p><em>注2：如果存在中文乱码，则在客户端连接时加入参数<code>--raw</code></em></p>
+<hr>
+<h3 id="Key相关命令"><a href="#Key相关命令" class="headerlink" title="Key相关命令"></a>Key相关命令</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keys *</td>
+<td>查看当前库中的所有key</td>
+</tr>
+<tr>
+<td>exists key</td>
+<td>判断某个key是否存在</td>
+</tr>
+<tr>
+<td>type key</td>
+<td>查看你的key是什么类型</td>
+</tr>
+<tr>
+<td>del key</td>
+<td>删除指定的key</td>
+</tr>
+<tr>
+<td>unlink key</td>
+<td>非阻塞删除，仅仅将keys从keyspace元数据中删除，真正的删除会在后续异步中操作</td>
+</tr>
+<tr>
+<td>ttl key</td>
+<td>查看还有多少秒过期，-1为永不过期，-2表示已经过期</td>
+</tr>
+<tr>
+<td>expire key <code>时间（s）</code></td>
+<td>为给定的key设置过期时间</td>
+</tr>
+<tr>
+<td>move key <code>dbindex</code></td>
+<td>将当前数据库的key移动到给定的数据库db当中，默认有16个数据库</td>
+</tr>
+<tr>
+<td>select <code>dbindex</code></td>
+<td>切换数据库到 [0-15]</td>
+</tr>
+<tr>
+<td>dbsize</td>
+<td>查看当前数据库key的数量</td>
+</tr>
+<tr>
+<td>flushdb</td>
+<td>清空当前库</td>
+</tr>
+<tr>
+<td>flushall</td>
+<td>通杀数据库（16个库）</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="十大数据类型的常用命令"><a href="#十大数据类型的常用命令" class="headerlink" title="十大数据类型的常用命令"></a>十大数据类型的常用命令</h1><h3 id="String相关命令"><a href="#String相关命令" class="headerlink" title="String相关命令"></a>String相关命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">SET key value [NX | XX] [GET] [EX seconds | PX milliseconds |<br>  EXAT unix-time-seconds | PXAT unix-time-milliseconds | KEEPTTL]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>NX</code>– 仅设置尚不存在的key，当key已存在，返回nil**（分布式锁能用到）**</li>
+<li><code>XX</code>– 仅设置已存在的key，当key不存在，返回nil</li>
+<li><code>EX</code> <em>seconds</em> – 设置指定的到期时间，以秒为单位（正整数）<strong>（分布式锁能用到）</strong></li>
+<li><code>PX</code> <em>milliseconds</em> – 设置指定的过期时间，以毫秒为单位（正整数）</li>
+<li><code>EXAT</code> <em>timestamp-seconds</em> – 设置key过期的指定 Unix 时间，以秒为单位（正整数）</li>
+<li><code>PXAT</code> <em>timestamp-milliseconds</em> – 设置key过期的指定 Unix 时间，以毫秒为单位（正整数）</li>
+<li><code>KEEPTTL</code>– 修改时，保留与key关联的生存时间</li>
+<li><code>GET</code>– 返回存储在 key 中的旧字符串，如果 key 不存在，则返回 nil。如果存储在 key 的值不是字符串，则返回并中止错误</li>
+</ul>
+<h5 id="UNIX时间戳"><a href="#UNIX时间戳" class="headerlink" title="UNIX时间戳"></a>UNIX时间戳</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Java">Long.toString(System.currentTimeMills()/<span class="hljs-number">1000L</span>) <span class="hljs-comment">// 获取Unix时间戳，以秒为单位</span><br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MSET key value [key value …]</td>
+<td>批量添加</td>
+</tr>
+<tr>
+<td>MGET key [key …]</td>
+<td>批量获取</td>
+</tr>
+<tr>
+<td>MSETNX key value [key value …]</td>
+<td>批量添加，如果有任何一个元素已经存在，则执行失败</td>
+</tr>
+<tr>
+<td>GETRANGE key start end</td>
+<td>遍历字符串（下标从0开始）<em>类似java的SubString字符串截取</em></td>
+</tr>
+<tr>
+<td>SETRANGE key offset value</td>
+<td>选取字符串覆盖（下标从0开始）</td>
+</tr>
+<tr>
+<td>INCR key</td>
+<td>将存储的数字递增 1</td>
+</tr>
+<tr>
+<td>INCRBY key increment</td>
+<td>将储存的数字递增，步长为<code>increment</code></td>
+</tr>
+<tr>
+<td>DECR key</td>
+<td>将存储的数字递减 1</td>
+</tr>
+<tr>
+<td>INCRBY key increment</td>
+<td>将储存的数字递减，步长为<code>increment</code></td>
+</tr>
+<tr>
+<td>STRLEN key</td>
+<td>获取字符串长度</td>
+</tr>
+<tr>
+<td>APPEND key value</td>
+<td>字符串追加</td>
+</tr>
+<tr>
+<td>SETEX key seconds value</td>
+<td>添加数据的同时设置过期时间（被set参数实现了）</td>
+</tr>
+<tr>
+<td>SETNX key value</td>
+<td>添加数据的同时检测数据是否存在，若不存在则添加成功（被set参数实现了）</td>
+</tr>
+<tr>
+<td>GETSET key value</td>
+<td>set新值的同时返回老值（被set参数实现了）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="List相关命令"><a href="#List相关命令" class="headerlink" title="List相关命令"></a>List相关命令</h3><p><em>List的实现就是单Key多Value</em></p>
+<p>一个双端链表的结构，容量是2的32次方减1个元素，大概40多亿</p>
+<p>主要功能有push&#x2F;pop等，一般用在栈、队列、消息队列等场景</p>
+<p>left、right都可以插入添加</p>
+<ul>
+<li><p>如果键不存在，创建新的链表</p>
+</li>
+<li><p>如果键已存在，新增内容</p>
+</li>
+<li><p>如果值全移除，对应的键也就消失了</p>
+</li>
+</ul>
+<p><em>它的底层实际是个<strong>双向链表，对两端的操作性能很高，通过索引下标的操作中间的节点性能会较差</strong></em></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LPUSH key element [element …]</td>
+<td>头部插入</td>
+</tr>
+<tr>
+<td>RPUSH key element [element …]</td>
+<td>尾部插入</td>
+</tr>
+<tr>
+<td>LRANGE key start stop</td>
+<td>遍历链表（如果参数是<code>0</code>和<code>-1</code>，就遍历此表）</td>
+</tr>
+<tr>
+<td>LPOP key [count]</td>
+<td>头部删除</td>
+</tr>
+<tr>
+<td>RPOP key [count]</td>
+<td>尾部删除</td>
+</tr>
+<tr>
+<td>LINDEX key index</td>
+<td>查找元素（以0为第一个元素）</td>
+</tr>
+<tr>
+<td>LLEN key</td>
+<td>获取List长度</td>
+</tr>
+<tr>
+<td>LREM key count element</td>
+<td>删除List中<code>count</code>数量的<code>element</code>元素</td>
+</tr>
+<tr>
+<td>LTRIM key start stop</td>
+<td>截取List中<code>strat</code>到<code>stop</code>的元素，其余元素删除</td>
+</tr>
+<tr>
+<td>RPOPLPUSH source destinatin</td>
+<td>删除<code>source</code>的尾部元素，将此元素添加到<code>destination</code>的头部</td>
+</tr>
+<tr>
+<td>LSET key index element</td>
+<td>修改元素</td>
+</tr>
+<tr>
+<td>LINSERT key &lt;BEFORE | AFTER&gt; pivot element</td>
+<td>插入元素，<code>pivot</code>为被插入元素而不是<code>index</code></td>
+</tr>
+</tbody></table>
+<p><em>尾部插入，正向遍历，就会得到正序的结果</em></p>
+<p><em>很多命令的start参数可以为-1，从尾部开始操作</em></p>
+<hr>
+<h3 id="Hash相关命令"><a href="#Hash相关命令" class="headerlink" title="Hash相关命令"></a>Hash相关命令</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Map&lt;String,Map&lt;Object,Object&gt;&gt;<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HSET key field value [field value …]</td>
+<td>创建Hash元素</td>
+</tr>
+<tr>
+<td>HGET key field</td>
+<td>获取键中指定属性的值</td>
+</tr>
+<tr>
+<td>HGETALL key</td>
+<td>获取键中所有的键值对（属性和值）</td>
+</tr>
+<tr>
+<td>HMSET key field value [field value …]</td>
+<td>创建Hash元素（貌似看起来和set一摸一样呢）</td>
+</tr>
+<tr>
+<td>HMGET key field [field …]</td>
+<td>获取键中指定多个属性的值</td>
+</tr>
+<tr>
+<td>HDEL key field [field …]</td>
+<td>删除键中属性</td>
+</tr>
+<tr>
+<td>HLEN key</td>
+<td>获取键中属性的数量</td>
+</tr>
+<tr>
+<td>HEXISTS key field</td>
+<td>判断键中是否存在属性（存在返回1，不存在返回0）</td>
+</tr>
+<tr>
+<td>HKEYS key</td>
+<td>遍历键中所有属性（只有属性）</td>
+</tr>
+<tr>
+<td>HVALS key</td>
+<td>遍历键中所有属性的值（只有值）</td>
+</tr>
+<tr>
+<td>HINCRBY key field increment</td>
+<td>将键中整形属性的数字递增<code>increment</code></td>
+</tr>
+<tr>
+<td>HINCRBYFLOAT key field increment</td>
+<td>将键中浮点型属性的数字递增<code>increment</code></td>
+</tr>
+<tr>
+<td>HSETNX key field value</td>
+<td>添加数据的同时检测数据是否存在，若不存在则添加成功</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="Set相关命令"><a href="#Set相关命令" class="headerlink" title="Set相关命令"></a>Set相关命令</h3><p>Set是一个无序无重复的列表，也同样实现了一个Key多个Value</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SADD key member [member …]</td>
+<td>添加元素，当元素重复时则只添加一个</td>
+</tr>
+<tr>
+<td>SMEMBERS key</td>
+<td>遍历set</td>
+</tr>
+<tr>
+<td>SISMEMBER key member</td>
+<td>判断集合中是否存在该元素</td>
+</tr>
+<tr>
+<td>SREM key member [member …]</td>
+<td>删除元素（成功返回1，失败返回0）</td>
+</tr>
+<tr>
+<td>SCARD key</td>
+<td>统计集合中有多少个元素</td>
+</tr>
+<tr>
+<td>SRANDMEMBER key [count]</td>
+<td>随机显示<code>count</code>个set元素，不会改变原有set</td>
+</tr>
+<tr>
+<td>SPOP key [count]</td>
+<td>随机删除<code>count</code>个set元素，并显示删除的元素</td>
+</tr>
+<tr>
+<td>SMOVE source destination member</td>
+<td>将<code>source</code>集合中的<code>member</code>元素移到<code>destination</code> 集合中</td>
+</tr>
+</tbody></table>
+<h5 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h5><blockquote>
+<p>现存在以下集合：</p>
+<p>A：abc12</p>
+<p>B：123ax</p>
+</blockquote>
+<p>SDIFF A B的结果是”b” “c”</p>
+<p>SDIFF B A的结果是”3” “x”</p>
+<p>SUNION A B的结果是：”a” “b” “c” “1” “2” “3” “x”</p>
+<p>SINTER A B 的结果是：”a” “1” “2”</p>
+<table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">SDIFF key [key …]</td>
+<td>求两个集合中的差集</td>
+</tr>
+<tr>
+<td align="left">SUNION key [key …]</td>
+<td>求两个集合的并集</td>
+</tr>
+<tr>
+<td align="left">SINTER key [key …]</td>
+<td>求两个集合的交集</td>
+</tr>
+<tr>
+<td align="left">SINTERCARD numkeys key [key …] [LIMIT limit]</td>
+<td>返回交集的结果集个数，limit控制返回的个数为 &lt; 结果</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="ZSet相关命令"><a href="#ZSet相关命令" class="headerlink" title="ZSet相关命令"></a>ZSet相关命令</h3><p>Zset是有序的set集合，其实现方法是在每一个value前加上字段score，根据字段score可进行排序</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member   …]</td>
+<td>添加元素</td>
+</tr>
+<tr>
+<td>ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT offset count]   [WITHSCORES]</td>
+<td>遍历元素*<code>WITHSCORES</code>带有分数遍历*</td>
+</tr>
+<tr>
+<td>ZREVRANGE key start stop [WITHSCORES]</td>
+<td>反向遍历元素*<code>WITHSCORES</code>带有分数遍历*</td>
+</tr>
+<tr>
+<td>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</td>
+<td>以分数筛选*默认范围是包含min和max，如果不想包含，则使用<code>()</code>*修饰</td>
+</tr>
+<tr>
+<td>ZCARD key</td>
+<td>返回元素数量</td>
+</tr>
+<tr>
+<td>ZREM key member [member …]</td>
+<td>删除元素</td>
+</tr>
+<tr>
+<td>ZINCRBY key increment member</td>
+<td>将键中元素递增<code>increment</code></td>
+</tr>
+<tr>
+<td>ZCOUNT key min max</td>
+<td>返回以分数<code>min</code>到<code>max</code>范围内的元素数量</td>
+</tr>
+<tr>
+<td>ZMPOP numkeys key [key …] &lt;MIN | MAX&gt; [COUNT count]</td>
+<td>从分数<code>min</code>或<code>max</code>弹出<code>COUNT</code>个元素，可以从多个key中弹出，<code>numkeys</code>标识要多少个key</td>
+</tr>
+<tr>
+<td>ZRANK key member [WITHSCORE]</td>
+<td>正序获得元素的下标<em>不是分数</em></td>
+</tr>
+<tr>
+<td>ZREVRANK key member [WITHSCORE]</td>
+<td>逆序获得元素的下标<em>不是分数</em></td>
+</tr>
+</tbody></table>
+<p><em>在查询中，Limit的作用是添加返回的条件，类似于MySql中的Limit来分页</em></p>
+<hr>
+<h3 id="BitMap相关命令"><a href="#BitMap相关命令" class="headerlink" title="BitMap相关命令"></a>BitMap相关命令</h3><p>由0和1状态表现得二进制位的bit数组，其底层实现也是String类型</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SETBIT key offset value</td>
+<td>在键中的<code>offset</code>设置<code>value</code></td>
+</tr>
+<tr>
+<td>GETBIT key offset</td>
+<td>通过<code>key</code>中的<code>offset</code>获取到<code>value</code></td>
+</tr>
+<tr>
+<td>STRLEN key</td>
+<td>此命令是String的命令，获取到BitMap类型的键所占用内存字节数</td>
+</tr>
+<tr>
+<td>BITCOUNT key [start end [BYTE | BIT]]</td>
+<td>统计键中<code>value</code>为1的数量</td>
+</tr>
+<tr>
+<td>BITOP &lt;AND | OR | XOR | NOT&gt; destkey key [key …]</td>
+<td>对数据进行按位运算，将运算结果储存到<code>destkey</code>中</td>
+</tr>
+</tbody></table>
+<p><em>实际场景应用于标记签到打卡信息</em></p>
+<h5 id="将日期作为key"><a href="#将日期作为key" class="headerlink" title="将日期作为key"></a>将日期作为key</h5><p>我们可以将偏移量设为用户id，也就是用户标识，将value设置为是否签到，key则为当天的具体日期</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">SETBIT 20240707 0 1  # 2024年7月7日，0号用户签到<br>SETBIT 20240708 0 1  # 2024年7月8日，0号用户签到<br></code></pre></td></tr></table></figure>
+
+<p>将这两条BitMap进行与运算，即可获得这两天连续签到的用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">BITOP AND k1 20240707 20240708 # 将与运算的结果储存到k1<br></code></pre></td></tr></table></figure>
+
+<h5 id="将用户作为key"><a href="#将用户作为key" class="headerlink" title="将用户作为key"></a>将用户作为key</h5><p>我们将key设为用户，将偏移量设为日期，将value设置为是否签到</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">SETBIT xiaobai:202407 0 1 # 用户小白在六月份的第0天签到<br>SETBIT xiaobai:202407 1 1 # 用户小白在六月份的第1天签到<br></code></pre></td></tr></table></figure>
+
+<p>使用BITCOUNT命令对该用户的这一月份签到信息进行统计</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">BITCOUNT xiaobai:202407 # 看看小白这个月来了多少天<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="HyperLogLog相关命令"><a href="#HyperLogLog相关命令" class="headerlink" title="HyperLogLog相关命令"></a>HyperLogLog相关命令</h3><p> 去重复统计功能的基数估计算法</p>
+<p><em>HyperLogLog只会根据输入元素计算基数，而不会储存输入元素的本身，底层使用String类型</em></p>
+<h5 id="UV"><a href="#UV" class="headerlink" title="UV"></a>UV</h5><p>UV是一个全新的概念，Unique Visitor 独立访客</p>
+<p>可以理解为同一个Ip的多次访问，视作一个用户的访问</p>
+<p>所以统计UV需要考虑去重问题</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PFADD key [element [element …]]</td>
+<td>添加指定元素</td>
+</tr>
+<tr>
+<td>PFCOUNT key [key …]</td>
+<td>统计基数</td>
+</tr>
+<tr>
+<td>PFMERGE destkey [sourcekey [sourcekey …]]</td>
+<td>合并key到目标key中</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="GEO相关命令"><a href="#GEO相关命令" class="headerlink" title="GEO相关命令"></a>GEO相关命令</h3><p>GEO的底层是基于ZSet，坐标就是score</p>
+<p>通过GEOHASH 将经纬度的二维数据转换为Base32加密</p>
+<p><a target="_blank" rel="noopener" href="https://lbs.amap.com/tools/picker">坐标拾取器 | 高德地图API (amap.com)</a></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GEOADD key [NX | XX] [CH] longitude latitude member [longitude   latitude member …]</td>
+<td>将坐标添加到key中</td>
+</tr>
+<tr>
+<td>ZRANGE key start stop [BYSCORE |BYLEX] [REV] [LIMIT offset count]   [WITHSCORES]</td>
+<td>因为底层实现是ZSet，所以仍然可以使用ZSet的方式进行遍历</td>
+</tr>
+<tr>
+<td>GEOPOS key [member [member …]]</td>
+<td>通过元素获得坐标</td>
+</tr>
+<tr>
+<td>GEOHASH key [member [member …]]</td>
+<td>通过元素获得Base32加密的坐标，<em>实际开发用这个</em></td>
+</tr>
+<tr>
+<td>GEODIST key member1 member2 [M | KM | FT | MI]</td>
+<td>返回两个元素之间的距离，可选择单位</td>
+</tr>
+<tr>
+<td>GEORADIUS key longitude latitude radius &lt;M | KM | FT | MI&gt;   [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC]   [STORE key | STOREDIST key]</td>
+<td>以<code>longitude latitude</code>为坐标发起点，寻找包含在<code>key</code>中，以半径为<code>radius</code>的所有元素坐标。<code>count</code>可配置显示数量，&#96;ASC</td>
+</tr>
+<tr>
+<td>GEORADIUSBYMEMBER key member radius &lt;M | KM | FT | MI&gt; [WITHCOORD]   [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC] [STORE key   | STOREDIST key]</td>
+<td>以元素<code>member</code>为发起点，其余参数与上一条相同</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="Stream相关命令"><a href="#Stream相关命令" class="headerlink" title="Stream相关命令"></a>Stream相关命令</h3><p>Redis-Stream就是Redis版本的MQ（消息中间件）的处理模型</p>
+<p>在5.0版本之前，Redis处理消息队列有两种方案</p>
+<ul>
+<li>List处理消息队列，使用LPUSH和RPOP</li>
+<li>Pub&#x2F;Sub实现，但无法持久化数据</li>
+</ul>
+<p>所以，Redis提供了Stream数据类型，用以解决这两个处理方式的痛点</p>
+<ul>
+<li>实现消息队列</li>
+<li>支持消息持久化</li>
+<li>支持自动生成全局唯一ID</li>
+<li>支持ack确认消息的模式</li>
+<li>支持消费组模式</li>
+</ul>
+<hr>
+<h5 id="消息队列相关命令"><a href="#消息队列相关命令" class="headerlink" title="消息队列相关命令"></a>消息队列相关命令</h5><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>XADD key [NOMKSTREAM] [&lt;MAXLEN | MINID&gt; [&#x3D; | ~] threshold   [LIMIT count]] &lt;* | id&gt; field value [field value …]</td>
+<td>在队列尾部插入一条消息，消息的内容为Hash多键值对属性，使用*作为<code>id</code>（主键），则会根据算法自动生成一个<code>id</code></td>
+</tr>
+<tr>
+<td>XRANGE key start end [COUNT count]</td>
+<td>升序遍历队列中<code>count</code>条消息，<code>start</code>和<code>end</code>为<code>-</code>(最小)和<code>+</code>（最大）时，遍历所有消息</td>
+</tr>
+<tr>
+<td>XREVRANGE key end start [COUNT count]</td>
+<td>降序遍历队列中<code>count</code>条消息，<code>start</code>和<code>end</code>为<code>-</code>(最小)和<code>+</code>（最大）时，遍历所有消息</td>
+</tr>
+<tr>
+<td>XDEL key id [id …]</td>
+<td>根据主键删除消息</td>
+</tr>
+<tr>
+<td>XLEN key</td>
+<td>获取队列中消息的个数</td>
+</tr>
+<tr>
+<td>XTRIM key &lt;MAXLEN | MINID&gt; [&#x3D; | ~] threshold [LIMIT count]</td>
+<td>使用<code>maxlen</code>参数，则为保留最新的<code>count</code>条参数，使用<code>minid</code>参数，删除掉低于<code>id</code>的所有条目（删除比他老的）</td>
+</tr>
+<tr>
+<td>XREAD [COUNT count] [BLOCK milliseconds] STREAMS key [key …] id   [id …]</td>
+<td>当不使用<code>BLOCK</code>时，使用非阻塞模式，<code>id</code>的值可以为三种：主键值、<code>0-0</code>和<code>$</code>，表示从<code>id</code>开始读取<code>count</code>条数据。</td>
+</tr>
+<tr>
+<td>XREAD [COUNT count] [BLOCK milliseconds] STREAMS key [key …] id   [id …]</td>
+<td>当使用<code>BLOCK</code>时，使用阻塞模式，<code>id</code>的值使用<code>$</code>，则监听消息队列的新消息产生</td>
+</tr>
+</tbody></table>
+<p><em>$代表最新消息，最大值；0-0代表着最初消息，id最小值</em></p>
+<hr>
+<h5 id="消费者组相关命令"><a href="#消费者组相关命令" class="headerlink" title="消费者组相关命令"></a>消费者组相关命令</h5><p>Stream消息队列中的消息一旦被消费组里的一个消费者读取过了，同组内的其他消费者就不能再读取这个消息了</p>
+<p>但是，这条消息仍然可以被其他消费组的消费者读取</p>
+<p>消费组的设定，是为了实现负载均衡</p>
+<p>一个消费者读过，其他人就不能读取，每人读一点，不会出现重复读取数据的问题，又能把任务分发到众多消费者身上</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>XGROUP CREATE key group &lt;id | $&gt; [MKSTREAM]   [ENTRIESREAD entries-read]</td>
+<td>用于创建消费者组，指定<code>id</code>为<code>0</code>表示从头开始消费，指定<code>id</code>为<code>$</code>表示从尾部开始消费（消费新消息）</td>
+</tr>
+<tr>
+<td>XREADGROUP GROUP group consumer [COUNT count] [BLOCK milliseconds]   [NOACK] STREAMS key [key …] id [id …]</td>
+<td>让消费组中的消费者读取消息队列里面的信息<code>id</code>为<code>&gt;</code>时，意味读取指针指向的当前消息</td>
+</tr>
+<tr>
+<td>XPENDING key group [[IDLE min-idle-time] start end count [consumer]]</td>
+<td>查询消费组中已读取但未确认的消息，通过<code>consumer</code>参数可以获得具体消费者读取的具体消息</td>
+</tr>
+<tr>
+<td>XACK key group id [id …]</td>
+<td>确认具体消息</td>
+</tr>
+<tr>
+<td>XINFO STREAM key [FULL [COUNT count]]</td>
+<td>返回有关流的信息</td>
+</tr>
+</tbody></table>
+<p><strong>专业的事情专业的人来做，Redis就不是用来做消息中间件的，所以等到时候学MQ之后再用</strong></p>
+<hr>
+<h3 id="BitField相关命令"><a href="#BitField相关命令" class="headerlink" title="BitField相关命令"></a>BitField相关命令</h3><p>没用，这玩意不用，跳过</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="category-chain-item">微服务</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Redis/" class="category-chain-item">Redis</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Redis-常用命令</div>
+      <div>http://blog.170827.xyz/2024/07/07/Redis-常用命令/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>XIAOBAI</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/31/%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE-%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96/" title="实战项目-苍穹外卖">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">实战项目-苍穹外卖</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/06/Redis-%E5%8D%81%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Redis-十大数据类型">
+                        <span class="hidden-mobile">Redis-十大数据类型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
